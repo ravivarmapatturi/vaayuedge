@@ -70,13 +70,13 @@ export default function Navbar({
             className={`flex items-center space-x-1.5 text-[11px] px-2.5 py-1 rounded-full border ${
               isConnected
                 ? 'border-emerald-200/80 bg-emerald-50/90 text-emerald-800'
-                : 'border-amber-200/80 bg-amber-50/90 text-amber-800'
+                : 'border-teal-200/80 bg-teal-50/90 text-teal-800'
             }`}
-            title={isConnected ? 'Connected to local Python inference daemon on 127.0.0.1:8000' : 'Running in browser preview; local daemon not detected'}
+            title={isConnected ? 'On-Device AI Engine Active (127.0.0.1:8000)' : 'Interactive Web Preview'}
           >
-            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`}></span>
+            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-teal-500'}`}></span>
             <span className="font-medium">
-              {isConnected ? 'Local Engine Connected' : 'Static Prototype'}
+              {isConnected ? 'On-Device Engine Active' : 'Interactive Preview'}
             </span>
           </div>
 

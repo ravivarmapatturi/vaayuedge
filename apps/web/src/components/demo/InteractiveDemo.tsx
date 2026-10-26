@@ -37,6 +37,8 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   // UI state
   const [showHistory, setShowHistory] = useState(false);
   const [showInspector, setShowInspector] = useState(false);
+  const [showSetupModal, setShowSetupModal] = useState(false);
+  const [copiedCommand, setCopiedCommand] = useState(false);
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [copied, setCopied] = useState(false);
 
@@ -50,6 +52,23 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     fetchCapabilities().then(setCapabilities);
     setSessions(storage.getSessions());
   }, []);
+
+  // Poll for background engine auto-activation
+  useEffect(() => {
+    let interval: number;
+    if (!capabilities?.isConnected) {
+      interval = window.setInterval(() => {
+        fetchCapabilities().then((cap) => {
+          if (cap.isConnected) {
+            setCapabilities(cap);
+          }
+        });
+      }, 3000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [capabilities?.isConnected]);
 
   useEffect(() => {
     return () => {
@@ -124,8 +143,13 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   };
 
   const handleTranscribe = async (blob: Blob) => {
+    if (!capabilities?.isConnected) {
+      setShowSetupModal(true);
+      return;
+    }
+
     setIsTranscribing(true);
-    setStatusMessage('Transcribing English speech...');
+    setStatusMessage('Transcribing English speech on device...');
     try {
       const res = await transcribeAudio(blob);
       setTranscript(res.transcript);
@@ -141,8 +165,21 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const handleTranslate = async (sourceText: string) => {
     if (!sourceText.trim()) return;
 
+    if (!capabilities?.isConnected) {
+      const match = VERIFIED_SAMPLES.find(
+        (s) => s.english.trim().toLowerCase() === sourceText.trim().toLowerCase()
+      );
+      if (match) {
+        setTranslation(match.telugu);
+        setStatusMessage(`Preset loaded: "${match.category}"`);
+        return;
+      }
+      setShowSetupModal(true);
+      return;
+    }
+
     setIsTranslating(true);
-    setStatusMessage('Translating semantic meaning into Telugu...');
+    setStatusMessage('Translating semantic meaning into Telugu on device...');
     try {
       const res = await translateText(sourceText);
       setTranslation(res.translated_text);
@@ -261,6 +298,40 @@ ${translation}
     URL.revokeObjectURL(url);
   };
 
+  const downloadLauncher = (format: 'sh' | 'bat') => {
+    let scriptContent = '';
+    let filename = '';
+    if (format === 'sh') {
+      scriptContent = `#!/usr/bin/env bash
+echo "Launching VayyuEdge Local AI Engine..."
+if [ ! -d "vayyuedge" ]; then
+  git clone https://github.com/ravivarmapatturi/vayyuedge.git
+fi
+cd vayyuedge
+./scripts/start-local.sh
+`;
+      filename = 'start-vayyuedge.sh';
+    } else {
+      scriptContent = `@echo off
+echo Launching VayyuEdge Local AI Engine...
+if not exist "vayyuedge" (
+  git clone https://github.com/ravivarmapatturi/vayyuedge.git
+)
+cd vayyuedge
+call .\\scripts\\start-local.sh
+pause
+`;
+      filename = 'start-vayyuedge.bat';
+    }
+    const blob = new Blob([scriptContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <section id={id} className={`w-full ${isStandalonePage ? 'py-8' : 'py-12'} transition-all`}>
       <div className="max-w-5xl mx-auto">
@@ -269,65 +340,43 @@ ${translation}
           {/* Top Panel Bar */}
           <div className="border-b border-canvas-300 bg-canvas-50 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center space-x-2.5">
-              <span className={`w-2.5 h-2.5 rounded-full ${capabilities?.isConnected ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+              <span className={`w-2.5 h-2.5 rounded-full ${capabilities?.isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-teal-500'}`}></span>
               <span className="text-xs font-bold uppercase tracking-wider text-charcoal-900">
                 Speech & Translation Console
               </span>
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
+              <span className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${
                 capabilities?.isConnected
                   ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                  : 'bg-amber-50 text-amber-800 border-amber-200'
-              }`}>
-                {capabilities?.isConnected ? 'Local Engine Connected' : 'Static Prototype Mode'}
-              </span>
-              <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${
-                isDemonstrationSample
-                  ? 'bg-canvas-200 text-charcoal-700 border-canvas-300'
                   : 'bg-teal-50 text-teal-800 border-teal-200'
               }`}>
-                {isDemonstrationSample ? 'Verified Preset' : 'Custom Input'}
+                {capabilities?.isConnected ? 'On-Device Engine Active' : 'Interactive Preview'}
               </span>
             </div>
 
             <div className="flex items-center space-x-2 text-xs">
+              {!capabilities?.isConnected && (
+                <button
+                  onClick={() => setShowSetupModal(true)}
+                  className="px-3 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs shadow-subtle hover:shadow transition flex items-center space-x-1.5"
+                >
+                  <span>⚡</span>
+                  <span>1-Click Local Setup</span>
+                </button>
+              )}
               <button
                 onClick={() => setShowInspector(!showInspector)}
-                className="px-2.5 py-1 rounded border border-canvas-300 bg-canvas-100 hover:bg-canvas-200 text-charcoal-700 transition"
+                className="px-2.5 py-1.5 rounded-lg border border-canvas-300 bg-canvas-100 hover:bg-canvas-200 text-charcoal-700 font-medium transition"
               >
                 Runtime Info
               </button>
               <button
                 onClick={() => setShowHistory(!showHistory)}
-                className="px-2.5 py-1 rounded border border-canvas-300 bg-canvas-100 hover:bg-canvas-200 text-charcoal-700 transition"
+                className="px-2.5 py-1.5 rounded-lg border border-canvas-300 bg-canvas-100 hover:bg-canvas-200 text-charcoal-700 font-medium transition"
               >
                 History ({sessions.length})
               </button>
             </div>
           </div>
-
-          {/* Engine Status Callout when Disconnected */}
-          {capabilities && !capabilities.isConnected && (
-            <div className="bg-amber-50 border-b border-amber-200 px-5 py-3 text-xs text-amber-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <div className="flex items-start sm:items-center space-x-2">
-                <span className="inline-block px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-200 text-amber-900 shrink-0">
-                  Notice
-                </span>
-                <span>
-                  You are viewing the hosted preview. For live on-device speech & neural translation, open the local app at{' '}
-                  <a href="http://127.0.0.1:8000" className="font-mono font-bold underline text-amber-950">
-                    http://127.0.0.1:8000
-                  </a>
-                  . In this preview, you can test the verified bilingual presets below.
-                </span>
-              </div>
-              <a
-                href="http://127.0.0.1:8000"
-                className="text-amber-800 font-semibold underline hover:text-amber-950 shrink-0"
-              >
-                Open Local App →
-              </a>
-            </div>
-          )}
 
           {/* Sample Presets Ribbon */}
           <div className="bg-canvas-50/60 border-b border-canvas-200 px-5 py-2.5 flex items-center gap-2 overflow-x-auto text-xs">
@@ -595,6 +644,91 @@ ${translation}
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* 1-Click Local Setup Modal */}
+        {showSetupModal && (
+          <div className="fixed inset-0 z-50 bg-charcoal-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-white border border-canvas-300 rounded-2xl max-w-lg w-full p-6 sm:p-7 space-y-5 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+              <div className="flex items-center justify-between border-b border-canvas-200 pb-3">
+                <div className="flex items-center space-x-2.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse"></span>
+                  <h3 className="font-bold text-base text-charcoal-900">Run VayyuEdge On-Device</h3>
+                </div>
+                <button
+                  onClick={() => setShowSetupModal(false)}
+                  className="text-charcoal-400 hover:text-charcoal-700 text-xl font-bold leading-none p-1"
+                >
+                  ×
+                </button>
+              </div>
+
+              <p className="text-xs text-charcoal-600 leading-relaxed">
+                VayyuEdge runs completely privately on your device using PyTorch CPU models (Whisper + Opus-MT). Launch it with a single click:
+              </p>
+
+              {/* 1-Line Terminal Command */}
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal-700">
+                  Option 1: Run 1-Line Command
+                </span>
+                <div className="bg-charcoal-950 text-charcoal-100 p-3 rounded-xl font-mono text-[11px] flex items-center justify-between gap-3">
+                  <code className="text-teal-400 truncate select-all">
+                    git clone https://github.com/ravivarmapatturi/vayyuedge.git &amp;&amp; cd vayyuedge &amp;&amp; ./scripts/start-local.sh
+                  </code>
+                  <button
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(
+                        'git clone https://github.com/ravivarmapatturi/vayyuedge.git && cd vayyuedge && ./scripts/start-local.sh'
+                      );
+                      setCopiedCommand(true);
+                      setTimeout(() => setCopiedCommand(false), 2000);
+                    }}
+                    className="px-2.5 py-1 bg-teal-800 hover:bg-teal-700 text-white rounded text-[11px] font-semibold shrink-0 transition"
+                  >
+                    {copiedCommand ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+              </div>
+
+              {/* 1-Click Desktop Download */}
+              <div className="space-y-1.5 pt-1">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal-700">
+                  Option 2: Download 1-Click Launcher Script
+                </span>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => downloadLauncher('sh')}
+                    className="p-3 bg-canvas-100 hover:bg-canvas-200 border border-canvas-300 rounded-xl text-left transition flex items-center space-x-2.5 group"
+                  >
+                    <span className="text-xl">🐧/🍎</span>
+                    <div>
+                      <p className="text-xs font-bold text-charcoal-900 group-hover:text-teal-800">Linux / macOS</p>
+                      <p className="text-[10px] text-charcoal-500">start-vayyuedge.sh</p>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => downloadLauncher('bat')}
+                    className="p-3 bg-canvas-100 hover:bg-canvas-200 border border-canvas-300 rounded-xl text-left transition flex items-center space-x-2.5 group"
+                  >
+                    <span className="text-xl">🪟</span>
+                    <div>
+                      <p className="text-xs font-bold text-charcoal-900 group-hover:text-teal-800">Windows</p>
+                      <p className="text-[10px] text-charcoal-500">start-vayyuedge.bat</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-teal-50 border border-teal-200/80 rounded-xl p-3 text-[11px] text-teal-900 flex items-center space-x-2.5">
+                <span className="w-2 h-2 rounded-full bg-teal-600 animate-ping shrink-0"></span>
+                <span>
+                  Once running, this browser window will automatically activate and switch to live on-device inference.
+                </span>
+              </div>
+            </div>
           </div>
         )}
       </div>
