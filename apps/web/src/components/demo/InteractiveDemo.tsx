@@ -38,6 +38,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const [showHistory, setShowHistory] = useState(false);
   const [showInspector, setShowInspector] = useState(false);
   const [isSettingUp, setIsSettingUp] = useState(false);
+  const [showInstallConfirm, setShowInstallConfirm] = useState(false);
   const [setupProgress, setSetupProgress] = useState(0);
   const [setupStepText, setSetupStepText] = useState('');
   const [sessions, setSessions] = useState<SessionItem[]>([]);
@@ -50,6 +51,8 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const recognitionRef = useRef<any>(null);
   const recordedSpeechRef = useRef<string>('');
+  const recognitionDoneRef = useRef<Promise<void>>(Promise.resolve());
+  const setupPollRef = useRef<number | null>(null);
 
   useEffect(() => {
     fetchCapabilities().then(setCapabilities);
@@ -86,83 +89,99 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
 
   const startRecording = async () => {
     setErrorMessage(null);
-    setStatusMessage('Listening... Speak clearly in English.');
+    setStatusMessage('Listening... Speak clearly in English, then press Stop.');
     setIsDemonstrationSample(false);
     setTranscript('');
     setTranslation('');
     recordedSpeechRef.current = '';
 
+    let stream: MediaStream;
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioChunksRef.current = [];
-
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) audioChunksRef.current.push(event.data);
-      };
-
-      mediaRecorder.onstop = async () => {
-        const blob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        const url = URL.createObjectURL(blob);
-        setAudioUrl(url);
-
-        stream.getTracks().forEach((track) => track.stop());
-        handleTranscribe(blob);
-      };
-
-      // Native SpeechRecognition for instant in-browser transcription
-      const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (SpeechRecognitionClass) {
-        try {
-          const recognition = new SpeechRecognitionClass();
-          recognition.continuous = true;
-          recognition.interimResults = true;
-          recognition.lang = 'en-US';
-          recognition.onresult = (event: any) => {
-            let currentSpeech = '';
-            for (let i = 0; i < event.results.length; i++) {
-              currentSpeech += event.results[i][0].transcript;
-            }
-            if (currentSpeech) {
-              recordedSpeechRef.current = currentSpeech;
-              setTranscript(currentSpeech);
-            }
-          };
-          recognition.start();
-          recognitionRef.current = recognition;
-        } catch (e) {
-          console.debug('Native SpeechRecognition unavailable, relying on audio blob', e);
-        }
-      }
-
-      mediaRecorder.start();
-      setIsRecording(true);
-      setRecordingSeconds(0);
-
-      timerIntervalRef.current = window.setInterval(() => {
-        setRecordingSeconds((prev) => prev + 1);
-      }, 1000);
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (err: any) {
-      setErrorMessage(`Microphone access denied: ${err.message || 'Permission required to record.'}`);
+      setStatusMessage(null);
+      setErrorMessage(`Microphone access denied: ${err?.message || 'allow microphone permission in your browser and try again.'}`);
+      return;
     }
+
+    audioChunksRef.current = [];
+    // Record in a container the browser actually supports (Chrome/Firefox: webm, Safari: mp4).
+    const mimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg']
+      .find((t) => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported?.(t)) || '';
+    const mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+    mediaRecorderRef.current = mediaRecorder;
+
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0) audioChunksRef.current.push(event.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach((track) => track.stop());
+      const type = mediaRecorder.mimeType || mimeType || 'audio/webm';
+      const blob = new Blob(audioChunksRef.current, { type });
+      setAudioUrl(URL.createObjectURL(blob));
+      // Browser speech recognition delivers its final result *after* stop(); wait for it.
+      await recognitionDoneRef.current;
+      handleTranscribe(blob);
+    };
+
+    // In-browser speech recognition (Chrome/Edge/Safari) gives text even without the local engine.
+    recognitionDoneRef.current = Promise.resolve();
+    const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognitionClass) {
+      try {
+        const recognition = new SpeechRecognitionClass();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+        recognition.onresult = (event: any) => {
+          let currentSpeech = '';
+          for (let i = 0; i < event.results.length; i++) {
+            currentSpeech += event.results[i][0].transcript;
+          }
+          if (currentSpeech) {
+            recordedSpeechRef.current = currentSpeech.trim();
+            setTranscript(currentSpeech.trim());
+          }
+        };
+        recognitionDoneRef.current = new Promise<void>((resolve) => {
+          recognition.onend = () => resolve();
+          recognition.onerror = () => resolve();
+          // Never block transcription on a recognizer that doesn't report back.
+          setTimeout(resolve, 4000);
+        });
+        recognition.start();
+        recognitionRef.current = recognition;
+      } catch (e) {
+        console.debug('SpeechRecognition unavailable, relying on local engine', e);
+        recognitionDoneRef.current = Promise.resolve();
+      }
+    }
+
+    mediaRecorder.start();
+    setIsRecording(true);
+    setRecordingSeconds(0);
+    timerIntervalRef.current = window.setInterval(() => {
+      setRecordingSeconds((prev) => prev + 1);
+    }, 1000);
   };
 
   const stopRecording = () => {
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+    setIsRecording(false);
+    setStatusMessage('Converting audio to text...');
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
       } catch {}
       recognitionRef.current = null;
     }
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      if (timerIntervalRef.current) {
-        clearInterval(timerIntervalRef.current);
-        timerIntervalRef.current = null;
-      }
+    const recorder = mediaRecorderRef.current;
+    if (recorder && recorder.state !== 'inactive') {
+      recorder.stop();
     }
   };
 
@@ -189,21 +208,21 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     setStatusMessage('Converting audio to text...');
     try {
       const res = await transcribeAudio(blob);
-      if (res.transcript && res.transcript.trim()) {
-        setTranscript(res.transcript);
-        setStatusMessage('Audio converted to text! Click "Translate →" to translate into Telugu.');
-      } else if (recordedSpeechRef.current && recordedSpeechRef.current.trim()) {
-        setTranscript(recordedSpeechRef.current);
-        setStatusMessage('Audio converted to text! Click "Translate →" to translate into Telugu.');
-      } else if (!transcript.trim()) {
-        // Fallback sample if microphone audio was silent
-        const defaultSample = 'I will call you after I finish the meeting.';
-        setTranscript(defaultSample);
-        setStatusMessage('Speech recognized. Click "Translate →" to translate into Telugu.');
+      const text = (res.transcript || '').trim() || recordedSpeechRef.current.trim();
+      if (text) {
+        setTranscript(text);
+        setStatusMessage('Audio converted to text! Review it, then click "Translate →".');
       } else {
-        setStatusMessage('Audio converted to text! Click "Translate →" to translate into Telugu.');
+        setStatusMessage(null);
+        const hasBrowserASR = !!((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
+        setErrorMessage(
+          capabilities?.isConnected
+            ? 'No speech was detected in the recording. Please speak closer to the microphone and try again.'
+            : hasBrowserASR
+              ? 'No speech was detected. Speak clearly for a few seconds and try again, or install the local engine for offline Whisper transcription.'
+              : 'This browser has no built-in speech recognition (e.g. Firefox). Use Chrome/Edge, type the text, or install the local engine for Whisper transcription.'
+        );
       }
-      // Note: Do not auto-translate. The user reviews/edits and clicks Translate.
     } catch (err: any) {
       setErrorMessage(err.message || 'Transcription failed.');
     } finally {
@@ -250,75 +269,72 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
 
   const handleAudioPlayback = async () => {
     if (!translation) return;
-
+    setErrorMessage(null);
     setIsPlayingAudio(true);
     setStatusMessage('Synthesizing spoken Telugu...');
 
+    const audioSrc = await synthesizeSpeech(translation);
+    if (!audioSrc) {
+      await fallbackWebSpeech(translation);
+      return;
+    }
     try {
-      // 1. Direct match with verified sample
-      const matchedSample = VERIFIED_SAMPLES.find(
-        (s) => s.telugu.trim() === translation.trim() || translation.trim().includes(s.telugu.trim())
-      );
-
-      const audioSrc = matchedSample?.audioUrl || await synthesizeSpeech(translation);
-
-      if (audioSrc) {
-        if (!audioElementRef.current) {
-          audioElementRef.current = new Audio(audioSrc);
-        } else {
-          audioElementRef.current.pause();
-          audioElementRef.current.src = audioSrc;
-        }
-
-        audioElementRef.current.onended = () => {
-          setIsPlayingAudio(false);
-          setStatusMessage(null);
-        };
-
-        audioElementRef.current.onerror = (e) => {
-          console.warn('Direct audio element failed, falling back to Web Speech:', e);
-          fallbackWebSpeech(translation);
-        };
-
-        await audioElementRef.current.play();
-        setStatusMessage('Playing authentic Telugu speech');
-      } else {
+      if (!audioElementRef.current) audioElementRef.current = new Audio();
+      const el = audioElementRef.current;
+      el.pause();
+      el.src = audioSrc;
+      el.onended = () => {
+        setIsPlayingAudio(false);
+        setStatusMessage(null);
+      };
+      el.onerror = () => {
         fallbackWebSpeech(translation);
-      }
-    } catch (err: any) {
-      console.warn('Audio playback caught error, falling back:', err);
-      fallbackWebSpeech(translation);
+      };
+      await el.play();
+      setStatusMessage('Playing Telugu speech');
+    } catch (err) {
+      console.warn('Audio element playback failed, trying browser voice:', err);
+      await fallbackWebSpeech(translation);
     }
   };
 
-  const fallbackWebSpeech = (text: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      try {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'te-IN';
-        const voices = window.speechSynthesis.getVoices();
-        const teVoice = voices.find((v) => v.lang.startsWith('te') || v.lang.includes('Telugu'));
-        if (teVoice) utterance.voice = teVoice;
+  const loadVoices = (): Promise<SpeechSynthesisVoice[]> =>
+    new Promise((resolve) => {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length) return resolve(voices);
+      const done = () => resolve(window.speechSynthesis.getVoices());
+      window.speechSynthesis.addEventListener('voiceschanged', done, { once: true });
+      setTimeout(done, 1500);
+    });
 
-        utterance.onend = () => {
-          setIsPlayingAudio(false);
-          setStatusMessage(null);
-        };
-        utterance.onerror = () => {
-          setIsPlayingAudio(false);
-          setStatusMessage(null);
-        };
-
-        window.speechSynthesis.speak(utterance);
-        setStatusMessage('Playing via browser voice engine');
-      } catch {
-        setIsPlayingAudio(false);
-        setStatusMessage(null);
-      }
-    } else {
+  const fallbackWebSpeech = async (text: string) => {
+    const stop = (error?: string) => {
       setIsPlayingAudio(false);
       setStatusMessage(null);
+      if (error) setErrorMessage(error);
+    };
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      return stop('This browser cannot synthesize speech. Install the local engine for Meta MMS Telugu voice.');
+    }
+    const voices = await loadVoices();
+    const teVoice = voices.find((v) => v.lang.toLowerCase().startsWith('te') || /telugu/i.test(v.name));
+    if (!teVoice) {
+      return stop(
+        'No Telugu voice is installed in this browser, so it cannot speak this sentence. ' +
+        'Click "Install & Setup Locally" to get the on-device Meta MMS Telugu voice (preset samples play without it).'
+      );
+    }
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = teVoice.lang;
+      utterance.voice = teVoice;
+      utterance.onend = () => stop();
+      utterance.onerror = () => stop('Browser voice engine failed to play the Telugu speech.');
+      window.speechSynthesis.speak(utterance);
+      setStatusMessage(`Playing via browser voice (${teVoice.name})`);
+    } catch {
+      stop('Browser voice engine failed to play the Telugu speech.');
     }
   };
 
@@ -353,141 +369,74 @@ ${translation}
     URL.revokeObjectURL(url);
   };
 
-  const handleInstallSetupLocally = () => {
-    setIsSettingUp(true);
-    setSetupProgress(1);
-    setSetupStepText('Downloading background engine launcher...');
-    setStatusMessage('Setting up locally: 1%');
+  const isWindows = typeof navigator !== 'undefined' && /windows/i.test(navigator.userAgent);
+  const installFilename = isWindows ? 'install-vayyuedge.bat' : 'install-vayyuedge.sh';
+  const installCommand = isWindows
+    ? `%USERPROFILE%\\Downloads\\${installFilename}`
+    : `bash ~/Downloads/${installFilename}`;
 
-    // Auto-detect operating system
-    const isWindows = typeof navigator !== 'undefined' && /windows/i.test(navigator.userAgent);
-    const format = isWindows ? 'bat' : 'sh';
-
-    let scriptContent = '';
-    let filename = '';
-    if (format === 'sh') {
-      scriptContent = `#!/usr/bin/env bash
-# VayyuEdge On-Device AI Engine Auto-Setup
-echo "=================================================="
-echo " Setting up VayyuEdge On-Device AI Engine..."
-echo "=================================================="
-if [ ! -d "vayyuedge" ] && [ ! -f "scripts/start-local.sh" ]; then
-  echo "[1/3] Cloning repository..."
-  git clone https://github.com/ravivarmapatturi/vayyuedge.git
-  cd vayyuedge
-elif [ -d "vayyuedge" ]; then
-  cd vayyuedge
-fi
-chmod +x ./scripts/start-local.sh 2>/dev/null || true
-echo "[2/3] Initializing local neural models on loopback (127.0.0.1:8000)..."
-echo "[3/3] Running background service. All audio stays on device."
-./scripts/start-local.sh
+  const buildInstallScript = () => {
+    if (!isWindows) {
+      return `#!/usr/bin/env bash
+# VayyuEdge on-device engine installer: clones the repo, installs models, starts 127.0.0.1:8000
+set -e
+command -v git >/dev/null || { echo "Please install git first."; exit 1; }
+command -v python3 >/dev/null || { echo "Please install Python 3.10+ first."; exit 1; }
+DIR="$HOME/vayyuedge"
+if [ -d "$DIR/.git" ]; then git -C "$DIR" pull --ff-only || true; else git clone https://github.com/ravivarmapatturi/vayyuedge.git "$DIR"; fi
+cd "$DIR"
+exec bash ./scripts/start-local.sh
 `;
-      filename = 'install-vayyuedge.sh';
-    } else {
-      scriptContent = `@echo off
-echo ==================================================
-echo  Setting up VayyuEdge On-Device AI Engine...
-echo ==================================================
-if not exist "vayyuedge" (
-  if not exist "scripts\\start-local.sh" (
-    echo [1/3] Cloning repository...
-    git clone https://github.com/ravivarmapatturi/vayyuedge.git
-    cd vayyuedge
-  )
-) else (
-  cd vayyuedge
-)
-echo [2/3] Initializing local neural models on loopback (127.0.0.1:8000)...
-echo [3/3] Running background service. All audio stays on device.
-call .\\scripts\\start-local.sh
+    }
+    return `@echo off
+REM VayyuEdge on-device engine installer (requires Git for Windows, which provides bash)
+where git >nul 2>nul || (echo Please install Git for Windows first: https://git-scm.com & pause & exit /b 1)
+set DIR=%USERPROFILE%\\vayyuedge
+if exist "%DIR%\\.git" (git -C "%DIR%" pull --ff-only) else (git clone https://github.com/ravivarmapatturi/vayyuedge.git "%DIR%")
+cd /d "%DIR%"
+bash ./scripts/start-local.sh
 pause
 `;
-      filename = 'install-vayyuedge.bat';
-    }
+  };
 
-    const blob = new Blob([scriptContent], { type: 'text/plain;charset=utf-8' });
+  // Step 1: explain what will happen and ask for consent.
+  const handleInstallSetupLocally = () => {
+    setErrorMessage(null);
+    setShowInstallConfirm(true);
+  };
+
+  // Step 2: on OK, download the script and watch for the engine to come up for real.
+  const confirmInstall = () => {
+    setShowInstallConfirm(false);
+    const blob = new Blob([buildInstallScript()], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = filename;
+    link.download = installFilename;
+    document.body.appendChild(link);
     link.click();
-    URL.revokeObjectURL(url);
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-    // Progressive 1% to 100% counter
-    let currentPct = 1;
-    const progressTimer = window.setInterval(() => {
-      if (currentPct < 100) {
-        const increment = currentPct < 25 ? 4 : currentPct < 60 ? 3 : currentPct < 90 ? 2 : 1;
-        currentPct = Math.min(100, currentPct + increment);
-        setSetupProgress(currentPct);
+    setIsSettingUp(true);
+    setSetupProgress(0);
+    setSetupStepText('Script downloaded. Run it to start the engine — waiting for 127.0.0.1:8000...');
 
-        if (currentPct <= 20) {
-          setSetupStepText('Preparing local Python environment...');
-        } else if (currentPct <= 50) {
-          setSetupStepText('Loading Whisper ASR & Opus-MT SafeTensors...');
-        } else if (currentPct <= 75) {
-          setSetupStepText('Synthesizing Meta MMS Telugu speech weights...');
-        } else if (currentPct < 100) {
-          setSetupStepText('Verifying on-device execution...');
-        } else {
-          setSetupStepText('On-device engine initialized successfully!');
-        }
-        setStatusMessage(`Setting up locally: ${currentPct}%`);
-
-        if (currentPct >= 100) {
-          clearInterval(progressTimer);
-          clearInterval(pollInterval);
-          setStatusMessage('✅ On-device engine active (100%)! All models running on device.');
-
-          setCapabilities((prev) => ({
-            processing_mode: 'local',
-            is_offline_capable: true,
-            supported_source_languages: ['en', 'eng_Latn'],
-            supported_target_languages: ['te', 'tel_Telu'],
-            asr: { adapter: 'whisper_local', model_name: 'Whisper CPU (Local)', is_ready: true },
-            translation: { adapter: 'opus_mt', model_name: 'Helsinki-NLP Opus-MT (Local)', is_ready: true },
-            tts: { adapter: 'mms_telugu_tts', voice_name: 'Meta MMS Telugu (Local)', is_ready: true },
-            device_info: prev?.device_info || {
-              os: 'On-Device Accelerated',
-              cpu_cores: (typeof navigator !== 'undefined' && navigator.hardwareConcurrency) || 8,
-              ram_gb_available: 8,
-            },
-            isConnected: true,
-          }));
-
-          setTimeout(() => {
-            setIsSettingUp(false);
-          }, 800);
-        }
+    if (setupPollRef.current) clearInterval(setupPollRef.current);
+    const startedAt = Date.now();
+    setupPollRef.current = window.setInterval(async () => {
+      const cap = await fetchCapabilities();
+      if (cap.isConnected) {
+        if (setupPollRef.current) clearInterval(setupPollRef.current);
+        setSetupProgress(100);
+        setSetupStepText('On-device engine connected!');
+        setStatusMessage('✅ On-device engine connected. Whisper, Opus-MT and MMS-TTS now run on your machine.');
+        setCapabilities(cap);
+        setTimeout(() => setIsSettingUp(false), 1500);
+      } else if (Date.now() - startedAt > 30 * 60 * 1000) {
+        if (setupPollRef.current) clearInterval(setupPollRef.current);
       }
-    }, 200);
-
-    // Rapid polling for background engine activation
-    const pollInterval = window.setInterval(async () => {
-      try {
-        const cap = await fetchCapabilities();
-        if (cap.isConnected) {
-          clearInterval(progressTimer);
-          clearInterval(pollInterval);
-          setSetupProgress(100);
-          setSetupStepText('On-device engine initialized successfully!');
-          setStatusMessage('✅ On-device engine active (100%)! All models running on CPU.');
-          setCapabilities(cap);
-
-          setTimeout(() => {
-            setIsSettingUp(false);
-          }, 800);
-        }
-      } catch {
-        // waiting for daemon startup
-      }
-    }, 800);
-
-    setTimeout(() => {
-      clearInterval(progressTimer);
-      clearInterval(pollInterval);
-    }, 90000);
+    }, 2000);
   };
 
   return (
@@ -502,13 +451,6 @@ pause
               <span className="text-xs font-bold uppercase tracking-wider text-charcoal-900">
                 Speech & Translation Console
               </span>
-              <span className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${
-                capabilities?.isConnected
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                  : 'bg-teal-50 text-teal-800 border-teal-200'
-              }`}>
-                {capabilities?.isConnected ? 'On-Device Engine Active' : 'Interactive Preview'}
-              </span>
             </div>
 
             <div className="flex items-center space-x-2 text-xs">
@@ -520,7 +462,7 @@ pause
               ) : isSettingUp ? (
                 <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300 text-xs font-semibold shadow-xs">
                   <div className="w-3.5 h-3.5 rounded-full border-2 border-amber-600 border-t-transparent animate-spin"></div>
-                  <span>Setting up: {setupProgress}%</span>
+                  <span>Waiting for engine…</span>
                 </div>
               ) : (
                 <button
@@ -546,39 +488,44 @@ pause
             </div>
           </div>
 
-          {/* Active Setup 1% to 100% Progress Bar Strip */}
+          {/* Install consent popup */}
+          {showInstallConfirm && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4" role="dialog" aria-modal="true">
+              <div className="bg-canvas-50 rounded-2xl shadow-card max-w-md w-full p-6 space-y-4 text-sm text-charcoal-800">
+                <h3 className="text-base font-bold text-charcoal-900">Install the on-device engine?</h3>
+                <p>
+                  A small setup script (<code className="font-mono text-xs">{installFilename}</code>) will download to your computer.
+                  When run, it clones VayyuEdge into <code className="font-mono text-xs">~/vayyuedge</code>, installs Python dependencies
+                  and models (~1.5&nbsp;GB, first run only), and starts the engine on <code className="font-mono text-xs">127.0.0.1:8000</code>.
+                  Your audio never leaves your device.
+                </p>
+                <p className="text-xs text-charcoal-600">
+                  Browsers don't allow websites to execute programs, so after the download you start it once with:
+                </p>
+                <pre className="bg-charcoal-900 text-emerald-200 text-xs rounded-lg p-3 overflow-x-auto">{installCommand}</pre>
+                <div className="flex justify-end gap-2">
+                  <button onClick={() => setShowInstallConfirm(false)} className="px-3.5 py-1.5 rounded-lg border border-canvas-300 hover:bg-canvas-200">Cancel</button>
+                  <button onClick={confirmInstall} className="px-3.5 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold">OK, download</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Setup status strip: reflects the real engine state only */}
           {isSettingUp && (
-            <div className="bg-amber-50/95 border-b border-amber-200 px-5 py-3 space-y-2 animate-in fade-in duration-200">
-              <div className="flex items-center justify-between text-xs text-amber-950">
-                <div className="flex items-center space-x-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping shrink-0"></span>
-                  <span className="font-bold">Installing & Setting Up Locally: {setupProgress}%</span>
-                  <span className="text-amber-800 text-[11px] hidden sm:inline">— {setupStepText}</span>
+            <div className="bg-amber-50/95 border-b border-amber-200 px-5 py-3 space-y-2 text-xs text-amber-950">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-bold">{setupProgress === 100 ? '✅ Connected' : 'Waiting for local engine'}</span>
+                <span className="text-amber-800 flex-1">{setupStepText}</span>
+                <button onClick={() => { setIsSettingUp(false); if (setupPollRef.current) clearInterval(setupPollRef.current); }} className="text-amber-600 hover:text-amber-900 text-sm font-bold px-1" title="Dismiss">×</button>
+              </div>
+              {setupProgress < 100 && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span>Run in a terminal:</span>
+                  <code className="bg-charcoal-900 text-emerald-200 rounded px-2 py-1 font-mono">{installCommand}</code>
+                  <button onClick={() => navigator.clipboard?.writeText(installCommand)} className="px-2 py-1 rounded border border-amber-300 hover:bg-amber-100">Copy</button>
                 </div>
-                <div className="flex items-center space-x-2 shrink-0">
-                  <span className="text-[11px] font-mono text-amber-800">127.0.0.1:8000</span>
-                  <button
-                    onClick={() => setIsSettingUp(false)}
-                    className="text-amber-600 hover:text-amber-900 text-sm font-bold leading-none px-1"
-                    title="Dismiss"
-                  >
-                    ×
-                  </button>
-                </div>
-              </div>
-
-              {/* Smooth Animated Progress Bar */}
-              <div className="w-full bg-amber-200/70 rounded-full h-2.5 overflow-hidden shadow-inner">
-                <div
-                  className="bg-gradient-to-r from-amber-500 via-teal-600 to-emerald-500 h-2.5 rounded-full transition-all duration-300 ease-out shadow-xs"
-                  style={{ width: `${setupProgress}%` }}
-                ></div>
-              </div>
-
-              <div className="flex items-center justify-between text-[10px] text-amber-700">
-                <span>Auto-starting loopback daemon</span>
-                <span>{setupProgress < 100 ? `${setupProgress}% completed` : '100% Ready — All models verified'}</span>
-              </div>
+              )}
             </div>
           )}
           {capabilities?.isConnected && (
@@ -791,7 +738,7 @@ pause
               <div>
                 <p className="text-charcoal-500 text-[11px]">Inference Boundary:</p>
                 <p className={`font-semibold ${capabilities?.isConnected ? 'text-emerald-800' : 'text-amber-800'}`}>
-                  {capabilities?.isConnected ? '100% On-Device (127.0.0.1:8000)' : 'Browser Prototype (Daemon Offline)'}
+                  {capabilities?.isConnected ? '100% On-Device (127.0.0.1:8000)' : 'Browser mode (local engine not running)'}
                 </p>
                 <p className="text-charcoal-600">
                   {capabilities?.isConnected

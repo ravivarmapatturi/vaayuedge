@@ -18,15 +18,23 @@ echo "================================================================="
 command -v python3 >/dev/null 2>&1 || { echo "Error: Python 3 is required."; exit 1; }
 command -v ffmpeg >/dev/null 2>&1 || { echo "Warning: ffmpeg not found in PATH. Audio transcoding may be limited."; }
 
-# Verify or build web assets
-if [ ! -d "$PROJECT_ROOT/apps/web/dist" ]; then
-    echo "[BUILD] Building frontend web client..."
-    cd "$PROJECT_ROOT/apps/web"
-    if [ ! -d "node_modules" ]; then
-        npm install
-    fi
-    npm run build
-    cd "$PROJECT_ROOT"
+# Python environment with real on-device models (first run downloads ~1.5 GB)
+VENV="$PROJECT_ROOT/services/api/.venv"
+if [ ! -x "$VENV/bin/python" ]; then
+    echo "[SETUP] Creating Python environment..."
+    python3 -m venv "$VENV"
+fi
+PY="$VENV/bin/python"
+if ! "$PY" -c "import whisper, transformers, torch, fastapi" >/dev/null 2>&1; then
+    echo "[SETUP] Installing engine dependencies (one time)..."
+    "$PY" -m pip install --upgrade pip -q
+    "$PY" -m pip install -q -r "$PROJECT_ROOT/services/api/requirements.txt" -r "$PROJECT_ROOT/services/api/requirements-ml.txt"
+fi
+
+# Build the web client if Node is available (the hosted site works without it)
+if [ ! -d "$PROJECT_ROOT/apps/web/dist" ] && command -v npm >/dev/null 2>&1; then
+    echo "[BUILD] Building web client..."
+    (cd "$PROJECT_ROOT/apps/web" && npm install --silent && npm run build)
 fi
 
 # Ensure .env is present
@@ -41,4 +49,4 @@ echo "-----------------------------------------------------------------"
 
 cd "$PROJECT_ROOT/services/api"
 export PYTHONPATH="$PROJECT_ROOT/services/api:$PYTHONPATH"
-exec python3 -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+exec "$PY" -m uvicorn app.main:app --host 127.0.0.1 --port 8000

@@ -76,9 +76,9 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
       <section className="pt-12 sm:pt-20 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-6">
         <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-semibold shadow-subtle">
           <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-          <span>Early Project · English → తెలుగు</span>
+          <span>English → తెలుగు</span>
           <span>·</span>
-          <span>Built for Edge Autonomy</span>
+          <span>Private by design</span>
         </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-charcoal-900 leading-tight">
@@ -128,10 +128,10 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         <div className="max-w-5xl mx-auto space-y-3">
           <div className="text-center sm:text-left flex items-center justify-between px-1">
             <h2 className="text-sm font-bold uppercase tracking-wider text-charcoal-500">
-              Interactive Product Console
+              Try It Now
             </h2>
             <span className="text-xs text-charcoal-400 font-mono">
-              v0.1 Prototype · English (en) → Telugu (te)
+              English → Telugu
             </span>
           </div>
           <InteractiveDemo id="demo-workspace" />
@@ -608,74 +608,6 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         </div>
       </section>
 
-      {/* 9. Supported Devices Roadmap (Section J) */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-xl mx-auto mb-10 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">
-            Hardware Targets
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-charcoal-900 tracking-tight">
-            Supported Device Profiles
-          </h2>
-          <p className="text-sm text-charcoal-600">
-            Truthful capability statuses across compute form factors.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-canvas-100 border border-canvas-300 rounded-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-charcoal-900 text-base">Laptop (macOS / Linux / Windows)</span>
-              <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[11px] font-semibold rounded-full border border-emerald-200">
-                Available
-              </span>
-            </div>
-            <p className="text-xs text-charcoal-600 leading-relaxed">
-              Validated on standard multi-core laptop CPUs. Executes Whisper GGML and IndicTrans2 with less than 1.5GB RAM watermark and under 4s latency for 10s speech.
-            </p>
-            <ul className="text-xs text-charcoal-700 space-y-1 font-mono">
-              <li>• RAM Footprint: &lt; 1.5 GB</li>
-              <li>• CPU: Multi-core x86_64 / Apple Silicon</li>
-              <li>• Offline: 100% verified</li>
-            </ul>
-          </div>
-
-          <div className="bg-canvas-100 border border-canvas-300 rounded-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-charcoal-900 text-base">Mobile (Android & iOS)</span>
-              <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[11px] font-semibold rounded-full border border-amber-200">
-                In Development
-              </span>
-            </div>
-            <p className="text-xs text-charcoal-600 leading-relaxed">
-              Fully responsive PWA web interface operational today. Mobile on-device neural runtime optimization (ARM NEON / ONNX Runtime Mobile) in active benchmarking.
-            </p>
-            <ul className="text-xs text-charcoal-700 space-y-1 font-mono">
-              <li>• PWA Installable: Supported</li>
-              <li>• Touch & Responsive UI: Tested</li>
-              <li>• Native NPU Engine: Benchmarking</li>
-            </ul>
-          </div>
-
-          <div className="bg-canvas-100 border border-canvas-300 rounded-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-charcoal-900 text-base">Constrained Edge Systems</span>
-              <span className="px-2 py-0.5 bg-canvas-200 text-charcoal-600 text-[11px] font-semibold rounded-full border border-canvas-300">
-                Planned
-              </span>
-            </div>
-            <p className="text-xs text-charcoal-600 leading-relaxed">
-              Targeting dedicated single-board computers (Raspberry Pi 5, RISC-V edge units) with INT4 quantisation and sub-15W thermal envelopes.
-            </p>
-            <ul className="text-xs text-charcoal-700 space-y-1 font-mono">
-              <li>• Quantisation: INT8 / INT4</li>
-              <li>• Power Envelope: &lt; 15W</li>
-              <li>• Deployment: Headless daemon</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
       {/* 10. Privacy & Transparency Matrix (Section K) */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="bg-canvas-900 text-white rounded-3xl p-8 sm:p-10 space-y-8 shadow-card">
@@ -686,9 +618,6 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
               Privacy and Transparency Model
             </h2>
-            <p className="text-xs sm:text-sm text-canvas-300 leading-relaxed">
-              We never use marketing buzzwords like "military-grade". Instead, we define the exact data boundaries of the system.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
@@ -717,71 +646,6 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
               <h4 className="font-bold text-teal-300">4. User-Controlled Purge</h4>
               <p className="text-canvas-300 leading-relaxed">
                 One-click local deletion completely wipes all stored session records from the browser sandbox instantly.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 11. Development Roadmap (Section L) */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-xl mx-auto mb-10 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">
-            Engineering Milestones
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-charcoal-900 tracking-tight">
-            Development Roadmap
-          </h2>
-          <p className="text-sm text-charcoal-600">
-            Clear tracking of completed foundations and active engineering goals.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <div className="p-5 bg-white border border-canvas-200 rounded-2xl flex items-start space-x-4 shadow-subtle">
-            <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full shrink-0">
-              DONE
-            </span>
-            <div className="space-y-1">
-              <h4 className="font-bold text-sm text-charcoal-900">Milestone 1 — Core Architecture & Bilingual Contracts</h4>
-              <p className="text-xs text-charcoal-600">
-                Modular monorepo scaffold, typed API contracts, FastAPI daemon, Whisper & IndicTrans2 adapter protocols, responsive React web client, and automated CI tests.
-              </p>
-            </div>
-          </div>
-
-          <div className="p-5 bg-white border border-canvas-200 rounded-2xl flex items-start space-x-4 shadow-subtle">
-            <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full shrink-0">
-              DONE
-            </span>
-            <div className="space-y-1">
-              <h4 className="font-bold text-sm text-charcoal-900">Milestone 2 — On-Device Laptop Inference & Profiler</h4>
-              <p className="text-xs text-charcoal-600">
-                whisper.cpp GGML integration, benchmark runner (scripts/benchmark.py), RAM watermark inspection, and airplane-mode audit procedures.
-              </p>
-            </div>
-          </div>
-
-          <div className="p-5 bg-white border border-canvas-200 rounded-2xl flex items-start space-x-4 shadow-subtle">
-            <span className="px-2.5 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-full shrink-0">
-              ACTIVE
-            </span>
-            <div className="space-y-1">
-              <h4 className="font-bold text-sm text-charcoal-900">Milestone 3 — Mobile ARM Neural Optimization</h4>
-              <p className="text-xs text-charcoal-600">
-                Benchmarking ONNX Runtime Mobile and WebAssembly on Android and iOS devices, evaluating memory constraints under 1GB RAM.
-              </p>
-            </div>
-          </div>
-
-          <div className="p-5 bg-white border border-canvas-200 rounded-2xl flex items-start space-x-4 shadow-subtle">
-            <span className="px-2.5 py-1 bg-canvas-200 text-charcoal-700 font-bold text-xs rounded-full shrink-0">
-              PLANNED
-            </span>
-            <div className="space-y-1">
-              <h4 className="font-bold text-sm text-charcoal-900">Milestone 4 — Dedicated Edge Micro-Units</h4>
-              <p className="text-xs text-charcoal-600">
-                Porting headless inference daemon to single-board computers (Raspberry Pi 5) with INT4 weights for low-power edge speech appliances.
               </p>
             </div>
           </div>

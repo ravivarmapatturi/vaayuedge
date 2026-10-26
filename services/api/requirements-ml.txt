@@ -1,0 +1,9 @@
+# Real on-device models (CPU). Installed by scripts/start-local.sh.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+openai-whisper
+transformers>=4.40
+sentencepiece
+sacremoses
+scipy
+numpy

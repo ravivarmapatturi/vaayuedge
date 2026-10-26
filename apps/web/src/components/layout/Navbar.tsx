@@ -48,12 +48,12 @@ export default function Navbar({
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1 lg:space-x-2" aria-label="Main navigation">
+        <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2" aria-label="Main navigation">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
                 currentTab === item.id
                   ? 'text-teal-800 bg-teal-50 font-semibold'
                   : 'text-charcoal-700 hover:text-charcoal-900 hover:bg-canvas-200/60'
@@ -65,18 +65,18 @@ export default function Navbar({
         </nav>
 
         {/* Right Action & Mode Badge */}
-        <div className="hidden sm:flex items-center space-x-3">
+        <div className="hidden lg:flex items-center space-x-3">
           <div
-            className={`flex items-center space-x-1.5 text-[11px] px-2.5 py-1 rounded-full border ${
+            className={`hidden xl:flex items-center space-x-1.5 text-[11px] px-2.5 py-1 rounded-full border whitespace-nowrap ${
               isConnected
                 ? 'border-emerald-200/80 bg-emerald-50/90 text-emerald-800'
                 : 'border-teal-200/80 bg-teal-50/90 text-teal-800'
             }`}
-            title={isConnected ? 'On-Device AI Engine Active (127.0.0.1:8000)' : 'Interactive Web Preview'}
+            title={isConnected ? 'On-Device AI Engine Active (127.0.0.1:8000)' : 'Running in your browser'}
           >
             <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-teal-500'}`}></span>
             <span className="font-medium">
-              {isConnected ? 'On-Device Engine Active' : 'Interactive Preview'}
+              {isConnected ? 'On-Device Engine Active' : 'Browser Mode'}
             </span>
           </div>
 
@@ -84,17 +84,17 @@ export default function Navbar({
             onClick={onExploreDemo}
             className="px-4 py-2 bg-charcoal-900 hover:bg-charcoal-800 text-white rounded-lg text-xs font-semibold shadow-subtle hover:shadow transition-all"
           >
-            Explore Prototype
+            Try VayyuEdge
           </button>
         </div>
 
         {/* Mobile menu button */}
-        <div className="flex sm:hidden items-center space-x-2">
+        <div className="flex lg:hidden items-center space-x-2">
           <button
             onClick={onExploreDemo}
             className="px-3 py-1.5 bg-charcoal-900 text-white rounded-lg text-xs font-semibold"
           >
-            Demo
+            Try it
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -115,7 +115,7 @@ export default function Navbar({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="sm:hidden border-b border-canvas-300 bg-canvas-50 px-4 pt-2 pb-4 space-y-1">
+        <div className="lg:hidden border-b border-canvas-300 bg-canvas-50 px-4 pt-2 pb-4 space-y-1">
           {navItems.map((item) => (
             <button
               key={item.id}

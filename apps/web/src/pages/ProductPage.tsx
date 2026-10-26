@@ -88,11 +88,11 @@ export default function ProductPage() {
 
       {/* Known Limitations */}
       <div className="bg-canvas-100 border border-canvas-300 rounded-2xl p-6 space-y-3">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-charcoal-700">Known Limitations (v0.1 Prototype)</h2>
+        <h2 className="text-sm font-bold uppercase tracking-wider text-charcoal-700">Good to Know</h2>
         <ul className="text-xs text-charcoal-600 list-disc list-inside space-y-1.5 leading-relaxed">
           <li>Heavy ambient background noise or rapid cross-talk can increase English transcription Word Error Rate (WER).</li>
           <li>Colloquial code-mixed slang (e.g. rapid switching between English and Telugu within a single sentence) may require manual transcript correction.</li>
-          <li>Telugu speech output currently defaults to lightweight browser speech synthesis or mock confirmation tones unless local neural voice weights (e.g. Piper Telugu) are downloaded.</li>
+          <li>Natural Telugu voice output uses the Meta MMS Telugu model in the on-device engine; in browser mode, playback depends on a Telugu voice being installed in your browser.</li>
         </ul>
       </div>
     </div>

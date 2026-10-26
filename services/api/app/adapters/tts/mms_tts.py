@@ -53,7 +53,8 @@ class MMSTeluguTTSAdapter(BaseTTSAdapter):
         with torch.no_grad():
             output = self._model(**inputs).waveform
 
-        waveform = output.squeeze().cpu().numpy()
+        # 16-bit PCM: float32 WAV isn't playable in every browser (e.g. Safari).
+        waveform = (output.squeeze().cpu().clamp(-1, 1).numpy() * 32767).astype("int16")
         sample_rate = self._model.config.sampling_rate
 
         # Write to WAV buffer

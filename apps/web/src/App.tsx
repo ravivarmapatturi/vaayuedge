@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import AnnouncementBar from './components/layout/AnnouncementBar';
 import Navbar, { NavTab } from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
@@ -54,7 +53,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-canvas-50 text-charcoal-900 flex flex-col font-sans selection:bg-teal-100 selection:text-teal-900">
       {/* 1. Announcement Bar */}
-      <AnnouncementBar onExploreDemo={handleExploreDemo} />
 
       {/* 2. Top Navigation */}
       <Navbar
