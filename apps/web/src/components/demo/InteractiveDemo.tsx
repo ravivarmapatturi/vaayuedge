@@ -273,20 +273,24 @@ ${translation}
 
           {/* Engine Status Callout when Disconnected */}
           {capabilities && !capabilities.isConnected && (
-            <div className="bg-amber-50/80 border-b border-amber-200/80 px-5 py-2.5 text-xs text-amber-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="bg-amber-50 border-b border-amber-200 px-5 py-3 text-xs text-amber-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <div className="flex items-start sm:items-center space-x-2">
                 <span className="inline-block px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-200 text-amber-900 shrink-0">
                   Notice
                 </span>
                 <span>
-                  Local Python AI daemon is not detected at <code>127.0.0.1:8000</code>. Custom audio recording requires running the local backend. You can test the verified bilingual presets below.
+                  You are viewing the hosted preview. For live on-device speech & neural translation, open the local app at{' '}
+                  <a href="http://127.0.0.1:8000" className="font-mono font-bold underline text-amber-950">
+                    http://127.0.0.1:8000
+                  </a>
+                  . In this preview, you can test the verified bilingual presets below.
                 </span>
               </div>
               <a
-                href="#docs"
+                href="http://127.0.0.1:8000"
                 className="text-amber-800 font-semibold underline hover:text-amber-950 shrink-0"
               >
-                Setup Local Engine →
+                Open Local App →
               </a>
             </div>
           )}

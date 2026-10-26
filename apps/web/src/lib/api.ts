@@ -111,6 +111,13 @@ export async function transcribeAudio(audioBlob: Blob): Promise<{
     if (err.message && !err.message.includes('fetch')) {
       throw err;
     }
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+      throw new Error(
+        'Browser Security Restriction: You are on the hosted GitHub Pages site (HTTPS). ' +
+        'Web browsers block HTTPS pages from connecting to local HTTP loopback addresses (Mixed Content). ' +
+        'To transcribe audio on your laptop CPU, open http://127.0.0.1:8000 directly in your browser.'
+      );
+    }
     throw new Error(
       'Local inference engine not detected at 127.0.0.1:8000. ' +
       'To transcribe live speech privately on your CPU, start the local backend with ./scripts/start-local.sh. ' +
@@ -145,6 +152,13 @@ export async function translateText(text: string): Promise<{
   } catch (err: any) {
     if (err.message && !err.message.includes('fetch')) {
       throw err;
+    }
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+      throw new Error(
+        'Browser Security Restriction: You are on the hosted GitHub Pages site (HTTPS). ' +
+        'Web browsers block HTTPS pages from connecting to local HTTP loopback addresses (Mixed Content). ' +
+        'To translate custom text on your laptop CPU, open http://127.0.0.1:8000 directly in your browser.'
+      );
     }
     throw new Error(
       'Local translation engine not detected at 127.0.0.1:8000. ' +
