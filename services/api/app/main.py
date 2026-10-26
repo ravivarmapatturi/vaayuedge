@@ -55,17 +55,43 @@ async def global_exception_handler(request: Request, exc: Exception):
 # Include API routes
 app.include_router(api_router)
 
-# Optionally mount built frontend static files if present
+# Mount and serve built frontend static files if present
 import os
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 possible_dist_paths = [
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "apps", "web", "dist")),
     os.path.abspath(os.path.join(os.getcwd(), "apps", "web", "dist")),
 ]
-for dist_path in possible_dist_paths:
-    if os.path.isdir(dist_path) and os.path.exists(os.path.join(dist_path, "index.html")):
-        logger.info(f"Mounting built web frontend from: {dist_path}")
-        app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
+
+dist_path = None
+for p in possible_dist_paths:
+    if os.path.isdir(p) and os.path.exists(os.path.join(p, "index.html")):
+        dist_path = p
         break
+
+if dist_path:
+    logger.info(f"Serving built web frontend from: {dist_path}")
+    assets_dir = os.path.join(dist_path, "assets")
+
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+        app.mount("/vayyuedge/assets", StaticFiles(directory=assets_dir), name="vayyuedge_assets")
+
+    @app.get("/")
+    @app.get("/index.html")
+    async def serve_index():
+        return FileResponse(os.path.join(dist_path, "index.html"))
+
+    @app.get("/vayyuedge")
+    @app.get("/vayyuedge/")
+    @app.get("/vayyuedge/index.html")
+    async def serve_vayyuedge_index():
+        return FileResponse(os.path.join(dist_path, "index.html"))
+
+    # Catch-all static mounting
+    app.mount("/vayyuedge", StaticFiles(directory=dist_path, html=True), name="vayyuedge_static")
+    app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
+
 
