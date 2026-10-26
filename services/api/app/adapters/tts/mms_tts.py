@@ -1,7 +1,5 @@
 import io
 import time
-import torch
-import scipy.io.wavfile
 from app.adapters.base import BaseTTSAdapter, TTSResult
 
 
@@ -47,6 +45,9 @@ class MMSTeluguTTSAdapter(BaseTTSAdapter):
 
         self.load_model()
         start_time = time.perf_counter()
+
+        import torch
+        import scipy.io.wavfile
 
         inputs = self._tokenizer(clean_text, return_tensors="pt").to(self._device)
         with torch.no_grad():
