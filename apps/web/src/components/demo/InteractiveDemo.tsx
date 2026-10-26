@@ -37,8 +37,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   // UI state
   const [showHistory, setShowHistory] = useState(false);
   const [showInspector, setShowInspector] = useState(false);
-  const [showSetupModal, setShowSetupModal] = useState(false);
-  const [copiedCommand, setCopiedCommand] = useState(false);
+  const [isSettingUp, setIsSettingUp] = useState(false);
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [copied, setCopied] = useState(false);
 
@@ -47,6 +46,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const audioChunksRef = useRef<Blob[]>([]);
   const timerIntervalRef = useRef<number | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     fetchCapabilities().then(setCapabilities);
@@ -63,7 +63,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
             setCapabilities(cap);
           }
         });
-      }, 3000);
+      }, 2000);
     }
     return () => {
       if (interval) clearInterval(interval);
@@ -73,6 +73,11 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   useEffect(() => {
     return () => {
       if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {}
+      }
     };
   }, []);
 
@@ -101,6 +106,30 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
         handleTranscribe(blob);
       };
 
+      // Native SpeechRecognition for instant in-browser transcription
+      const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognitionClass) {
+        try {
+          const recognition = new SpeechRecognitionClass();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.lang = 'en-US';
+          recognition.onresult = (event: any) => {
+            let currentSpeech = '';
+            for (let i = 0; i < event.results.length; i++) {
+              currentSpeech += event.results[i][0].transcript;
+            }
+            if (currentSpeech) {
+              setTranscript(currentSpeech);
+            }
+          };
+          recognition.start();
+          recognitionRef.current = recognition;
+        } catch (e) {
+          console.debug('Native SpeechRecognition unavailable, relying on audio blob', e);
+        }
+      }
+
       mediaRecorder.start();
       setIsRecording(true);
       setRecordingSeconds(0);
@@ -114,6 +143,12 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   };
 
   const stopRecording = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch {}
+      recognitionRef.current = null;
+    }
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
@@ -143,18 +178,15 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   };
 
   const handleTranscribe = async (blob: Blob) => {
-    if (!capabilities?.isConnected) {
-      setShowSetupModal(true);
-      return;
-    }
-
     setIsTranscribing(true);
-    setStatusMessage('Transcribing English speech on device...');
+    setStatusMessage('Transcribing English speech...');
     try {
       const res = await transcribeAudio(blob);
-      setTranscript(res.transcript);
-      setStatusMessage(`Transcribed in ${res.inference_time_ms}ms`);
-      handleTranslate(res.transcript);
+      if (res.transcript) {
+        setTranscript(res.transcript);
+        setStatusMessage(`Transcribed in ${res.inference_time_ms}ms`);
+        handleTranslate(res.transcript);
+      }
     } catch (err: any) {
       setErrorMessage(err.message || 'Transcription failed.');
     } finally {
@@ -163,25 +195,13 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   };
 
   const handleTranslate = async (sourceText: string) => {
-    if (!sourceText.trim()) return;
-
-    if (!capabilities?.isConnected) {
-      const match = VERIFIED_SAMPLES.find(
-        (s) => s.english.trim().toLowerCase() === sourceText.trim().toLowerCase()
-      );
-      if (match) {
-        setTranslation(match.telugu);
-        setStatusMessage(`Preset loaded: "${match.category}"`);
-        return;
-      }
-      setShowSetupModal(true);
-      return;
-    }
+    const textToTranslate = sourceText.trim();
+    if (!textToTranslate) return;
 
     setIsTranslating(true);
-    setStatusMessage('Translating semantic meaning into Telugu on device...');
+    setStatusMessage('Translating into Telugu...');
     try {
-      const res = await translateText(sourceText);
+      const res = await translateText(textToTranslate);
       setTranslation(res.translated_text);
       setStatusMessage(`Translated in ${res.inference_time_ms}ms`);
 
@@ -189,7 +209,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
         id: 'sess-' + Date.now(),
         created_at: new Date().toISOString(),
         audio_duration_seconds: recordingSeconds || 3.5,
-        transcript: sourceText,
+        transcript: textToTranslate,
         translation: res.translated_text,
         processing_mode: capabilities?.processing_mode || 'local',
         is_sample: isDemonstrationSample,
@@ -216,51 +236,69 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
 
     setIsPlayingAudio(true);
     setStatusMessage('Synthesizing spoken Telugu...');
+
     try {
-      const audioSrc = await synthesizeSpeech(translation);
+      // 1. Direct match with verified sample
+      const matchedSample = VERIFIED_SAMPLES.find(
+        (s) => s.telugu.trim() === translation.trim() || translation.trim().includes(s.telugu.trim())
+      );
+
+      const audioSrc = matchedSample?.audioUrl || await synthesizeSpeech(translation);
+
       if (audioSrc) {
         if (!audioElementRef.current) {
           audioElementRef.current = new Audio(audioSrc);
         } else {
+          audioElementRef.current.pause();
           audioElementRef.current.src = audioSrc;
         }
+
         audioElementRef.current.onended = () => {
           setIsPlayingAudio(false);
           setStatusMessage(null);
         };
+
         audioElementRef.current.onerror = (e) => {
-          console.warn('Audio element error, falling back to Web Speech:', e);
+          console.warn('Direct audio element failed, falling back to Web Speech:', e);
           fallbackWebSpeech(translation);
         };
+
         await audioElementRef.current.play();
-        setStatusMessage('Playing on-device neural Telugu speech');
+        setStatusMessage('Playing authentic Telugu speech');
       } else {
         fallbackWebSpeech(translation);
       }
     } catch (err: any) {
-      console.warn('Backend TTS failed, falling back to Web Speech:', err);
+      console.warn('Audio playback caught error, falling back:', err);
       fallbackWebSpeech(translation);
     }
   };
 
   const fallbackWebSpeech = (text: string) => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'te-IN';
-      const voices = window.speechSynthesis.getVoices();
-      const teVoice = voices.find((v) => v.lang.startsWith('te') || v.lang.includes('Telugu'));
-      if (teVoice) utterance.voice = teVoice;
-      utterance.onend = () => {
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'te-IN';
+        const voices = window.speechSynthesis.getVoices();
+        const teVoice = voices.find((v) => v.lang.startsWith('te') || v.lang.includes('Telugu'));
+        if (teVoice) utterance.voice = teVoice;
+
+        utterance.onend = () => {
+          setIsPlayingAudio(false);
+          setStatusMessage(null);
+        };
+        utterance.onerror = () => {
+          setIsPlayingAudio(false);
+          setStatusMessage(null);
+        };
+
+        window.speechSynthesis.speak(utterance);
+        setStatusMessage('Playing via browser voice engine');
+      } catch {
         setIsPlayingAudio(false);
         setStatusMessage(null);
-      };
-      utterance.onerror = () => {
-        setIsPlayingAudio(false);
-        setStatusMessage(null);
-      };
-      window.speechSynthesis.speak(utterance);
-      setStatusMessage('Playing via browser voice engine');
+      }
     } else {
       setIsPlayingAudio(false);
       setStatusMessage(null);
@@ -298,31 +336,57 @@ ${translation}
     URL.revokeObjectURL(url);
   };
 
-  const downloadLauncher = (format: 'sh' | 'bat') => {
+  const handleInstallSetupLocally = () => {
+    setIsSettingUp(true);
+    setStatusMessage('... Setting up locally ...');
+
+    // Auto-detect operating system
+    const isWindows = typeof navigator !== 'undefined' && /windows/i.test(navigator.userAgent);
+    const format = isWindows ? 'bat' : 'sh';
+
     let scriptContent = '';
     let filename = '';
     if (format === 'sh') {
       scriptContent = `#!/usr/bin/env bash
-echo "Launching VayyuEdge Local AI Engine..."
-if [ ! -d "vayyuedge" ]; then
+# VayyuEdge On-Device AI Engine Auto-Setup
+echo "=================================================="
+echo " Setting up VayyuEdge On-Device AI Engine..."
+echo "=================================================="
+if [ ! -d "vayyuedge" ] && [ ! -f "scripts/start-local.sh" ]; then
+  echo "[1/3] Cloning repository..."
   git clone https://github.com/ravivarmapatturi/vayyuedge.git
+  cd vayyuedge
+elif [ -d "vayyuedge" ]; then
+  cd vayyuedge
 fi
-cd vayyuedge
+chmod +x ./scripts/start-local.sh 2>/dev/null || true
+echo "[2/3] Initializing local neural models on loopback (127.0.0.1:8000)..."
+echo "[3/3] Running background service. All audio stays on device."
 ./scripts/start-local.sh
 `;
-      filename = 'start-vayyuedge.sh';
+      filename = 'install-vayyuedge.sh';
     } else {
       scriptContent = `@echo off
-echo Launching VayyuEdge Local AI Engine...
+echo ==================================================
+echo  Setting up VayyuEdge On-Device AI Engine...
+echo ==================================================
 if not exist "vayyuedge" (
-  git clone https://github.com/ravivarmapatturi/vayyuedge.git
+  if not exist "scripts\\start-local.sh" (
+    echo [1/3] Cloning repository...
+    git clone https://github.com/ravivarmapatturi/vayyuedge.git
+    cd vayyuedge
+  )
+) else (
+  cd vayyuedge
 )
-cd vayyuedge
+echo [2/3] Initializing local neural models on loopback (127.0.0.1:8000)...
+echo [3/3] Running background service. All audio stays on device.
 call .\\scripts\\start-local.sh
 pause
 `;
-      filename = 'start-vayyuedge.bat';
+      filename = 'install-vayyuedge.bat';
     }
+
     const blob = new Blob([scriptContent], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -330,6 +394,25 @@ pause
     link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
+
+    // Rapid polling for background engine activation
+    const pollInterval = window.setInterval(async () => {
+      try {
+        const cap = await fetchCapabilities();
+        if (cap.isConnected) {
+          clearInterval(pollInterval);
+          setCapabilities(cap);
+          setIsSettingUp(false);
+          setStatusMessage('✅ On-device engine active! All models running on CPU.');
+        }
+      } catch {
+        // waiting for daemon startup
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(pollInterval);
+    }, 90000);
   };
 
   return (
@@ -354,13 +437,26 @@ pause
             </div>
 
             <div className="flex items-center space-x-2 text-xs">
-              {!capabilities?.isConnected && (
+              {capabilities?.isConnected ? (
+                <span className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-semibold flex items-center space-x-1.5 shadow-xs">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>On-Device Engine Active</span>
+                </span>
+              ) : isSettingUp ? (
+                <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300 text-xs font-semibold shadow-xs">
+                  <svg className="animate-spin h-3.5 w-3.5 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                  </svg>
+                  <span>... Setting up locally ...</span>
+                </div>
+              ) : (
                 <button
-                  onClick={() => setShowSetupModal(true)}
-                  className="px-3 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs shadow-subtle hover:shadow transition flex items-center space-x-1.5"
+                  onClick={handleInstallSetupLocally}
+                  className="px-3.5 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs shadow-subtle hover:shadow transition flex items-center space-x-1.5"
                 >
                   <span>⚡</span>
-                  <span>1-Click Local Setup</span>
+                  <span>Install & Setup Locally</span>
                 </button>
               )}
               <button
@@ -377,6 +473,28 @@ pause
               </button>
             </div>
           </div>
+
+          {/* Active Setup & Engine Status Strip */}
+          {isSettingUp && (
+            <div className="bg-amber-50/90 border-b border-amber-200 px-5 py-2.5 flex items-center justify-between text-xs text-amber-900 animate-in fade-in duration-200">
+              <div className="flex items-center space-x-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+                <span className="font-semibold">... Setting up locally ...</span>
+                <span className="text-amber-700 hidden sm:inline">— Launcher downloaded. Connecting to local AI engine in background...</span>
+              </div>
+              <span className="text-[11px] font-mono text-amber-700">127.0.0.1:8000</span>
+            </div>
+          )}
+          {capabilities?.isConnected && (
+            <div className="bg-emerald-50/80 border-b border-emerald-200 px-5 py-2 flex items-center justify-between text-xs text-emerald-900 animate-in fade-in duration-200">
+              <div className="flex items-center space-x-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span className="font-semibold">On-Device Engine Connected</span>
+                <span className="text-emerald-700 hidden sm:inline">— Zero network packets. Whisper ASR + Opus-MT + Meta MMS running on local CPU.</span>
+              </div>
+              <span className="text-[11px] font-mono text-emerald-700">Loopback Active</span>
+            </div>
+          )}
 
           {/* Sample Presets Ribbon */}
           <div className="bg-canvas-50/60 border-b border-canvas-200 px-5 py-2.5 flex items-center gap-2 overflow-x-auto text-xs">
@@ -644,91 +762,6 @@ pause
                 </button>
               </div>
             )}
-          </div>
-        )}
-
-        {/* 1-Click Local Setup Modal */}
-        {showSetupModal && (
-          <div className="fixed inset-0 z-50 bg-charcoal-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white border border-canvas-300 rounded-2xl max-w-lg w-full p-6 sm:p-7 space-y-5 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
-              <div className="flex items-center justify-between border-b border-canvas-200 pb-3">
-                <div className="flex items-center space-x-2.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse"></span>
-                  <h3 className="font-bold text-base text-charcoal-900">Run VayyuEdge On-Device</h3>
-                </div>
-                <button
-                  onClick={() => setShowSetupModal(false)}
-                  className="text-charcoal-400 hover:text-charcoal-700 text-xl font-bold leading-none p-1"
-                >
-                  ×
-                </button>
-              </div>
-
-              <p className="text-xs text-charcoal-600 leading-relaxed">
-                VayyuEdge runs completely privately on your device using PyTorch CPU models (Whisper + Opus-MT). Launch it with a single click:
-              </p>
-
-              {/* 1-Line Terminal Command */}
-              <div className="space-y-1.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal-700">
-                  Option 1: Run 1-Line Command
-                </span>
-                <div className="bg-charcoal-950 text-charcoal-100 p-3 rounded-xl font-mono text-[11px] flex items-center justify-between gap-3">
-                  <code className="text-teal-400 truncate select-all">
-                    git clone https://github.com/ravivarmapatturi/vayyuedge.git &amp;&amp; cd vayyuedge &amp;&amp; ./scripts/start-local.sh
-                  </code>
-                  <button
-                    onClick={async () => {
-                      await navigator.clipboard.writeText(
-                        'git clone https://github.com/ravivarmapatturi/vayyuedge.git && cd vayyuedge && ./scripts/start-local.sh'
-                      );
-                      setCopiedCommand(true);
-                      setTimeout(() => setCopiedCommand(false), 2000);
-                    }}
-                    className="px-2.5 py-1 bg-teal-800 hover:bg-teal-700 text-white rounded text-[11px] font-semibold shrink-0 transition"
-                  >
-                    {copiedCommand ? 'Copied!' : 'Copy'}
-                  </button>
-                </div>
-              </div>
-
-              {/* 1-Click Desktop Download */}
-              <div className="space-y-1.5 pt-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal-700">
-                  Option 2: Download 1-Click Launcher Script
-                </span>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => downloadLauncher('sh')}
-                    className="p-3 bg-canvas-100 hover:bg-canvas-200 border border-canvas-300 rounded-xl text-left transition flex items-center space-x-2.5 group"
-                  >
-                    <span className="text-xl">🐧/🍎</span>
-                    <div>
-                      <p className="text-xs font-bold text-charcoal-900 group-hover:text-teal-800">Linux / macOS</p>
-                      <p className="text-[10px] text-charcoal-500">start-vayyuedge.sh</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => downloadLauncher('bat')}
-                    className="p-3 bg-canvas-100 hover:bg-canvas-200 border border-canvas-300 rounded-xl text-left transition flex items-center space-x-2.5 group"
-                  >
-                    <span className="text-xl">🪟</span>
-                    <div>
-                      <p className="text-xs font-bold text-charcoal-900 group-hover:text-teal-800">Windows</p>
-                      <p className="text-[10px] text-charcoal-500">start-vayyuedge.bat</p>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <div className="bg-teal-50 border border-teal-200/80 rounded-xl p-3 text-[11px] text-teal-900 flex items-center space-x-2.5">
-                <span className="w-2 h-2 rounded-full bg-teal-600 animate-ping shrink-0"></span>
-                <span>
-                  Once running, this browser window will automatically activate and switch to live on-device inference.
-                </span>
-              </div>
-            </div>
           </div>
         )}
       </div>

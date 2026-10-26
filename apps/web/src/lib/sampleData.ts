@@ -5,6 +5,7 @@ export interface SampleItem {
   telugu: string;
   notes: string;
   estimatedDuration: number;
+  audioUrl?: string;
 }
 
 export const VERIFIED_SAMPLES: SampleItem[] = [
@@ -14,7 +15,8 @@ export const VERIFIED_SAMPLES: SampleItem[] = [
     english: 'I will call you after I finish the meeting.',
     telugu: 'మీటింగ్ పూర్తయ్యాక నేను మీకు ఫోన్ చేస్తాను.',
     notes: 'Preserves the conversational future tense and natural Telugu word order.',
-    estimatedDuration: 3.2,
+    estimatedDuration: 4.05,
+    audioUrl: './audio/samples/sample-1.wav',
   },
   {
     id: 'sample-2',
@@ -22,7 +24,8 @@ export const VERIFIED_SAMPLES: SampleItem[] = [
     english: 'Could you please share the project documentation and requirements?',
     telugu: 'దయచేసి ప్రాజెక్ట్ డాక్యుమెంటేషన్ మరియు వివరాలను షేర్ చేయగలరా?',
     notes: 'Preserves polite question structure and domain terminology.',
-    estimatedDuration: 4.1,
+    estimatedDuration: 5.70,
+    audioUrl: './audio/samples/sample-2.wav',
   },
   {
     id: 'sample-3',
@@ -30,7 +33,8 @@ export const VERIFIED_SAMPLES: SampleItem[] = [
     english: 'Please turn off the lights and lock the front door before leaving.',
     telugu: 'బయలుదేరే ముందు లైట్లు ఆపి, ప్రధాన తలుపుకు తాళం వేయండి.',
     notes: 'Accurately sequences imperative clauses with natural Telugu conjunctive participle.',
-    estimatedDuration: 4.5,
+    estimatedDuration: 5.68,
+    audioUrl: './audio/samples/sample-3.wav',
   },
   {
     id: 'sample-4',
@@ -38,7 +42,8 @@ export const VERIFIED_SAMPLES: SampleItem[] = [
     english: 'The doctors advised drinking plenty of water during the summer.',
     telugu: 'వేసవిలో సమృద్ధిగా నీరు తాగాలని వైద్యులు సలహా ఇచ్చారు.',
     notes: 'Preserves reported speech structure and advisory intent.',
-    estimatedDuration: 3.8,
+    estimatedDuration: 5.86,
+    audioUrl: './audio/samples/sample-4.wav',
   },
   {
     id: 'sample-5',
@@ -46,6 +51,7 @@ export const VERIFIED_SAMPLES: SampleItem[] = [
     english: 'We are testing private speech intelligence on our edge devices.',
     telugu: 'మేము మా ఎడ్జ్ పరికరాలలో ప్రైవేట్ స్పీచ్ ఇంటెలిజెన్స్‌ను పరీక్షిస్తున్నాము.',
     notes: 'Natural representation of edge computing concepts in Telugu typography.',
-    estimatedDuration: 4.0,
+    estimatedDuration: 5.18,
+    audioUrl: './audio/samples/sample-5.wav',
   },
 ];

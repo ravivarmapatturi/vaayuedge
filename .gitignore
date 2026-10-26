@@ -60,6 +60,8 @@ weights/
 *.webm
 *.m4a
 *.flac
+!apps/web/public/audio/**
+!apps/web/dist/audio/**
 uploads/
 recordings/
 temp/
