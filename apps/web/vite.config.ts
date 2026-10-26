@@ -2,17 +2,22 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 
-// Dev only: missing files under /models must 404 (not fall back to index.html),
-// so transformers.js can tell an absent optional file from a real one.
-const strictModels = {
-  name: 'strict-models-404',
+// Dev only: serve not-yet-published browser models from VAYYU_MODELS_DIR at /models/<owner>/<repo>/...
+// Missing files must 404 (not fall back to index.html) so transformers.js handles optional files correctly.
+const devModels = {
+  name: 'dev-models',
   configureServer(server: any) {
-    server.middlewares.use('/models', (req: any, res: any, next: any) => {
-      const file = path.join(__dirname, 'public/models', decodeURIComponent((req.url || '').split('?')[0]));
-      if (fs.existsSync(file)) return next();
-      res.statusCode = 404;
-      res.end('Not found');
+    const root = process.env.VAYYU_MODELS_DIR || path.join(os.homedir(), 'vayyuedge-browser-models');
+    server.middlewares.use('/models', (req: any, res: any) => {
+      const rel = decodeURIComponent((req.url || '').split('?')[0]).replace(/^\/[^/]+\/vayyuedge-/, '/');
+      const file = root ? path.join(root, path.normalize(rel)) : '';
+      if (!file || !file.startsWith(root) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+        res.statusCode = 404;
+        return res.end('Not found');
+      }
+      fs.createReadStream(file).pipe(res);
     });
   },
 };
@@ -20,7 +25,7 @@ const strictModels = {
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
-  plugins: [react(), strictModels],
+  plugins: [react(), devModels],
   server: {
     port: 5173,
     proxy: {
