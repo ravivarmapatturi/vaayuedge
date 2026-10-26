@@ -87,6 +87,7 @@ export async function fetchCapabilities(): Promise<Capabilities> {
 }
 
 import { translateClientSide } from './clientTranslator';
+import { browserEngine } from './browserEngine';
 import { VERIFIED_SAMPLES } from './sampleData';
 
 export async function transcribeAudio(audioBlob: Blob): Promise<{
@@ -110,6 +111,18 @@ export async function transcribeAudio(audioBlob: Blob): Promise<{
     }
   } catch {
     // Local daemon not reachable
+  }
+
+  if (browserEngine.isReady()) {
+    const start = performance.now();
+    const transcript = await browserEngine.transcribe(audioBlob);
+    return {
+      id: 'browser-asr-' + Date.now(),
+      transcript,
+      duration_seconds: 0,
+      inference_time_ms: Math.round(performance.now() - start),
+      processing_mode: 'local',
+    };
   }
 
   // If local daemon not reachable, return empty transcript to preserve client speech recognition
@@ -177,7 +190,20 @@ export async function translateText(text: string): Promise<{
     // Local daemon not active or blocked by browser mixed-content
   }
 
-  // 3. Seamless in-browser translation engine
+  // 3. In-browser neural engine (Opus-MT via transformers.js)
+  if (browserEngine.isReady()) {
+    const start = performance.now();
+    const translated = await browserEngine.translate(clean);
+    return {
+      id: 'browser-mt-' + Date.now(),
+      source_text: clean,
+      translated_text: translated,
+      inference_time_ms: Math.round(performance.now() - start),
+      processing_mode: 'local',
+    };
+  }
+
+  // 4. Lightweight phrase-based fallback
   const clientResult = translateClientSide(clean);
   return {
     id: 'browser-tx-' + Date.now(),
@@ -221,19 +247,11 @@ export async function synthesizeSpeech(teluguText: string): Promise<string> {
     // Fall through to browser speech synthesis
   }
 
-  // 3. Fallback to Web Speech API
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-    try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(clean);
-      utterance.lang = 'te-IN';
-      const voices = window.speechSynthesis.getVoices();
-      const teVoice = voices.find((v) => v.lang.startsWith('te') || v.lang.includes('Telugu'));
-      if (teVoice) utterance.voice = teVoice;
-      window.speechSynthesis.speak(utterance);
-    } catch {
-      // ignore
-    }
+  // 3. In-browser neural TTS (Meta MMS Telugu via transformers.js)
+  if (browserEngine.isReady()) {
+    return browserEngine.speak(clean);
   }
+
+  // 4. Caller falls back to the browser's own voice engine
   return '';
 }

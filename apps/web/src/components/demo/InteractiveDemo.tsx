@@ -8,6 +8,7 @@ import {
   SessionItem,
 } from '../../lib/api';
 import { storage } from '../../lib/storage';
+import { browserEngine } from '../../lib/browserEngine';
 import { VERIFIED_SAMPLES, SampleItem } from '../../lib/sampleData';
 
 interface InteractiveDemoProps {
@@ -39,6 +40,10 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const [showInspector, setShowInspector] = useState(false);
   const [isSettingUp, setIsSettingUp] = useState(false);
   const [showInstallConfirm, setShowInstallConfirm] = useState(false);
+  const [engineState, setEngineState] = useState<'off' | 'loading' | 'ready' | 'error'>(
+    browserEngine.isReady() ? 'ready' : 'off'
+  );
+  const [enginePct, setEnginePct] = useState(0);
   const [setupProgress, setSetupProgress] = useState(0);
   const [setupStepText, setSetupStepText] = useState('');
   const [sessions, setSessions] = useState<SessionItem[]>([]);
@@ -53,6 +58,31 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const recordedSpeechRef = useRef<string>('');
   const recognitionDoneRef = useRef<Promise<void>>(Promise.resolve());
   const setupPollRef = useRef<number | null>(null);
+
+  const startBrowserEngine = () => {
+    setEngineState('loading');
+    setErrorMessage(null);
+    browserEngine
+      .enable()
+      .then(() => {
+        setEngineState('ready');
+        setEnginePct(100);
+        setStatusMessage('✅ On-device AI is ready. Speech, translation and Telugu voice now run on this device.');
+      })
+      .catch((e) => {
+        setEngineState('error');
+        setErrorMessage(`Could not load the on-device AI models: ${e.message}. Check your connection and try again.`);
+      });
+  };
+
+  useEffect(() => {
+    const off = browserEngine.onProgress((pct) => setEnginePct(pct));
+    // Returning visitors: models are already cached, load them silently.
+    if (browserEngine.isEnabled() && !browserEngine.isReady()) startBrowserEngine();
+    return () => {
+      off();
+    };
+  }, []);
 
   useEffect(() => {
     fetchCapabilities().then(setCapabilities);
@@ -273,7 +303,12 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     setIsPlayingAudio(true);
     setStatusMessage('Synthesizing spoken Telugu...');
 
-    const audioSrc = await synthesizeSpeech(translation);
+    let audioSrc = '';
+    try {
+      audioSrc = await synthesizeSpeech(translation);
+    } catch (err) {
+      console.warn('Neural TTS failed, trying browser voice:', err);
+    }
     if (!audioSrc) {
       await fallbackWebSpeech(translation);
       return;
@@ -405,6 +440,11 @@ pause
     setShowInstallConfirm(true);
   };
 
+  const agreeAndEnable = () => {
+    setShowInstallConfirm(false);
+    startBrowserEngine();
+  };
+
   // Step 2: on OK, download the script and watch for the engine to come up for real.
   const confirmInstall = () => {
     setShowInstallConfirm(false);
@@ -459,10 +499,15 @@ pause
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span>On-Device Engine Active</span>
                 </span>
-              ) : isSettingUp ? (
-                <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300 text-xs font-semibold shadow-xs">
+              ) : engineState === 'ready' ? (
+                <span className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-semibold flex items-center space-x-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                  <span>On-Device AI Ready</span>
+                </span>
+              ) : engineState === 'loading' ? (
+                <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300 text-xs font-semibold">
                   <div className="w-3.5 h-3.5 rounded-full border-2 border-amber-600 border-t-transparent animate-spin"></div>
-                  <span>Waiting for engine…</span>
+                  <span>Setting up: {enginePct}%</span>
                 </div>
               ) : (
                 <button
@@ -470,7 +515,7 @@ pause
                   className="px-3.5 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs shadow-subtle hover:shadow transition flex items-center space-x-1.5"
                 >
                   <span>⚡</span>
-                  <span>Install & Setup Locally</span>
+                  <span>Enable On-Device AI</span>
                 </button>
               )}
               <button
@@ -492,21 +537,32 @@ pause
           {showInstallConfirm && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4" role="dialog" aria-modal="true">
               <div className="bg-canvas-50 rounded-2xl shadow-card max-w-md w-full p-6 space-y-4 text-sm text-charcoal-800">
-                <h3 className="text-base font-bold text-charcoal-900">Install the on-device engine?</h3>
+                <h3 className="text-base font-bold text-charcoal-900">Enable on-device AI?</h3>
                 <p>
-                  A small setup script (<code className="font-mono text-xs">{installFilename}</code>) will download to your computer.
-                  When run, it clones VayyuEdge into <code className="font-mono text-xs">~/vayyuedge</code>, installs Python dependencies
-                  and models (~1.5&nbsp;GB, first run only), and starts the engine on <code className="font-mono text-xs">127.0.0.1:8000</code>.
-                  Your audio never leaves your device.
+                  VayyuEdge will download its speech, translation and Telugu voice models (about 300&nbsp;MB, one time) and
+                  store them in your browser. After that, everything runs on this device — your voice is never uploaded,
+                  and it keeps working offline.
                 </p>
-                <p className="text-xs text-charcoal-600">
-                  Browsers don't allow websites to execute programs, so after the download you start it once with:
-                </p>
-                <pre className="bg-charcoal-900 text-emerald-200 text-xs rounded-lg p-3 overflow-x-auto">{installCommand}</pre>
-                <div className="flex justify-end gap-2">
-                  <button onClick={() => setShowInstallConfirm(false)} className="px-3.5 py-1.5 rounded-lg border border-canvas-300 hover:bg-canvas-200">Cancel</button>
-                  <button onClick={confirmInstall} className="px-3.5 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold">OK, download</button>
+                <p className="text-xs text-charcoal-600">Nothing is installed on your computer. You can remove the models anytime by clearing site data.</p>
+                <div className="flex items-center justify-between gap-2 pt-1">
+                  <button onClick={confirmInstall} className="text-xs text-charcoal-500 underline hover:text-charcoal-800">Advanced: native engine</button>
+                  <div className="flex gap-2">
+                    <button onClick={() => setShowInstallConfirm(false)} className="px-3.5 py-1.5 rounded-lg border border-canvas-300 hover:bg-canvas-200">Cancel</button>
+                    <button onClick={agreeAndEnable} className="px-3.5 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold">Agree &amp; enable</button>
+                  </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {engineState === 'loading' && (
+            <div className="bg-amber-50/95 border-b border-amber-200 px-5 py-3 space-y-2 text-xs text-amber-950">
+              <div className="flex items-center justify-between">
+                <span className="font-bold">Setting up on-device AI: {enginePct}%</span>
+                <span className="text-amber-800">One-time download · cached for next visit</span>
+              </div>
+              <div className="w-full bg-amber-200/70 rounded-full h-2 overflow-hidden">
+                <div className="bg-gradient-to-r from-amber-500 via-teal-600 to-emerald-500 h-2 rounded-full transition-all duration-300" style={{ width: `${enginePct}%` }}></div>
               </div>
             </div>
           )}
