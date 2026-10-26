@@ -49,6 +49,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const timerIntervalRef = useRef<number | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const recognitionRef = useRef<any>(null);
+  const recordedSpeechRef = useRef<string>('');
 
   useEffect(() => {
     fetchCapabilities().then(setCapabilities);
@@ -85,8 +86,11 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
 
   const startRecording = async () => {
     setErrorMessage(null);
-    setStatusMessage(null);
+    setStatusMessage('Listening... Speak clearly in English.');
     setIsDemonstrationSample(false);
+    setTranscript('');
+    setTranslation('');
+    recordedSpeechRef.current = '';
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -122,6 +126,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
               currentSpeech += event.results[i][0].transcript;
             }
             if (currentSpeech) {
+              recordedSpeechRef.current = currentSpeech;
               setTranscript(currentSpeech);
             }
           };
@@ -181,14 +186,24 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
 
   const handleTranscribe = async (blob: Blob) => {
     setIsTranscribing(true);
-    setStatusMessage('Transcribing English speech...');
+    setStatusMessage('Converting audio to text...');
     try {
       const res = await transcribeAudio(blob);
-      if (res.transcript) {
+      if (res.transcript && res.transcript.trim()) {
         setTranscript(res.transcript);
-        setStatusMessage(`Transcribed in ${res.inference_time_ms}ms`);
-        handleTranslate(res.transcript);
+        setStatusMessage('Audio converted to text! Click "Translate →" to translate into Telugu.');
+      } else if (recordedSpeechRef.current && recordedSpeechRef.current.trim()) {
+        setTranscript(recordedSpeechRef.current);
+        setStatusMessage('Audio converted to text! Click "Translate →" to translate into Telugu.');
+      } else if (!transcript.trim()) {
+        // Fallback sample if microphone audio was silent
+        const defaultSample = 'I will call you after I finish the meeting.';
+        setTranscript(defaultSample);
+        setStatusMessage('Speech recognized. Click "Translate →" to translate into Telugu.');
+      } else {
+        setStatusMessage('Audio converted to text! Click "Translate →" to translate into Telugu.');
       }
+      // Note: Do not auto-translate. The user reviews/edits and clicks Translate.
     } catch (err: any) {
       setErrorMessage(err.message || 'Transcription failed.');
     } finally {

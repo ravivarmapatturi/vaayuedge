@@ -112,12 +112,12 @@ export async function transcribeAudio(audioBlob: Blob): Promise<{
     // Local daemon not reachable
   }
 
-  // Graceful fallback for web preview
+  // If local daemon not reachable, return empty transcript to preserve client speech recognition
   return {
     id: 'preview-asr-' + Date.now(),
-    transcript: 'I will call you after I finish the meeting.',
-    duration_seconds: 3.5,
-    inference_time_ms: 120,
+    transcript: '',
+    duration_seconds: 0,
+    inference_time_ms: 50,
     processing_mode: 'local',
   };
 }
