@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv
+venv/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node & Frontend
+node_modules/
+.npm
+.vite
+apps/web/dist/
+apps/web/dist-ssr/
+*.local
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# Models & Weights (NEVER COMMIT WEIGHTS)
+models/
+weights/
+*.bin
+*.gguf
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.tar.gz
+*.zip
+
+# Audio recordings & temporary data (NEVER COMMIT USER AUDIO)
+*.wav
+*.mp3
+*.ogg
+*.webm
+*.m4a
+*.flac
+uploads/
+recordings/
+temp/
+scratch/
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

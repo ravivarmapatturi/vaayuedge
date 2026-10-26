@@ -1,0 +1,8 @@
+{
+  "name": "@vayyuedge/contracts",
+  "version": "0.1.0",
+  "description": "Shared API contracts and TypeScript schemas for VayyuEdge",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "MIT"
+}

@@ -1,0 +1,64 @@
+name: VayyuEdge CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-api:
+    name: Backend Tests (FastAPI & Pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r services/api/requirements.txt
+      - name: Run Pytest
+        env:
+          PYTHONPATH: services/api
+        run: |
+          pytest services/api/tests/ -v
+
+  test-web:
+    name: Frontend Tests & Build (React & Vite)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+      - name: Install Dependencies
+        working-directory: apps/web
+        run: npm ci
+      - name: Run Vitest
+        working-directory: apps/web
+        run: npm test
+      - name: Build Web Production Bundle
+        working-directory: apps/web
+        run: npm run build
+
+  benchmark-check:
+    name: Pipeline Benchmark Evaluation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install -r services/api/requirements.txt
+      - name: Run Pipeline Benchmark
+        run: |
+          python3 scripts/benchmark.py
