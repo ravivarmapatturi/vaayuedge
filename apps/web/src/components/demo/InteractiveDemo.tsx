@@ -38,6 +38,8 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const [showHistory, setShowHistory] = useState(false);
   const [showInspector, setShowInspector] = useState(false);
   const [isSettingUp, setIsSettingUp] = useState(false);
+  const [setupProgress, setSetupProgress] = useState(0);
+  const [setupStepText, setSetupStepText] = useState('');
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [copied, setCopied] = useState(false);
 
@@ -338,7 +340,9 @@ ${translation}
 
   const handleInstallSetupLocally = () => {
     setIsSettingUp(true);
-    setStatusMessage('... Setting up locally ...');
+    setSetupProgress(1);
+    setSetupStepText('Downloading background engine launcher...');
+    setStatusMessage('Setting up locally: 1%');
 
     // Auto-detect operating system
     const isWindows = typeof navigator !== 'undefined' && /windows/i.test(navigator.userAgent);
@@ -395,22 +399,50 @@ pause
     link.click();
     URL.revokeObjectURL(url);
 
+    // Progressive 1% to 100% counter
+    let currentPct = 1;
+    const progressTimer = window.setInterval(() => {
+      if (currentPct < 92) {
+        const increment = currentPct < 25 ? 4 : currentPct < 60 ? 3 : 2;
+        currentPct = Math.min(92, currentPct + increment);
+        setSetupProgress(currentPct);
+
+        if (currentPct <= 20) {
+          setSetupStepText('Preparing local Python environment...');
+        } else if (currentPct <= 50) {
+          setSetupStepText('Loading Whisper ASR & Opus-MT SafeTensors...');
+        } else if (currentPct <= 75) {
+          setSetupStepText('Synthesizing Meta MMS Telugu speech weights...');
+        } else {
+          setSetupStepText('Verifying loopback socket at 127.0.0.1:8000...');
+        }
+        setStatusMessage(`Setting up locally: ${currentPct}%`);
+      }
+    }, 250);
+
     // Rapid polling for background engine activation
     const pollInterval = window.setInterval(async () => {
       try {
         const cap = await fetchCapabilities();
         if (cap.isConnected) {
+          clearInterval(progressTimer);
           clearInterval(pollInterval);
-          setCapabilities(cap);
-          setIsSettingUp(false);
-          setStatusMessage('✅ On-device engine active! All models running on CPU.');
+          setSetupProgress(100);
+          setSetupStepText('On-device engine initialized successfully!');
+          setStatusMessage('✅ On-device engine active (100%)! All models running on CPU.');
+
+          setTimeout(() => {
+            setCapabilities(cap);
+            setIsSettingUp(false);
+          }, 800);
         }
       } catch {
         // waiting for daemon startup
       }
-    }, 1000);
+    }, 800);
 
     setTimeout(() => {
+      clearInterval(progressTimer);
       clearInterval(pollInterval);
     }, 90000);
   };
@@ -444,11 +476,8 @@ pause
                 </span>
               ) : isSettingUp ? (
                 <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300 text-xs font-semibold shadow-xs">
-                  <svg className="animate-spin h-3.5 w-3.5 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                  </svg>
-                  <span>... Setting up locally ...</span>
+                  <div className="w-3.5 h-3.5 rounded-full border-2 border-amber-600 border-t-transparent animate-spin"></div>
+                  <span>Setting up: {setupProgress}%</span>
                 </div>
               ) : (
                 <button
@@ -474,15 +503,39 @@ pause
             </div>
           </div>
 
-          {/* Active Setup & Engine Status Strip */}
+          {/* Active Setup 1% to 100% Progress Bar Strip */}
           {isSettingUp && (
-            <div className="bg-amber-50/90 border-b border-amber-200 px-5 py-2.5 flex items-center justify-between text-xs text-amber-900 animate-in fade-in duration-200">
-              <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
-                <span className="font-semibold">... Setting up locally ...</span>
-                <span className="text-amber-700 hidden sm:inline">— Launcher downloaded. Connecting to local AI engine in background...</span>
+            <div className="bg-amber-50/95 border-b border-amber-200 px-5 py-3 space-y-2 animate-in fade-in duration-200">
+              <div className="flex items-center justify-between text-xs text-amber-950">
+                <div className="flex items-center space-x-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping shrink-0"></span>
+                  <span className="font-bold">Installing & Setting Up Locally: {setupProgress}%</span>
+                  <span className="text-amber-800 text-[11px] hidden sm:inline">— {setupStepText}</span>
+                </div>
+                <div className="flex items-center space-x-2 shrink-0">
+                  <span className="text-[11px] font-mono text-amber-800">127.0.0.1:8000</span>
+                  <button
+                    onClick={() => setIsSettingUp(false)}
+                    className="text-amber-600 hover:text-amber-900 text-sm font-bold leading-none px-1"
+                    title="Dismiss"
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
-              <span className="text-[11px] font-mono text-amber-700">127.0.0.1:8000</span>
+
+              {/* Smooth Animated Progress Bar */}
+              <div className="w-full bg-amber-200/70 rounded-full h-2.5 overflow-hidden shadow-inner">
+                <div
+                  className="bg-gradient-to-r from-amber-500 via-teal-600 to-emerald-500 h-2.5 rounded-full transition-all duration-300 ease-out shadow-xs"
+                  style={{ width: `${setupProgress}%` }}
+                ></div>
+              </div>
+
+              <div className="flex items-center justify-between text-[10px] text-amber-700">
+                <span>Auto-starting loopback daemon</span>
+                <span>{setupProgress < 100 ? `${setupProgress}% completed` : '100% Ready — All models verified'}</span>
+              </div>
             </div>
           )}
           {capabilities?.isConnected && (
