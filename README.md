@@ -4,22 +4,24 @@
 
 Private, lightweight, English-to-Telugu speech intelligence designed to run directly on laptops, mobile phones, and resource-constrained edge devices.
 
-Working Product Identity: **VayyuEdge** · Built on [neuralmasteryai.com](https://neuralmasteryai.com)  
-Deployment target: `vayyuedge.neuralmasteryai.com`
+- **Live Web Preview**: [https://ravivarmapatturi.github.io/vayyuedge/](https://ravivarmapatturi.github.io/vayyuedge/)
+- **Target Domain**: `vayyuedge.neuralmasteryai.com`
+- **Milestone**: **v0.2 — Real On-Device AI Pipeline (CPU Inference)**
 
 ---
 
 ## What is VayyuEdge?
 
-VayyuEdge is an offline-first speech translation system that converts spoken English into natural, meaning-preserving Telugu text and speech without sending conversations to third-party cloud APIs in local mode.
+VayyuEdge is an offline-first speech intelligence platform that converts spoken English into natural, meaning-preserving Telugu text and speech without sending conversations to third-party cloud APIs.
 
-### Key Capabilities
-- 🎙️ **Audio Capture & Upload**: Record directly from the microphone or upload audio files (WAV, MP3, WebM, OGG).
-- ✍️ **Editable English Transcript**: Transcribe speech locally and correct words before translation.
-- 🔄 **Semantic Telugu Translation**: Context-aware linguistic transfer to Telugu (`eng_Latn` → `tel_Telu`) preserving intent, tone, and nuance.
-- 🔊 **Telugu Speech Synthesis**: Play back translated Telugu speech with responsive fallback to native synthesis engines.
-- 🛡️ **Offline-First & Transparent**: Explicit badge for local vs remote processing. Never claims local execution unless truly on-device.
+### Key Capabilities (v0.2)
+- 🎙️ **Real On-Device ASR**: In-process Whisper CPU transcription (~856ms for 3.0s audio; RTF: 0.28).
+- ✍️ **Editable English Transcript**: Inspect and edit transcripts before neural language transfer.
+- 🔄 **Real On-Device MT**: Meaning-preserving English-to-Telugu neural translation using `Helsinki-NLP/opus-mt-en-dra` SafeTensors (~637ms per sentence).
+- 🔊 **Telugu Speech Synthesis**: Audio synthesis with Web Speech API browser engine fallback.
+- 🛡️ **Air-Gap Verified**: Automatic test assertions prove zero outbound network packets during local inference.
 - 💾 **Local-Only Storage**: Session history stored in client-side IndexedDB with one-click export and complete local deletion.
+- 🔍 **Transparent Connectivity**: Honest indicator showing **Local Engine Connected** or **Static Prototype Mode**.
 
 ---
 
@@ -30,76 +32,78 @@ vayyuedge/
 ├── apps/
 │   └── web/            # React + TypeScript + Vite + Tailwind CSS PWA
 ├── services/
-│   └── api/            # FastAPI application with pluggable ML adapters
+│   └── api/            # FastAPI backend with Whisper CPU & Opus-MT adapters
 ├── packages/
-│   └── contracts/      # OpenAPI schemas & shared TypeScript types
-├── docs/               # Architecture, PRD, privacy, model cards, deployment
-├── scripts/            # Setup, model downloader, and benchmark runners
+│   └── contracts/      # Shared Pydantic contracts & API specs
+├── docs/               # Benchmark results, installation, privacy, model cards
+├── scripts/            # Single-command launchers, air-gap tests, benchmarks
 └── docker-compose.yml  # Local multi-service orchestration
 ```
 
 ---
 
-## Quick Start (Local Development)
+## Quick Start (On-Device Local Mode)
 
 ### Prerequisites
-- **Node.js**: v18+ (v20+ recommended)
 - **Python**: 3.10+ (tested on Python 3.12)
-- **Git**
+- **Node.js**: v18+
+- **ffmpeg** (for audio transcoding)
 
-### 1. Automated Setup
-Run the development setup script:
+### Single-Command Launch
 ```bash
-./scripts/setup-dev.sh
+git clone https://github.com/ravivarmapatturi/vayyuedge.git
+cd vayyuedge
+
+# Build web frontend and start on-device engine on loopback (127.0.0.1:8000)
+./scripts/start-local.sh
 ```
 
-### 2. Manual Setup
-
-#### Backend (FastAPI API Daemon)
-```bash
-cd services/api
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-```
-API documentation will be available at: `http://localhost:8000/docs`
-
-#### Frontend (React + Vite Web App)
-```bash
-cd apps/web
-npm install
-npm run dev
-```
-The web application will be accessible at: `http://localhost:5173`
+Open **http://127.0.0.1:8000** in your browser. Audio recording and speech translation will run 100% on your laptop's CPU.
 
 ---
 
-## Testing
+## Verification & Benchmarks
+
+### 1. Air-Gap Offline Verification
+Verify zero network requests and authentic Telugu generation:
+```bash
+python3 scripts/verify-local-mode.py
+```
+
+### 2. Edge Performance Benchmark
+Profile real latency, memory delta, and accuracy:
+```bash
+python3 scripts/benchmark.py --mode real
+```
+
+**Measured Latency (12-core laptop CPU)**:
+- **Whisper ASR (3.0s audio)**: ~856 ms
+- **Opus-MT Translation**: ~637 ms
+- **End-to-End Pipeline**: **1,726.98 ms**
+- **Peak RAM Footprint**: ~1,525 MB
+- **Outbound Packets**: **0**
+
+For complete methodology and benchmarks, see [docs/benchmark-results.md](docs/benchmark-results.md).
+
+---
+
+## Running Test Suites
 
 ```bash
-# Backend unit & integration tests
-cd services/api
-pytest tests/ -v
+# Backend test suite (FastAPI, Whisper & Opus-MT adapters, API contracts)
+PYTHONPATH=services/api python3 -m pytest services/api/tests/ -v
 
-# Frontend unit & component tests
-cd apps/web
-npm test
+# Frontend test suite (Vitest + Happy-DOM)
+cd apps/web && npm test
 
-# Full benchmark evaluation
-python3 scripts/benchmark.py --mode local
+# Compile production web client
+cd apps/web && npm run build
 ```
 
 ---
 
-## Privacy & Security
+## Privacy & Model Cards
 
-- **Strict Offline Mode**: In local mode, zero telemetry or audio packets are dispatched to external cloud servers.
-- **No Stored Audio**: Audio is held in transient memory only for inference and immediately unlinked.
-- **Model Licenses**: See [docs/model-cards.md](docs/model-cards.md) for licensing, attribution, and model weight details.
-
----
-
-## License
-
-Source code is released under the [MIT License](LICENSE). Third-party models (Whisper, IndicTrans2, Telugu TTS) retain their respective upstream licenses.
+- **Privacy & Threat Model**: See [docs/privacy-and-threat-model.md](docs/privacy-and-threat-model.md) for loopback binding guarantees and air-gap audit procedures.
+- **Model Cards & Licenses**: See [docs/model-cards.md](docs/model-cards.md) for Whisper (MIT) and OPUS-MT (Apache 2.0 / CC-BY-4.0) attribution.
+- **Local Installation**: Detailed guide in [docs/local-installation.md](docs/local-installation.md).

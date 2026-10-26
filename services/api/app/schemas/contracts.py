@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 class HealthResponse(BaseModel):
     status: str = "healthy"
-    version: str = "0.1.0"
+    version: str = "0.2.0"
     uptime_seconds: float
     timestamp: str
 

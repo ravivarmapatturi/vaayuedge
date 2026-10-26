@@ -8,13 +8,15 @@ interface NavbarProps {
   onSelectTab: (tab: NavTab) => void;
   onExploreDemo: () => void;
   processingMode?: 'local' | 'remote';
+  isConnected?: boolean;
 }
 
 export default function Navbar({
   currentTab,
   onSelectTab,
   onExploreDemo,
-  processingMode = 'local',
+  processingMode: _processingMode = 'local',
+  isConnected = false,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -65,12 +67,16 @@ export default function Navbar({
         {/* Right Action & Mode Badge */}
         <div className="hidden sm:flex items-center space-x-3">
           <div
-            className="flex items-center space-x-1.5 text-[11px] px-2.5 py-1 rounded-full border border-teal-200/70 bg-teal-50/80 text-teal-800"
-            title="Processing mode state"
+            className={`flex items-center space-x-1.5 text-[11px] px-2.5 py-1 rounded-full border ${
+              isConnected
+                ? 'border-emerald-200/80 bg-emerald-50/90 text-emerald-800'
+                : 'border-amber-200/80 bg-amber-50/90 text-amber-800'
+            }`}
+            title={isConnected ? 'Connected to local Python inference daemon on 127.0.0.1:8000' : 'Running in browser preview; local daemon not detected'}
           >
-            <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`}></span>
             <span className="font-medium">
-              {processingMode === 'local' ? 'On-Device Edge' : 'Hosted Server'}
+              {isConnected ? 'Local Engine Connected' : 'Static Prototype'}
             </span>
           </div>
 

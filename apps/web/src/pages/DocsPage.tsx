@@ -4,6 +4,16 @@ export default function DocsPage() {
 
   const docFiles = [
     {
+      title: "Local Installation & Operator Guide",
+      path: "docs/local-installation.md",
+      desc: "Step-by-step instructions for Linux, macOS, and Windows with single-command offline runner."
+    },
+    {
+      title: "On-Device Benchmark Results",
+      path: "docs/benchmark-results.md",
+      desc: "Real measured latency (1.7s total), peak RAM (1.5GB), and authentic Telugu Unicode accuracy."
+    },
+    {
       title: "Product Requirements Document (PRD)",
       path: "docs/product-requirements.md",
       desc: "Detailed user journeys, success criteria, MVP scope, and explicit non-blockers."
@@ -16,12 +26,12 @@ export default function DocsPage() {
     {
       title: "Model Cards & Licenses",
       path: "docs/model-cards.md",
-      desc: "Upstream provenance, parameter sizes, and licensing boundaries for Whisper and IndicTrans2."
+      desc: "Upstream provenance, parameter sizes, and licensing boundaries for Whisper and Opus-MT."
     },
     {
       title: "Privacy & Threat Model",
       path: "docs/privacy-and-threat-model.md",
-      desc: "Threat analysis, zero-telemetry commitments, and the airplane-mode audit procedure."
+      desc: "Threat analysis, zero-telemetry commitments, and the automated air-gap test procedure."
     },
     {
       title: "Benchmark Methodology",
@@ -62,21 +72,20 @@ export default function DocsPage() {
 
       {/* Quickstart */}
       <div className="bg-canvas-100 border border-canvas-300 rounded-2xl p-6 sm:p-8 space-y-4">
-        <h2 className="text-lg font-bold text-charcoal-900">Local Development Quickstart</h2>
+        <h2 className="text-lg font-bold text-charcoal-900">Local Application Mode (Single Command)</h2>
         <p className="text-xs text-charcoal-600">
-          Set up both the FastAPI ML daemon and the React Vite web client with a single command:
+          Build the web UI and launch the on-device inference engine on loopback (<code>127.0.0.1:8000</code>):
         </p>
 
         <div className="bg-charcoal-950 text-charcoal-100 p-4 rounded-xl font-mono text-xs overflow-x-auto space-y-2">
           <p className="text-charcoal-400"># 1. Clone repository</p>
           <p className="text-teal-400">git clone https://github.com/ravivarmapatturi/vayyuedge.git</p>
           <p className="text-teal-400">cd vayyuedge</p>
-          <p className="text-charcoal-400 pt-1"># 2. Automated development setup</p>
-          <p className="text-teal-400">./scripts/setup-dev.sh</p>
-          <p className="text-charcoal-400 pt-1"># 3. Start API backend</p>
-          <p className="text-teal-400">cd services/api &amp;&amp; python3 -m uvicorn app.main:app --reload</p>
-          <p className="text-charcoal-400 pt-1"># 4. Start frontend web client</p>
-          <p className="text-teal-400">cd apps/web &amp;&amp; npm run dev</p>
+          <p className="text-charcoal-400 pt-1"># 2. Launch on-device engine &amp; web app</p>
+          <p className="text-teal-400">./scripts/start-local.sh</p>
+          <p className="text-charcoal-400 pt-1"># 3. Open browser at http://127.0.0.1:8000</p>
+          <p className="text-charcoal-400 pt-1"># 4. (Optional) Run air-gap offline verification</p>
+          <p className="text-teal-400">python3 scripts/verify-local-mode.py</p>
         </div>
       </div>
 

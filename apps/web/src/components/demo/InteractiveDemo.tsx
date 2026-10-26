@@ -235,16 +235,23 @@ ${translation}
           {/* Top Panel Bar */}
           <div className="border-b border-canvas-300 bg-canvas-50 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center space-x-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-teal-500"></span>
+              <span className={`w-2.5 h-2.5 rounded-full ${capabilities?.isConnected ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
               <span className="text-xs font-bold uppercase tracking-wider text-charcoal-900">
-                Live Speech & Translation Console
+                Speech & Translation Console
               </span>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
+                capabilities?.isConnected
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                  : 'bg-amber-50 text-amber-800 border-amber-200'
+              }`}>
+                {capabilities?.isConnected ? 'Local Engine Connected' : 'Static Prototype Mode'}
+              </span>
+              <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${
                 isDemonstrationSample
                   ? 'bg-canvas-200 text-charcoal-700 border-canvas-300'
                   : 'bg-teal-50 text-teal-800 border-teal-200'
               }`}>
-                {isDemonstrationSample ? 'Verified Sample Mode' : 'Live Inference'}
+                {isDemonstrationSample ? 'Verified Preset' : 'Custom Input'}
               </span>
             </div>
 
@@ -263,6 +270,26 @@ ${translation}
               </button>
             </div>
           </div>
+
+          {/* Engine Status Callout when Disconnected */}
+          {capabilities && !capabilities.isConnected && (
+            <div className="bg-amber-50/80 border-b border-amber-200/80 px-5 py-2.5 text-xs text-amber-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div className="flex items-start sm:items-center space-x-2">
+                <span className="inline-block px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-200 text-amber-900 shrink-0">
+                  Notice
+                </span>
+                <span>
+                  Local Python AI daemon is not detected at <code>127.0.0.1:8000</code>. Custom audio recording requires running the local backend. You can test the verified bilingual presets below.
+                </span>
+              </div>
+              <a
+                href="#docs"
+                className="text-amber-800 font-semibold underline hover:text-amber-950 shrink-0"
+              >
+                Setup Local Engine →
+              </a>
+            </div>
+          )}
 
           {/* Sample Presets Ribbon */}
           <div className="bg-canvas-50/60 border-b border-canvas-200 px-5 py-2.5 flex items-center gap-2 overflow-x-auto text-xs">
@@ -457,15 +484,19 @@ ${translation}
               </div>
               <div>
                 <p className="text-charcoal-500 text-[11px]">Speech & MT Adapters:</p>
-                <p className="font-semibold text-charcoal-800">ASR: {capabilities?.asr.adapter || 'mock-whisper'}</p>
-                <p className="text-charcoal-600">Translation: {capabilities?.translation.adapter || 'mock-indictrans2'}</p>
+                <p className="font-semibold text-charcoal-800">ASR: {capabilities?.asr.model_name || 'whisper_local (base.en)'}</p>
+                <p className="text-charcoal-600">Translation: {capabilities?.translation.model_name || 'opus_mt (en-dra)'}</p>
               </div>
               <div>
                 <p className="text-charcoal-500 text-[11px]">Inference Boundary:</p>
-                <p className="font-semibold text-teal-800">
-                  {capabilities?.processing_mode === 'local' ? '100% Local Device' : 'Server Execution'}
+                <p className={`font-semibold ${capabilities?.isConnected ? 'text-emerald-800' : 'text-amber-800'}`}>
+                  {capabilities?.isConnected ? '100% On-Device (127.0.0.1:8000)' : 'Browser Prototype (Daemon Offline)'}
                 </p>
-                <p className="text-charcoal-600">Zero audio exfiltration when in local configuration.</p>
+                <p className="text-charcoal-600">
+                  {capabilities?.isConnected
+                    ? 'Strict loopback binding; zero outbound audio transfer.'
+                    : 'Static client mode; run ./scripts/start-local.sh for live ASR.'}
+                </p>
               </div>
             </div>
           </div>

@@ -28,7 +28,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="VayyuEdge API",
     description="Offline-first, lightweight English to Telugu speech intelligence backend.",
-    version="0.1.0",
+    version="0.2.0",
     docs_url="/docs",
     redoc_url="/redoc",
     lifespan=lifespan,
@@ -54,3 +54,18 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # Include API routes
 app.include_router(api_router)
+
+# Optionally mount built frontend static files if present
+import os
+from fastapi.staticfiles import StaticFiles
+
+possible_dist_paths = [
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "apps", "web", "dist")),
+    os.path.abspath(os.path.join(os.getcwd(), "apps", "web", "dist")),
+]
+for dist_path in possible_dist_paths:
+    if os.path.isdir(dist_path) and os.path.exists(os.path.join(dist_path, "index.html")):
+        logger.info(f"Mounting built web frontend from: {dist_path}")
+        app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
+        break
+

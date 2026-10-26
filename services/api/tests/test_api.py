@@ -1,4 +1,5 @@
 import io
+import re
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
@@ -19,7 +20,7 @@ def test_health_endpoint():
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "healthy"
-    assert data["version"] == "0.1.0"
+    assert data["version"] == "0.2.0"
     assert "uptime_seconds" in data
     assert "timestamp" in data
 
@@ -38,17 +39,32 @@ def test_capabilities_endpoint():
     assert data["device_info"]["ram_gb_available"] > 0
 
 
-def test_transcription_valid_audio():
-    dummy_wav = io.BytesIO(b"RIFF\x24\x00\x00\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\x00\x00\x00")
-    files = {"audio": ("sample.wav", dummy_wav, "audio/wav")}
+def test_transcription_valid_audio_structure():
+    # 1 second 16kHz 16-bit mono PCM WAV
+    sample_rate = 16000
+    num_samples = sample_rate
+    pcm_data = b"\x00\x00" * num_samples
+    data_size = len(pcm_data)
+    header = bytearray(b"RIFF")
+    header.extend((data_size + 36).to_bytes(4, "little"))
+    header.extend(b"WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00")
+    header.extend(sample_rate.to_bytes(4, "little"))
+    header.extend((sample_rate * 2).to_bytes(4, "little"))
+    header.extend((2).to_bytes(2, "little"))
+    header.extend((16).to_bytes(2, "little"))
+    header.extend(b"data")
+    header.extend(data_size.to_bytes(4, "little"))
+    wav_bytes = bytes(header) + pcm_data
+
+    files = {"audio": ("sample.wav", io.BytesIO(wav_bytes), "audio/wav")}
     response = client.post("/v1/transcriptions", files=files)
     assert response.status_code == 200
     data = response.json()
     assert "id" in data
-    assert len(data["transcript"]) > 0
+    assert isinstance(data["transcript"], str)
     assert data["language"] == "en"
-    assert data["confidence"] > 0.0
     assert data["duration_seconds"] > 0
+    assert data["inference_time_ms"] > 0
 
 
 def test_transcription_invalid_extension():
@@ -75,14 +91,27 @@ def test_translation_valid_text():
     assert response.status_code == 200
     data = response.json()
     assert data["source_text"] == payload["text"]
-    assert "మీటింగ్ పూర్తయ్యాక" in data["translated_text"]
     assert data["target_lang"] == "tel_Telu"
+    # Verify Telugu script Unicode block (\u0c00 - \u0c7f)
+    assert re.search(r"[\u0C00-\u0C7F]", data["translated_text"]) is not None
 
 
 def test_translation_empty_text():
     payload = {"text": "   "}
     response = client.post("/v1/translations", json=payload)
-    assert response.status_code == 422 or response.status_code == 400
+    assert response.status_code in [400, 422]
+
+
+def test_translation_unicode_and_numbers():
+    payload = {
+        "text": "Please bring 3 apples and 2 oranges tomorrow.",
+        "source_lang": "eng_Latn",
+        "target_lang": "tel_Telu"
+    }
+    response = client.post("/v1/translations", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert re.search(r"[\u0C00-\u0C7F]", data["translated_text"]) is not None
 
 
 def test_speech_generation():

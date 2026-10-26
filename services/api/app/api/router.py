@@ -8,9 +8,10 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.core.config import settings
 from app.adapters.asr.mock_asr import MockASRAdapter
-from app.adapters.asr.whisper_adapter import WhisperCppAdapter
+from app.adapters.asr.whisper_adapter import WhisperCppAdapter, WhisperLocalAdapter
 from app.adapters.translation.mock_translation import MockTranslationAdapter
 from app.adapters.translation.indictrans_adapter import IndicTrans2Adapter
+from app.adapters.translation.opus_adapter import OpusMTAdapter
 from app.adapters.tts.mock_tts import MockTTSAdapter
 from app.adapters.tts.telugu_tts import TeluguTTSAdapter
 from app.adapters.runtime.device import RuntimeDeviceManager
@@ -32,7 +33,9 @@ START_TIME = time.time()
 
 # Initialize Adapters
 def get_asr_adapter():
-    if settings.ASR_ADAPTER == "whisper_cpp":
+    if settings.ASR_ADAPTER == "whisper_local":
+        return WhisperLocalAdapter(model_size=settings.WHISPER_MODEL_SIZE)
+    elif settings.ASR_ADAPTER == "whisper_cpp":
         return WhisperCppAdapter(
             binary_path=settings.WHISPER_CPP_BINARY_PATH,
             model_path=settings.WHISPER_CPP_MODEL_PATH,
@@ -41,7 +44,9 @@ def get_asr_adapter():
     return MockASRAdapter()
 
 def get_translation_adapter():
-    if settings.TRANSLATION_ADAPTER == "indictrans2":
+    if settings.TRANSLATION_ADAPTER == "opus_mt":
+        return OpusMTAdapter(device=settings.INDICTRANS2_DEVICE)
+    elif settings.TRANSLATION_ADAPTER == "indictrans2":
         return IndicTrans2Adapter(
             model_path=settings.INDICTRANS2_MODEL_PATH,
             device=settings.INDICTRANS2_DEVICE,
@@ -64,7 +69,7 @@ def get_health():
     uptime = time.time() - START_TIME
     return HealthResponse(
         status="healthy",
-        version="0.1.0",
+        version="0.2.0",
         uptime_seconds=round(uptime, 2),
         timestamp=datetime.now(timezone.utc).isoformat(),
     )

@@ -62,6 +62,7 @@ export default function App() {
         onSelectTab={handleSelectTab}
         onExploreDemo={handleExploreDemo}
         processingMode={capabilities?.processing_mode || 'local'}
+        isConnected={capabilities?.isConnected ?? false}
       />
 
       {/* 3. Main Content Router */}
