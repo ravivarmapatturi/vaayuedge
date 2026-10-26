@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     INDICTRANS2_MODEL_PATH: str = "./models/indictrans2-en-indic-1B"
     INDICTRANS2_DEVICE: str = "cpu"
 
-    TTS_ADAPTER: str = "mock"  # "mock", "telugu_tts"
+    TTS_ADAPTER: str = "mms_telugu_tts"  # "mms_telugu_tts", "telugu_tts", "mock"
     TTS_MODEL_PATH: str = "./models/tts_telugu"
 
     # Safety limits

@@ -14,6 +14,7 @@ from app.adapters.translation.indictrans_adapter import IndicTrans2Adapter
 from app.adapters.translation.opus_adapter import OpusMTAdapter
 from app.adapters.tts.mock_tts import MockTTSAdapter
 from app.adapters.tts.telugu_tts import TeluguTTSAdapter
+from app.adapters.tts.mms_tts import MMSTeluguTTSAdapter
 from app.adapters.runtime.device import RuntimeDeviceManager
 from app.schemas.contracts import (
     CapabilitiesResponse,
@@ -54,7 +55,9 @@ def get_translation_adapter():
     return MockTranslationAdapter()
 
 def get_tts_adapter():
-    if settings.TTS_ADAPTER == "telugu_tts":
+    if settings.TTS_ADAPTER == "mms_telugu_tts":
+        return MMSTeluguTTSAdapter(device=settings.INDICTRANS2_DEVICE)
+    elif settings.TTS_ADAPTER == "telugu_tts":
         return TeluguTTSAdapter(model_path=settings.TTS_MODEL_PATH)
     return MockTTSAdapter()
 

@@ -178,6 +178,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     if (!translation) return;
 
     setIsPlayingAudio(true);
+    setStatusMessage('Synthesizing spoken Telugu...');
     try {
       const audioSrc = await synthesizeSpeech(translation);
       if (audioSrc) {
@@ -186,13 +187,46 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
         } else {
           audioElementRef.current.src = audioSrc;
         }
-        audioElementRef.current.onended = () => setIsPlayingAudio(false);
+        audioElementRef.current.onended = () => {
+          setIsPlayingAudio(false);
+          setStatusMessage(null);
+        };
+        audioElementRef.current.onerror = (e) => {
+          console.warn('Audio element error, falling back to Web Speech:', e);
+          fallbackWebSpeech(translation);
+        };
         await audioElementRef.current.play();
+        setStatusMessage('Playing on-device neural Telugu speech');
       } else {
-        setIsPlayingAudio(false);
+        fallbackWebSpeech(translation);
       }
-    } catch {
+    } catch (err: any) {
+      console.warn('Backend TTS failed, falling back to Web Speech:', err);
+      fallbackWebSpeech(translation);
+    }
+  };
+
+  const fallbackWebSpeech = (text: string) => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'te-IN';
+      const voices = window.speechSynthesis.getVoices();
+      const teVoice = voices.find((v) => v.lang.startsWith('te') || v.lang.includes('Telugu'));
+      if (teVoice) utterance.voice = teVoice;
+      utterance.onend = () => {
+        setIsPlayingAudio(false);
+        setStatusMessage(null);
+      };
+      utterance.onerror = () => {
+        setIsPlayingAudio(false);
+        setStatusMessage(null);
+      };
+      window.speechSynthesis.speak(utterance);
+      setStatusMessage('Playing via browser voice engine');
+    } else {
       setIsPlayingAudio(false);
+      setStatusMessage(null);
     }
   };
 
