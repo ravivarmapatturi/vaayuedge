@@ -1,8 +1,8 @@
-# VayyuEdge — Product Requirements Document (PRD)
+# VaayuEdge — Product Requirements Document (PRD)
 
-**Product Identity**: VayyuEdge  
+**Product Identity**: VaayuEdge  
 **Tagline**: *Less compute. More intelligence.*  
-**Domain**: `vayyuedge.neuralmasteryai.com` (under `neuralmasteryai.com`)  
+**Domain**: `vaayuedge.neuralmasteryai.com` (under `neuralmasteryai.com`)  
 **Target**: Private, lightweight, English-to-Telugu speech intelligence running on user devices.
 
 ---

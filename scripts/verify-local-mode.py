@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VayyuEdge v0.2 — Offline Local Mode Verification Script
+VaayuEdge v0.2 — Offline Local Mode Verification Script
 
 Strictly asserts:
 1. Local execution on loopback (127.0.0.1).
@@ -78,7 +78,7 @@ class AirGapSocketMonitor:
 
 def main():
     print("=" * 65)
-    print(" VayyuEdge v0.2 — On-Device Offline Verification")
+    print(" VaayuEdge v0.2 — On-Device Offline Verification")
     print(" Tagline: Less compute. More intelligence.")
     print("=" * 65)
 

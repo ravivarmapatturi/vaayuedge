@@ -1,18 +1,18 @@
-# VayyuEdge
+# VaayuEdge
 
 > **Less compute. More intelligence.**
 
 Private, lightweight, English-to-Telugu speech intelligence designed to run directly on laptops, mobile phones, and resource-constrained edge devices.
 
-- **Live Web Preview**: [https://ravivarmapatturi.github.io/vayyuedge/](https://ravivarmapatturi.github.io/vayyuedge/)
-- **Target Domain**: `vayyuedge.neuralmasteryai.com`
+- **Live Web Preview**: [https://ravivarmapatturi.github.io/vaayuedge/](https://ravivarmapatturi.github.io/vaayuedge/)
+- **Target Domain**: `vaayuedge.neuralmasteryai.com`
 - **Milestone**: **v0.2 — Real On-Device AI Pipeline (CPU Inference)**
 
 ---
 
-## What is VayyuEdge?
+## What is VaayuEdge?
 
-VayyuEdge is an offline-first speech intelligence platform that converts spoken English into natural, meaning-preserving Telugu text and speech without sending conversations to third-party cloud APIs.
+VaayuEdge is an offline-first speech intelligence platform that converts spoken English into natural, meaning-preserving Telugu text and speech without sending conversations to third-party cloud APIs.
 
 ### Key Capabilities (v0.2)
 - 🎙️ **Real On-Device ASR**: In-process Whisper CPU transcription (~856ms for 3.0s audio; RTF: 0.28).
@@ -28,7 +28,7 @@ VayyuEdge is an offline-first speech intelligence platform that converts spoken 
 ## Monorepo Architecture
 
 ```
-vayyuedge/
+vaayuedge/
 ├── apps/
 │   └── web/            # React + TypeScript + Vite + Tailwind CSS PWA
 ├── services/
@@ -51,8 +51,8 @@ vayyuedge/
 
 ### Single-Command Launch
 ```bash
-git clone https://github.com/ravivarmapatturi/vayyuedge.git
-cd vayyuedge
+git clone https://github.com/ravivarmapatturi/vaayuedge.git
+cd vaayuedge
 
 # Build web frontend and start on-device engine on loopback (127.0.0.1:8000)
 ./scripts/start-local.sh

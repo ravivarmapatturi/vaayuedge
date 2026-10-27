@@ -15,7 +15,7 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
         "http://localhost:3000",
         "https://ravivarmapatturi.github.io",
-        "https://vayyuedge.neuralmasteryai.com",
+        "https://vaayuedge.neuralmasteryai.com",
         "https://vaayuedge.com",
         "https://www.vaayuedge.com"
     ]
@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     # Safety limits
     MAX_AUDIO_FILE_SIZE_BYTES: int = 25 * 1024 * 1024  # 25 MB
     MAX_AUDIO_DURATION_SECONDS: int = 180  # 3 minutes
-    TEMP_DIR: str = "/tmp/vayyuedge"
+    TEMP_DIR: str = "/tmp/vaayuedge"
 
     class Config:
         env_file = ".env"

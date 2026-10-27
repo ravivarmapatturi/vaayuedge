@@ -1,6 +1,6 @@
 import { SessionItem } from './api';
 
-const SESSIONS_KEY = 'vayyuedge_sessions';
+const SESSIONS_KEY = 'vaayuedge_sessions';
 
 export const storage = {
   getSessions(): SessionItem[] {

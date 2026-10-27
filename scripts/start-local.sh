@@ -2,7 +2,7 @@
 set -e
 
 # ==============================================================================
-# VayyuEdge v0.2 — Local Daemon & Web App Launcher
+# VaayuEdge v0.2 — Local Daemon & Web App Launcher
 # Runs 100% on-device speech intelligence on loopback (127.0.0.1:8000)
 # ==============================================================================
 
@@ -10,7 +10,7 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 echo "================================================================="
-echo "   VayyuEdge v0.2 — Local Application Launcher"
+echo "   VaayuEdge v0.2 — Local Application Launcher"
 echo "   Less compute. More intelligence."
 echo "================================================================="
 
@@ -42,7 +42,7 @@ if [ ! -f "$PROJECT_ROOT/.env" ]; then
     cp "$PROJECT_ROOT/.env.example" "$PROJECT_ROOT/.env"
 fi
 
-echo "[START] Launching VayyuEdge on loopback: http://127.0.0.1:8000"
+echo "[START] Launching VaayuEdge on loopback: http://127.0.0.1:8000"
 echo "        Zero external network requests. All audio stays on this device."
 echo "        Press Ctrl+C to stop."
 echo "-----------------------------------------------------------------"

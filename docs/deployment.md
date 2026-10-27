@@ -1,13 +1,13 @@
-# VayyuEdge — Deployment Guide
+# VaayuEdge — Deployment Guide
 
 ## 1. Domain & Routing Topology
-- **Production Subdomain**: `vayyuedge.neuralmasteryai.com`
-- **Fallback URL**: `neuralmasteryai.com/vayyuedge/` (only if subdomain DNS cannot be isolated)
-- **Primary Domain Safety**: Do not modify DNS or root files of `neuralmasteryai.com`. VayyuEdge runs completely isolated.
+- **Production Subdomain**: `vaayuedge.neuralmasteryai.com`
+- **Fallback URL**: `neuralmasteryai.com/vaayuedge/` (only if subdomain DNS cannot be isolated)
+- **Primary Domain Safety**: Do not modify DNS or root files of `neuralmasteryai.com`. VaayuEdge runs completely isolated.
 
 ```
                   ┌───────────────────────────────┐
-                  │ vayyuedge.neuralmasteryai.com │
+                  │ vaayuedge.neuralmasteryai.com │
                   └──────────────┬────────────────┘
                                  │
                  ┌───────────────▼───────────────┐
@@ -30,15 +30,15 @@
 | :--- | :--- | :--- |
 | `ENVIRONMENT` | Deployment environment | `production` |
 | `PROCESSING_MODE` | Runtime mode: `local` or `remote` | `local` |
-| `CORS_ORIGINS` | Permitted origins | `["https://vayyuedge.neuralmasteryai.com"]` |
+| `CORS_ORIGINS` | Permitted origins | `["https://vaayuedge.neuralmasteryai.com"]` |
 | `PORT` | Listening port | `8000` |
 | `ASR_ADAPTER` | Engine for speech recognition | `whisper_cpp` |
 | `TRANSLATION_ADAPTER` | Engine for translation | `indictrans2` |
 
 ## 3. Local Installation (Laptop Edge Target)
 ```bash
-git clone https://github.com/neuralmasteryai/vayyuedge.git
-cd vayyuedge
+git clone https://github.com/neuralmasteryai/vaayuedge.git
+cd vaayuedge
 bash scripts/setup-dev.sh
 ```
 

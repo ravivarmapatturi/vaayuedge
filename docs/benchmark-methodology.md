@@ -1,8 +1,8 @@
-# VayyuEdge — Benchmark Methodology & Quality Evaluation
+# VaayuEdge — Benchmark Methodology & Quality Evaluation
 
 ## 1. Quality & Performance Metrics
 
-To transition from a prototype to a dependable edge product, VayyuEdge tracks empirical metrics:
+To transition from a prototype to a dependable edge product, VaayuEdge tracks empirical metrics:
 
 | Metric | Target | Measurement Method |
 | :--- | :--- | :--- |

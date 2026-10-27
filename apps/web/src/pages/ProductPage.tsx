@@ -12,7 +12,7 @@ export default function ProductPage() {
           Purpose-Built Edge Speech Intelligence
         </h1>
         <p className="text-base text-charcoal-600 max-w-2xl leading-relaxed">
-          VayyuEdge solves a specific, acute problem: providing private, natural English-to-Telugu speech conversion that runs efficiently on personal devices.
+          VaayuEdge solves a specific, acute problem: providing private, natural English-to-Telugu speech conversion that runs efficiently on personal devices.
         </p>
       </div>
 
@@ -37,7 +37,7 @@ export default function ProductPage() {
         </div>
 
         <div className="bg-teal-50/60 border border-teal-200 rounded-2xl p-6 space-y-3">
-          <h2 className="text-base font-bold text-teal-950">The VayyuEdge Approach</h2>
+          <h2 className="text-base font-bold text-teal-950">The VaayuEdge Approach</h2>
           <ul className="text-xs text-teal-900 space-y-2.5 leading-relaxed">
             <li className="flex items-start space-x-2">
               <span className="text-teal-700 font-bold">✓</span>

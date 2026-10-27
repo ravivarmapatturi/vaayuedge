@@ -1,4 +1,4 @@
-# VayyuEdge v0.2 — Local Installation & Operator Guide
+# VaayuEdge v0.2 — Local Installation & Operator Guide
 
 Run private, 100% on-device English-to-Telugu speech intelligence on your laptop. Zero data exfiltration, loopback execution (`127.0.0.1`), and no cloud accounts required.
 
@@ -20,8 +20,8 @@ Run private, 100% on-device English-to-Telugu speech intelligence on your laptop
 Clone the repository and run the local launcher:
 
 ```bash
-git clone https://github.com/ravivarmapatturi/vayyuedge.git
-cd vayyuedge
+git clone https://github.com/ravivarmapatturi/vaayuedge.git
+cd vaayuedge
 
 # Launch both local backend and compiled web application
 ./scripts/start-local.sh
@@ -146,7 +146,7 @@ npm test
 ## 5. Troubleshooting & FAQ
 
 ### Q: Why does the hosted GitHub Pages site say "Static Prototype Mode"?
-**A**: GitHub Pages is a static file host; it cannot execute a persistent Python inference engine on your computer. When you browse `https://ravivarmapatturi.github.io/vayyuedge/`, the web app probes `http://127.0.0.1:8000`. If you run `./scripts/start-local.sh` on your computer, the local engine activates and handles inference directly.
+**A**: GitHub Pages is a static file host; it cannot execute a persistent Python inference engine on your computer. When you browse `https://ravivarmapatturi.github.io/vaayuedge/`, the web app probes `http://127.0.0.1:8000`. If you run `./scripts/start-local.sh` on your computer, the local engine activates and handles inference directly.
 
 ### Q: How do I switch to a smaller or larger Whisper model?
 **A**: Set `WHISPER_MODEL_SIZE=tiny.en` (~75 MB, lowest latency) or `WHISPER_MODEL_SIZE=small.en` (~466 MB, higher precision) in your `.env` file.

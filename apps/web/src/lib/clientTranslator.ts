@@ -305,7 +305,7 @@ const PHONETIC_MAP: Record<string, string> = {
  */
 function transliterateWord(word: string): string {
   const lower = word.toLowerCase();
-  if (lower === 'vayyuedge' || lower === 'vayyu') return 'వాయుఎడ్జ్';
+  if (lower === 'vaayuedge' || lower === 'vaayu') return 'వాయుఎడ్జ్';
   if (lower === 'whisper') return 'విస్పర్';
   if (lower === 'neural') return 'న్యూరల్';
   if (lower === 'opus') return 'ఓపస్';

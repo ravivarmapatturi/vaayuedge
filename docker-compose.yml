@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: services/api/Dockerfile
-    container_name: vayyuedge-api
+    container_name: vaayuedge-api
     ports:
       - "8000:8000"
     environment:
@@ -28,7 +28,7 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
-    container_name: vayyuedge-web
+    container_name: vaayuedge-web
     ports:
       - "5173:80"
     depends_on:

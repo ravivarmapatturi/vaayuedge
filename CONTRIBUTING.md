@@ -1,6 +1,6 @@
-# Contributing to VayyuEdge
+# Contributing to VaayuEdge
 
-Thank you for your interest in contributing to **VayyuEdge** ("Less compute. More intelligence.").
+Thank you for your interest in contributing to **VaayuEdge** ("Less compute. More intelligence.").
 
 ## Development Guidelines
 

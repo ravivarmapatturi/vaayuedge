@@ -20,7 +20,7 @@ export default function TechnologyPage() {
         <div className="border-b border-canvas-300 pb-2">
           <h2 className="text-xl font-bold text-charcoal-900">Model Provenance & Licensing</h2>
           <p className="text-xs text-charcoal-500">
-            VayyuEdge does not claim authorship of upstream foundational models. Weights are decoupled from application source code.
+            VaayuEdge does not claim authorship of upstream foundational models. Weights are decoupled from application source code.
           </p>
         </div>
 
@@ -124,7 +124,7 @@ export default function TechnologyPage() {
           </p>
           <ol className="list-decimal list-inside space-y-2 leading-relaxed">
             <li>Disconnect all network adapters or enable Airplane Mode on your device.</li>
-            <li>Run the local VayyuEdge daemon using <code>./scripts/setup-dev.sh</code>.</li>
+            <li>Run the local VaayuEdge daemon using <code>./scripts/setup-dev.sh</code>.</li>
             <li>Capture speech and trigger translation to Telugu.</li>
             <li>Inspect the browser DevTools Network tab: verify 100% of HTTP requests target <code>127.0.0.1</code> or loopback socket.</li>
             <li>Confirm zero network packets leave the machine.</li>

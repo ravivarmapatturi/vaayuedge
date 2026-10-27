@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VayyuEdge Model Downloader Script
+VaayuEdge Model Downloader Script
 
 Automates obtaining quantised edge weights for:
 1. Whisper / whisper.cpp (GGML models)
@@ -48,7 +48,7 @@ def download_file(url: str, dest_path: str):
     print("\nDownload complete!")
 
 def main():
-    parser = argparse.ArgumentParser(description="Download VayyuEdge model weights")
+    parser = argparse.ArgumentParser(description="Download VaayuEdge model weights")
     parser.add_argument("--asr-model", choices=["tiny.en", "base.en", "none"], default="tiny.en", help="Whisper model variant")
     parser.add_argument("--dest", default=MODELS_DIR, help="Destination directory for model weights")
     args = parser.parse_args()
@@ -56,7 +56,7 @@ def main():
     os.makedirs(args.dest, exist_ok=True)
 
     print("==================================================")
-    print(" VayyuEdge — Model Weight Retrieval")
+    print(" VaayuEdge — Model Weight Retrieval")
     print(" Note: Downloaded weights are not stored in Git.")
     print("==================================================")
 

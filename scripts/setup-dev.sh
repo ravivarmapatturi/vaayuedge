@@ -2,7 +2,7 @@
 set -e
 
 echo "============================================="
-echo "   VayyuEdge — Development Setup"
+echo "   VaayuEdge — Development Setup"
 echo "   Less compute. More intelligence."
 echo "============================================="
 

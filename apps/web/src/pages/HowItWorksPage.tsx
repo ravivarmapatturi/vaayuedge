@@ -53,7 +53,7 @@ export default function HowItWorksPage() {
           Architecture & Flow
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-charcoal-900 tracking-tight">
-          How VayyuEdge Works
+          How VaayuEdge Works
         </h1>
         <p className="text-base text-charcoal-600 max-w-2xl leading-relaxed">
           An inspectable, modular pipeline connecting audio capture, quantised speech recognition, contextual Telugu translation, and local data persistence.

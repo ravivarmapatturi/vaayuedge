@@ -1,8 +1,8 @@
-# VayyuEdge — Architecture Specification
+# VaayuEdge — Architecture Specification
 
 ## 1. System Overview
 
-VayyuEdge is structured as a modular monorepo consisting of:
+VaayuEdge is structured as a modular monorepo consisting of:
 - **`apps/web`**: Lightweight React 18 + TypeScript + Vite + Tailwind CSS Single Page Application (and installable PWA).
 - **`services/api`**: FastAPI application enforcing domain contracts, input validation, execution orchestration, and adapter management.
 - **`packages/contracts`**: Language-agnostic API interface schemas and models.
@@ -10,7 +10,7 @@ VayyuEdge is structured as a modular monorepo consisting of:
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│             VayyuEdge Web Client (PWA)                 │
+│             VaayuEdge Web Client (PWA)                 │
 │  React · TypeScript · Tailwind CSS · IndexedDB Storage │
 └───────────────────────────┬────────────────────────────┘
                             │ REST / JSON (HTTP)

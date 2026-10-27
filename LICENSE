@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 VayyuEdge Contributors (neuralmasteryai.com)
+Copyright (c) 2026 VaayuEdge Contributors (neuralmasteryai.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@ SOFTWARE.
 
 ---
 NOTE ON MODEL WEIGHTS & THIRD-PARTY COMPONENTS:
-This license applies solely to the source code of the VayyuEdge application.
+This license applies solely to the source code of the VaayuEdge application.
 Speech recognition (Whisper / whisper.cpp), translation (AI4Bharat IndicTrans2),
 and Telugu Text-to-Speech models are governed by their respective individual
 licenses and terms of use. Model weights must be downloaded separately and

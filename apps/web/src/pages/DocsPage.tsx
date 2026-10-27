@@ -1,6 +1,6 @@
 
 export default function DocsPage() {
-  const GITHUB_REPO = "https://github.com/ravivarmapatturi/vayyuedge/blob/main";
+  const GITHUB_REPO = "https://github.com/ravivarmapatturi/vaayuedge/blob/main";
 
   const docFiles = [
     {
@@ -41,7 +41,7 @@ export default function DocsPage() {
     {
       title: "Deployment & Subdomain Routing",
       path: "docs/deployment.md",
-      desc: "Configuration for vayyuedge.neuralmasteryai.com, TLS setup, and CORS headers."
+      desc: "Configuration for vaayuedge.neuralmasteryai.com, TLS setup, and CORS headers."
     }
   ];
 
@@ -63,7 +63,7 @@ export default function DocsPage() {
           Documentation
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-charcoal-900 tracking-tight">
-          VayyuEdge Developer Docs
+          VaayuEdge Developer Docs
         </h1>
         <p className="text-base text-charcoal-600 max-w-2xl leading-relaxed">
           Comprehensive guides, architecture specifications, API contracts, and local development setup instructions.
@@ -79,8 +79,8 @@ export default function DocsPage() {
 
         <div className="bg-charcoal-950 text-charcoal-100 p-4 rounded-xl font-mono text-xs overflow-x-auto space-y-2">
           <p className="text-charcoal-400"># 1. Clone repository</p>
-          <p className="text-teal-400">git clone https://github.com/ravivarmapatturi/vayyuedge.git</p>
-          <p className="text-teal-400">cd vayyuedge</p>
+          <p className="text-teal-400">git clone https://github.com/ravivarmapatturi/vaayuedge.git</p>
+          <p className="text-teal-400">cd vaayuedge</p>
           <p className="text-charcoal-400 pt-1"># 2. Launch on-device engine &amp; web app</p>
           <p className="text-teal-400">./scripts/start-local.sh</p>
           <p className="text-charcoal-400 pt-1"># 3. Open browser at http://127.0.0.1:8000</p>

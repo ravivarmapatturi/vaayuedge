@@ -8,7 +8,7 @@ export default function AboutPage() {
           Mission & Background
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-charcoal-900 tracking-tight">
-          About VayyuEdge
+          About VaayuEdge
         </h1>
         <p className="text-base text-charcoal-600 max-w-2xl leading-relaxed">
           Exploring efficient, useful AI that operates on personal devices, preserving both user privacy and linguistic nuance.
@@ -18,12 +18,12 @@ export default function AboutPage() {
       {/* The Origin & Philosophy */}
       <div className="space-y-6 text-sm text-charcoal-700 leading-relaxed">
         <div className="bg-canvas-100 border border-canvas-300 rounded-2xl p-6 sm:p-8 space-y-4">
-          <h2 className="text-lg font-bold text-charcoal-900">Why VayyuEdge Was Started</h2>
+          <h2 className="text-lg font-bold text-charcoal-900">Why VaayuEdge Was Started</h2>
           <p>
             Most modern speech and translation platforms assume unlimited cloud compute and continuous connectivity. When users need language assistance for private business conversations, healthcare inquiries, or personal matters, they are forced to transmit raw audio recordings to centralized corporate servers.
           </p>
           <p>
-            VayyuEdge was conceived with a different premise: <strong>What if speech intelligence ran directly on your own laptop, phone, and edge hardware?</strong>
+            VaayuEdge was conceived with a different premise: <strong>What if speech intelligence ran directly on your own laptop, phone, and edge hardware?</strong>
           </p>
           <p>
             Rather than wrapping existing cloud APIs, we focus on quantised inference, modular model adapters, and transparent device execution.
@@ -36,7 +36,7 @@ export default function AboutPage() {
             Telugu is a Dravidian language spoken by over 96 million people worldwide with rich literature, complex agglutinative morphology, and subtle distinctions between formal, informal, and instructional registers.
           </p>
           <p>
-            Generic machine translation often treats Telugu as a mechanical transliteration exercise, producing robotic, unnatural phrases. By combining Whisper speech recognition with AI4Bharat IndicTrans2, VayyuEdge aims to preserve context, tone, and intent in natural Telugu script.
+            Generic machine translation often treats Telugu as a mechanical transliteration exercise, producing robotic, unnatural phrases. By combining Whisper speech recognition with AI4Bharat IndicTrans2, VaayuEdge aims to preserve context, tone, and intent in natural Telugu script.
           </p>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default function AboutPage() {
         <div className="w-2 h-2 rounded-full bg-teal-600 mt-1.5 shrink-0"></div>
         <div>
           <span className="font-bold">Project Status: </span>
-          VayyuEdge is an open-source development project under active construction. The codebase is maintained on GitHub under the MIT License and developed as part of NeuralMastery AI initiatives.
+          VaayuEdge is an open-source development project under active construction. The codebase is maintained on GitHub under the MIT License and developed as part of NeuralMastery AI initiatives.
         </div>
       </div>
     </div>

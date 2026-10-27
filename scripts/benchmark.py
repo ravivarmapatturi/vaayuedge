@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VayyuEdge Edge Benchmark Runner
+VaayuEdge Edge Benchmark Runner
 
 Profiles:
 - Real on-device ASR latency (Whisper base.en / tiny.en on CPU)
@@ -82,7 +82,7 @@ def run_benchmark(mode: str = "real"):
     ram_initial_mb = process.memory_info().rss / (1024 * 1024)
 
     print("================================================================")
-    print(" VayyuEdge — Edge Performance & Quality Benchmark")
+    print(" VaayuEdge — Edge Performance & Quality Benchmark")
     print(" Tagline: Less compute. More intelligence.")
     print("================================================================")
     print(f"Benchmark Mode:    {mode.upper()}")
@@ -160,7 +160,7 @@ def run_benchmark(mode: str = "real"):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="VayyuEdge Edge Benchmark Runner")
+    parser = argparse.ArgumentParser(description="VaayuEdge Edge Benchmark Runner")
     parser.add_argument("--mode", choices=["real", "mock"], default="real", help="Benchmark mode: real neural models or mock")
     args = parser.parse_args()
     run_benchmark(mode=args.mode)

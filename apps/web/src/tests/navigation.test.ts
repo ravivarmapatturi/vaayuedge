@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { VERIFIED_SAMPLES } from '../lib/sampleData';
 
-describe('VayyuEdge Verification Dataset & Content Integrity', () => {
+describe('VaayuEdge Verification Dataset & Content Integrity', () => {
   it('contains verified evaluation samples with valid English and Telugu pairings', () => {
     expect(VERIFIED_SAMPLES.length).toBeGreaterThanOrEqual(5);
 

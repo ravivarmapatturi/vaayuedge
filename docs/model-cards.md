@@ -1,6 +1,6 @@
-# VayyuEdge — Model Cards & Licenses
+# VaayuEdge — Model Cards & Licenses
 
-Model weights are strictly decoupled from the VayyuEdge application repository. Each model component is subject to its original author's license and usage terms.
+Model weights are strictly decoupled from the VaayuEdge application repository. Each model component is subject to its original author's license and usage terms.
 
 ---
 

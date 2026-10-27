@@ -15,7 +15,7 @@ export function LogoIcon({ className = "w-6 h-6", color = "currentColor" }: { cl
       className={className}
       aria-hidden="true"
     >
-      {/* Vayyu (Sanskrit for wind/airflow) represented as directional, converging aerodynamic airfoils conveying velocity, precision, and low-compute intelligence */}
+      {/* Vaayu (Sanskrit for wind/airflow) represented as directional, converging aerodynamic airfoils conveying velocity, precision, and low-compute intelligence */}
       <path
         d="M6 9.5C11.5 9.5 15.5 14 19 22.5"
         stroke={color}
@@ -69,7 +69,7 @@ export default function Logo({
       </div>
       {showWordmark && (
         <span className={`${textSizes[size]} ${isLight ? 'text-white' : 'text-slate-900'}`}>
-          Vayyu<span className="text-teal-600 font-extrabold">Edge</span>
+          Vaayu<span className="text-teal-600 font-extrabold">Edge</span>
         </span>
       )}
     </div>

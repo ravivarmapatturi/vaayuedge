@@ -1,6 +1,6 @@
 // Main-thread client for the in-browser engine (runs in a Web Worker so the UI never freezes).
 
-const ENABLED_KEY = 'vayyuedge.browserEngine.enabled';
+const ENABLED_KEY = 'vaayuedge.browserEngine.enabled';
 
 type Progress = { task: string; file: string; loaded: number; total: number };
 type ProgressListener = (overallPct: number, detail: Progress) => void;

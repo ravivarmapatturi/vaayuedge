@@ -42,7 +42,7 @@ export default function Navbar({
         <button
           onClick={() => handleNavClick('home')}
           className="flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 rounded-lg"
-          aria-label="VayyuEdge Home"
+          aria-label="VaayuEdge Home"
         >
           <Logo size="md" />
         </button>
@@ -84,7 +84,7 @@ export default function Navbar({
             onClick={onExploreDemo}
             className="px-4 py-2 bg-charcoal-900 hover:bg-charcoal-800 text-white rounded-lg text-xs font-semibold shadow-subtle hover:shadow transition-all"
           >
-            Try VayyuEdge
+            Try VaayuEdge
           </button>
         </div>
 

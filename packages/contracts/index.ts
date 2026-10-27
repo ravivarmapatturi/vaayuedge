@@ -1,5 +1,5 @@
 /**
- * VayyuEdge Shared Contracts and Type Definitions
+ * VaayuEdge Shared Contracts and Type Definitions
  */
 
 export type ProcessingMode = 'local' | 'remote';

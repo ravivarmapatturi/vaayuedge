@@ -1,4 +1,4 @@
-# VayyuEdge v0.2 — On-Device Performance & Benchmark Results
+# VaayuEdge v0.2 — On-Device Performance & Benchmark Results
 
 **Date**: October 2026  
 **Hardware Profile**: Linux x86_64, 12 CPU Cores, 2.4 GB Available RAM  
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-VayyuEdge v0.2 demonstrates that full **English speech recognition (ASR) + English-to-Telugu neural translation (MT)** can run comfortably on standard laptop CPUs without GPU acceleration or cloud API calls.
+VaayuEdge v0.2 demonstrates that full **English speech recognition (ASR) + English-to-Telugu neural translation (MT)** can run comfortably on standard laptop CPUs without GPU acceleration or cloud API calls.
 
 | Metric | Target | Measured Result | Status |
 | :--- | :--- | :--- | :--- |
@@ -29,7 +29,7 @@ The benchmark evaluated 5 representative everyday bilingual domains using `scrip
 
 ```
 ================================================================
- VayyuEdge — Edge Performance & Quality Benchmark
+ VaayuEdge — Edge Performance & Quality Benchmark
  Tagline: Less compute. More intelligence.
 ================================================================
 Benchmark Mode:    REAL

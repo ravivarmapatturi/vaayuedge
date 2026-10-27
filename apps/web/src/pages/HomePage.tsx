@@ -16,29 +16,29 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
       english: "I will call you after I finish the meeting.",
       literal: "నేను ఉంటాను కాల్ మీరు తర్వాత నేను పూర్తి సమావేశం.",
       literalNotes: "Broken English word order, literal translation of auxiliary verb 'will' and 'call'.",
-      vayyu: "మీటింగ్ పూర్తయ్యాక నేను మీకు ఫోన్ చేస్తాను.",
-      vayyuNotes: "Natural Telugu conjunctive participle ('పూర్తయ్యాక'), correct future tense verb agreement ('చేస్తాను')."
+      vaayu: "మీటింగ్ పూర్తయ్యాక నేను మీకు ఫోన్ చేస్తాను.",
+      vaayuNotes: "Natural Telugu conjunctive participle ('పూర్తయ్యాక'), correct future tense verb agreement ('చేస్తాను')."
     },
     {
       english: "Could you please turn off the projector before leaving?",
       literal: "మీరు దయచేసి తిరగడం ఆఫ్ ప్రొజెక్టర్ ముందు వదిలివేయడం చేయగలరా?",
       literalNotes: "Literal interpretation of phrasal verb 'turn off' as turning physically.",
-      vayyu: "బయలుదేరే ముందు దయచేసి ప్రొజెక్టర్‌ను ఆపివేయగలరా?",
-      vayyuNotes: "Accurate postposition ('ముందు'), polite interrogative register, and appropriate Telugu verb 'ఆపివేయగలరా'."
+      vaayu: "బయలుదేరే ముందు దయచేసి ప్రొజెక్టర్‌ను ఆపివేయగలరా?",
+      vaayuNotes: "Accurate postposition ('ముందు'), polite interrogative register, and appropriate Telugu verb 'ఆపివేయగలరా'."
     },
     {
       english: "The doctors advised drinking plenty of water during the summer.",
       literal: "వైద్యులు సలహా ఇచ్చారు త్రాగడం పుష్కలంగా నీరు సమయంలో వేసవి.",
       literalNotes: "Awkward preposition translation and clumsy noun-adjective alignment.",
-      vayyu: "వేసవిలో సమృద్ధిగా నీరు తాగాలని వైద్యులు సలహా ఇచ్చారు.",
-      vayyuNotes: "Authentic reported speech structure ('తాగాలని'), locative case inflection ('వేసవిలో')."
+      vaayu: "వేసవిలో సమృద్ధిగా నీరు తాగాలని వైద్యులు సలహా ఇచ్చారు.",
+      vaayuNotes: "Authentic reported speech structure ('తాగాలని'), locative case inflection ('వేసవిలో')."
     }
   ];
 
   const faqs = [
     {
-      q: "What is VayyuEdge?",
-      a: "VayyuEdge is an early-stage edge AI product project focused on making speech intelligence private, lightweight, and accessible on personal devices. The initial direction is English speech recognition and contextual Telugu translation."
+      q: "What is VaayuEdge?",
+      a: "VaayuEdge is an early-stage edge AI product project focused on making speech intelligence private, lightweight, and accessible on personal devices. The initial direction is English speech recognition and contextual Telugu translation."
     },
     {
       q: "Does it support English-to-Telugu translation?",
@@ -54,19 +54,19 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
     },
     {
       q: "Is the project free and open source?",
-      a: "Yes. The VayyuEdge application code, contracts, and test harnesses are published under the MIT License on GitHub. Model weights (Whisper, IndicTrans2) retain their respective open research and author licenses."
+      a: "Yes. The VaayuEdge application code, contracts, and test harnesses are published under the MIT License on GitHub. Model weights (Whisper, IndicTrans2) retain their respective open research and author licenses."
     },
     {
       q: "What happens to my voice recordings?",
       a: "In local mode, nothing leaves your device. Ingested audio is held in transient memory only for the duration of inference and immediately unlinked. It is never logged, stored in databases, or used for model training."
     },
     {
-      q: "Which AI models does VayyuEdge use?",
-      a: "VayyuEdge uses modular adapters: OpenAI Whisper / whisper.cpp for English speech recognition, AI4Bharat IndicTrans2 for English-to-Telugu translation, and a verified lightweight Telugu speech synthesis adapter."
+      q: "Which AI models does VaayuEdge use?",
+      a: "VaayuEdge uses modular adapters: OpenAI Whisper / whisper.cpp for English speech recognition, AI4Bharat IndicTrans2 for English-to-Telugu translation, and a verified lightweight Telugu speech synthesis adapter."
     },
     {
       q: "Can I run this on my own laptop right now?",
-      a: "Yes. Clone the GitHub repository (https://github.com/ravivarmapatturi/vayyuedge) and run ./scripts/setup-dev.sh. The repository includes reproducible unit tests, Dockerfiles, and benchmark runners."
+      a: "Yes. Clone the GitHub repository (https://github.com/ravivarmapatturi/vaayuedge) and run ./scripts/setup-dev.sh. The repository includes reproducible unit tests, Dockerfiles, and benchmark runners."
     }
   ];
 
@@ -87,7 +87,7 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         </h1>
 
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-charcoal-600 leading-relaxed font-normal">
-          VayyuEdge is building lightweight speech intelligence to help turn English conversations into natural Telugu — with a focus on efficient, privacy-conscious processing on personal devices.
+          VaayuEdge is building lightweight speech intelligence to help turn English conversations into natural Telugu — with a focus on efficient, privacy-conscious processing on personal devices.
         </p>
 
         {/* Action Buttons */}
@@ -182,7 +182,7 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         </div>
       </section>
 
-      {/* 4. Interactive Linguistic Comparison: Literal vs VayyuEdge */}
+      {/* 4. Interactive Linguistic Comparison: Literal vs VaayuEdge */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="bg-white border border-canvas-300 rounded-3xl p-6 sm:p-10 space-y-8 shadow-card">
           <div className="max-w-2xl space-y-2">
@@ -242,19 +242,19 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
                 </p>
               </div>
 
-              {/* VayyuEdge Natural Output */}
+              {/* VaayuEdge Natural Output */}
               <div className="bg-teal-50/60 border border-teal-200 rounded-2xl p-5 space-y-2">
                 <div className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-teal-600"></span>
                   <span className="text-xs font-bold uppercase tracking-wider text-teal-900">
-                    VayyuEdge Meaning-Aware Telugu
+                    VaayuEdge Meaning-Aware Telugu
                   </span>
                 </div>
                 <p className="text-base sm:text-lg text-teal-950 font-telugu font-medium leading-relaxed pt-1">
-                  "{comparisons[activeComparisonIndex].vayyu}"
+                  "{comparisons[activeComparisonIndex].vaayu}"
                 </p>
                 <p className="text-xs text-teal-900/90 leading-relaxed pt-1">
-                  <strong>Preservation:</strong> {comparisons[activeComparisonIndex].vayyuNotes}
+                  <strong>Preservation:</strong> {comparisons[activeComparisonIndex].vaayuNotes}
                 </p>
               </div>
             </div>
@@ -403,7 +403,7 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
               <div className="space-y-3">
                 <h3 className="text-lg font-bold text-charcoal-900">User-in-the-Loop Transcript Review</h3>
                 <p className="text-xs text-charcoal-600 leading-relaxed">
-                  Speech recognition is never 100% infallible on rare proper nouns or technical jargon. VayyuEdge presents the raw English transcript in an editable review window, letting you correct mistakes before sending text to the translation engine.
+                  Speech recognition is never 100% infallible on rare proper nouns or technical jargon. VaayuEdge presents the raw English transcript in an editable review window, letting you correct mistakes before sending text to the translation engine.
                 </p>
                 <ul className="text-xs text-charcoal-700 space-y-1 font-mono">
                   <li>• Word count & character metrics</li>
@@ -494,14 +494,14 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         </div>
       </section>
 
-      {/* 7. Why VayyuEdge Philosophy (Section H) */}
+      {/* 7. Why VaayuEdge Philosophy (Section H) */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-xl mx-auto mb-10 space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">
             Engineering Principles
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold text-charcoal-900 tracking-tight">
-            Why VayyuEdge?
+            Why VaayuEdge?
           </h2>
           <p className="text-sm text-charcoal-600">
             A deliberate philosophy prioritizing device autonomy and linguistic respect.
@@ -519,7 +519,7 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
           <div className="p-6 bg-canvas-100 border border-canvas-300 rounded-2xl space-y-2.5">
             <h3 className="font-bold text-sm text-charcoal-900">2. Privacy by Architecture</h3>
             <p className="text-xs text-charcoal-600 leading-relaxed">
-              Rather than trusting privacy policies or vague data promises, VayyuEdge isolates processing to localhost sockets with an airplane-mode audit procedure.
+              Rather than trusting privacy policies or vague data promises, VaayuEdge isolates processing to localhost sockets with an airplane-mode audit procedure.
             </p>
           </div>
 
@@ -662,7 +662,7 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
             Frequently Asked Questions
           </h2>
           <p className="text-xs text-charcoal-500">
-            Clear, honest answers about VayyuEdge capabilities, models, and licensing.
+            Clear, honest answers about VaayuEdge capabilities, models, and licensing.
           </p>
         </div>
 
@@ -694,11 +694,11 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
             Explore the codebase and evaluate benchmarks locally
           </h2>
           <p className="max-w-xl mx-auto text-sm text-canvas-300 leading-relaxed font-normal">
-            VayyuEdge is developed openly. Inspect our architecture specifications, clone the repository, and evaluate speech transfer on your own machine.
+            VaayuEdge is developed openly. Inspect our architecture specifications, clone the repository, and evaluate speech transfer on your own machine.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <a
-              href="https://github.com/ravivarmapatturi/vayyuedge"
+              href="https://github.com/ravivarmapatturi/vaayuedge"
               target="_blank"
               rel="noreferrer"
               className="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-charcoal-950 font-semibold rounded-xl text-xs transition"

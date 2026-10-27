@@ -11,22 +11,22 @@ logging.basicConfig(
     level=settings.LOG_LEVEL,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
-logger = logging.getLogger("vayyuedge")
+logger = logging.getLogger("vaayuedge")
 
 from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Starting VayyuEdge API service...")
+    logger.info("Starting VaayuEdge API service...")
     logger.info(f"Processing Mode: {settings.PROCESSING_MODE}")
     logger.info(f"ASR Adapter: {settings.ASR_ADAPTER}")
     logger.info(f"Translation Adapter: {settings.TRANSLATION_ADAPTER}")
     logger.info(f"TTS Adapter: {settings.TTS_ADAPTER}")
     yield
-    logger.info("Shutting down VayyuEdge API service.")
+    logger.info("Shutting down VaayuEdge API service.")
 
 app = FastAPI(
-    title="VayyuEdge API",
+    title="VaayuEdge API",
     description="Offline-first, lightweight English to Telugu speech intelligence backend.",
     version="0.2.0",
     docs_url="/docs",
@@ -91,21 +91,21 @@ if dist_path:
 
     if os.path.isdir(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
-        app.mount("/vayyuedge/assets", StaticFiles(directory=assets_dir), name="vayyuedge_assets")
+        app.mount("/vaayuedge/assets", StaticFiles(directory=assets_dir), name="vaayuedge_assets")
 
     @app.get("/")
     @app.get("/index.html")
     async def serve_index():
         return FileResponse(os.path.join(dist_path, "index.html"))
 
-    @app.get("/vayyuedge")
-    @app.get("/vayyuedge/")
-    @app.get("/vayyuedge/index.html")
-    async def serve_vayyuedge_index():
+    @app.get("/vaayuedge")
+    @app.get("/vaayuedge/")
+    @app.get("/vaayuedge/index.html")
+    async def serve_vaayuedge_index():
         return FileResponse(os.path.join(dist_path, "index.html"))
 
     # Catch-all static mounting
-    app.mount("/vayyuedge", StaticFiles(directory=dist_path, html=True), name="vayyuedge_static")
+    app.mount("/vaayuedge", StaticFiles(directory=dist_path, html=True), name="vaayuedge_static")
     app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
 
 

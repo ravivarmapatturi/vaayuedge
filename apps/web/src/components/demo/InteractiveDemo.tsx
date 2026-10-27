@@ -385,7 +385,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   };
 
   const exportBilingualText = () => {
-    const text = `VayyuEdge Bilingual Export
+    const text = `VaayuEdge Bilingual Export
 Timestamp: ${new Date().toLocaleString()}
 Mode: ${capabilities?.processing_mode || 'local'}
 
@@ -399,13 +399,13 @@ ${translation}
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `vayyuedge-${Date.now()}.txt`;
+    link.download = `vaayuedge-${Date.now()}.txt`;
     link.click();
     URL.revokeObjectURL(url);
   };
 
   const isWindows = typeof navigator !== 'undefined' && /windows/i.test(navigator.userAgent);
-  const installFilename = isWindows ? 'install-vayyuedge.bat' : 'install-vayyuedge.sh';
+  const installFilename = isWindows ? 'install-vaayuedge.bat' : 'install-vaayuedge.sh';
   const installCommand = isWindows
     ? `%USERPROFILE%\\Downloads\\${installFilename}`
     : `bash ~/Downloads/${installFilename}`;
@@ -413,21 +413,21 @@ ${translation}
   const buildInstallScript = () => {
     if (!isWindows) {
       return `#!/usr/bin/env bash
-# VayyuEdge on-device engine installer: clones the repo, installs models, starts 127.0.0.1:8000
+# VaayuEdge on-device engine installer: clones the repo, installs models, starts 127.0.0.1:8000
 set -e
 command -v git >/dev/null || { echo "Please install git first."; exit 1; }
 command -v python3 >/dev/null || { echo "Please install Python 3.10+ first."; exit 1; }
-DIR="$HOME/vayyuedge"
-if [ -d "$DIR/.git" ]; then git -C "$DIR" pull --ff-only || true; else git clone https://github.com/ravivarmapatturi/vayyuedge.git "$DIR"; fi
+DIR="$HOME/vaayuedge"
+if [ -d "$DIR/.git" ]; then git -C "$DIR" pull --ff-only || true; else git clone https://github.com/ravivarmapatturi/vaayuedge.git "$DIR"; fi
 cd "$DIR"
 exec bash ./scripts/start-local.sh
 `;
     }
     return `@echo off
-REM VayyuEdge on-device engine installer (requires Git for Windows, which provides bash)
+REM VaayuEdge on-device engine installer (requires Git for Windows, which provides bash)
 where git >nul 2>nul || (echo Please install Git for Windows first: https://git-scm.com & pause & exit /b 1)
-set DIR=%USERPROFILE%\\vayyuedge
-if exist "%DIR%\\.git" (git -C "%DIR%" pull --ff-only) else (git clone https://github.com/ravivarmapatturi/vayyuedge.git "%DIR%")
+set DIR=%USERPROFILE%\\vaayuedge
+if exist "%DIR%\\.git" (git -C "%DIR%" pull --ff-only) else (git clone https://github.com/ravivarmapatturi/vaayuedge.git "%DIR%")
 cd /d "%DIR%"
 bash ./scripts/start-local.sh
 pause
@@ -539,7 +539,7 @@ pause
               <div className="bg-canvas-50 rounded-2xl shadow-card max-w-md w-full p-6 space-y-4 text-sm text-charcoal-800">
                 <h3 className="text-base font-bold text-charcoal-900">Enable on-device AI?</h3>
                 <p>
-                  VayyuEdge will download its speech, translation and Telugu voice models (about 300&nbsp;MB, one time) and
+                  VaayuEdge will download its speech, translation and Telugu voice models (about 300&nbsp;MB, one time) and
                   store them in your browser. After that, everything runs on this device — your voice is never uploaded,
                   and it keeps working offline.
                 </p>

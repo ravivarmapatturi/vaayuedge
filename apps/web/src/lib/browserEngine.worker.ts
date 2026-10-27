@@ -1,5 +1,5 @@
 /// <reference lib="webworker" />
-// In-browser VayyuEdge engine: Whisper ASR, Opus-MT en→te and MMS Telugu TTS,
+// In-browser VaayuEdge engine: Whisper ASR, Opus-MT en→te and MMS Telugu TTS,
 // all running on the user's device via transformers.js (WebGPU when available, else WASM).
 import { env, pipeline } from '@huggingface/transformers';
 
@@ -79,7 +79,7 @@ self.onmessage = async (e: MessageEvent) => {
     }
     self.postMessage({ id, ok: true, result });
   } catch (err: any) {
-    console.error('[vayyuedge engine]', op, err);
+    console.error('[vaayuedge engine]', op, err);
     self.postMessage({ id, ok: false, error: err?.message || String(err) });
   }
 };

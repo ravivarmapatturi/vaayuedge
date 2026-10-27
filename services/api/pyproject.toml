@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vayyuedge-api"
+name = "vaayuedge-api"
 version = "0.1.0"
-description = "VayyuEdge - Offline-First English to Telugu Speech Intelligence API"
+description = "VaayuEdge - Offline-First English to Telugu Speech Intelligence API"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

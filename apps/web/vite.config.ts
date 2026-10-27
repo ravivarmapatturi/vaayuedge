@@ -4,14 +4,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 
-// Dev only: serve not-yet-published browser models from VAYYU_MODELS_DIR at /models/<owner>/<repo>/...
+// Dev only: serve not-yet-published browser models from VAAYU_MODELS_DIR at /models/<owner>/<repo>/...
 // Missing files must 404 (not fall back to index.html) so transformers.js handles optional files correctly.
 const devModels = {
   name: 'dev-models',
   configureServer(server: any) {
-    const root = process.env.VAYYU_MODELS_DIR || path.join(os.homedir(), 'vayyuedge-browser-models');
+    const root = process.env.VAAYU_MODELS_DIR || path.join(os.homedir(), 'vaayuedge-browser-models');
     server.middlewares.use('/models', (req: any, res: any) => {
-      const rel = decodeURIComponent((req.url || '').split('?')[0]).replace(/^\/[^/]+\/vayyuedge-/, '/');
+      const rel = decodeURIComponent((req.url || '').split('?')[0]).replace(/^\/[^/]+\/vaayuedge-/, '/');
       const file = root ? path.join(root, path.normalize(rel)) : '';
       if (!file || !file.startsWith(root) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
         res.statusCode = 404;

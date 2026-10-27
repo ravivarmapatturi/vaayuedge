@@ -66,7 +66,7 @@ export default function Footer({ onSelectTab }: FooterProps) {
           <ul className="space-y-2 text-sm">
             <li>
               <a
-                href="https://github.com/ravivarmapatturi/vayyuedge"
+                href="https://github.com/ravivarmapatturi/vaayuedge"
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-teal-700 inline-flex items-center space-x-1 transition"
@@ -101,11 +101,11 @@ export default function Footer({ onSelectTab }: FooterProps) {
 
       {/* Bottom Bar */}
       <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-canvas-300 flex flex-col sm:flex-row items-center justify-between text-xs text-charcoal-500 gap-3">
-        <p>© {currentYear} VayyuEdge. Open-source under MIT License. Models retain respective upstream licenses.</p>
+        <p>© {currentYear} VaayuEdge. Open-source under MIT License. Models retain respective upstream licenses.</p>
         <p className="flex items-center space-x-2">
           <span>Hosted on GitHub Pages</span>
           <span>·</span>
-          <span>Target: <code className="bg-canvas-200 px-1 py-0.5 rounded text-[11px]">vayyuedge.neuralmasteryai.com</code></span>
+          <span>Target: <code className="bg-canvas-200 px-1 py-0.5 rounded text-[11px]">vaayuedge.neuralmasteryai.com</code></span>
         </p>
       </div>
     </footer>
