@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Logo from '../ui/Logo';
 
-export type NavTab = 'home' | 'product' | 'how-it-works' | 'technology' | 'about' | 'docs';
+export type NavTab = 'home' | 'product' | 'how-it-works' | 'technology' | 'about';
 
 interface NavbarProps {
   currentTab: NavTab;
@@ -26,7 +26,6 @@ export default function Navbar({
     { id: 'how-it-works', label: 'How It Works' },
     { id: 'technology', label: 'Technology' },
     { id: 'about', label: 'About' },
-    { id: 'docs', label: 'Docs' },
   ];
 
   const handleNavClick = (tab: NavTab) => {

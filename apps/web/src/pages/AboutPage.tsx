@@ -68,8 +68,9 @@ export default function AboutPage() {
       <div className="p-5 bg-teal-50/70 border border-teal-200 rounded-2xl text-xs text-teal-900 flex items-start space-x-3">
         <div className="w-2 h-2 rounded-full bg-teal-600 mt-1.5 shrink-0"></div>
         <div>
-          <span className="font-bold">Project Status: </span>
-          VaayuEdge is an open-source development project under active construction. The codebase is maintained on GitHub under the MIT License and developed as part of NeuralMastery AI initiatives.
+          <span className="font-bold">Contact: </span>
+          VaayuEdge is built by InferEdge AI. For questions, partnerships or feedback, reach us on X at{' '}
+          <a href="https://x.com/NeuralMastery" target="_blank" rel="noopener" className="underline font-semibold">@NeuralMastery</a>.
         </div>
       </div>
     </div>

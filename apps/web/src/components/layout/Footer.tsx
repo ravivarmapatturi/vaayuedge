@@ -53,47 +53,22 @@ export default function Footer({ onSelectTab }: FooterProps) {
               </button>
             </li>
             <li>
-              <button onClick={() => onSelectTab('docs')} className="hover:text-teal-700 transition">
-                Documentation
-              </button>
             </li>
           </ul>
         </div>
 
-        {/* Technical Resources & Open Source */}
+        {/* Contact */}
         <div>
-          <h3 className="text-xs font-bold uppercase tracking-wider text-charcoal-900 mb-3">Resources & Code</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-charcoal-900 mb-3">Contact</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a
-                href="https://github.com/ravivarmapatturi/vaayuedge"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-teal-700 inline-flex items-center space-x-1 transition"
-              >
-                <span>GitHub Repository</span>
+              <a href="https://x.com/NeuralMastery" target="_blank" rel="noopener" className="hover:text-teal-700 inline-flex items-center space-x-1 transition">
+                <span>X · @NeuralMastery</span>
                 <span className="text-xs">↗</span>
               </a>
             </li>
             <li>
-              <button onClick={() => onSelectTab('docs')} className="hover:text-teal-700 transition text-left">
-                Architecture Spec
-              </button>
-            </li>
-            <li>
-              <button onClick={() => onSelectTab('technology')} className="hover:text-teal-700 transition text-left">
-                Model Cards & Licenses
-              </button>
-            </li>
-            <li>
-              <button onClick={() => onSelectTab('docs')} className="hover:text-teal-700 transition text-left">
-                Privacy & Threat Model
-              </button>
-            </li>
-            <li>
-              <button onClick={() => onSelectTab('docs')} className="hover:text-teal-700 transition text-left">
-                Offline Benchmarks
-              </button>
+              <a href="../" className="hover:text-teal-700 transition">InferEdge AI</a>
             </li>
           </ul>
         </div>
@@ -101,12 +76,8 @@ export default function Footer({ onSelectTab }: FooterProps) {
 
       {/* Bottom Bar */}
       <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-canvas-300 flex flex-col sm:flex-row items-center justify-between text-xs text-charcoal-500 gap-3">
-        <p>© {currentYear} VaayuEdge, a product of <a href="../" className="underline hover:text-teal-700">InferEdge AI</a>. Open-source under MIT License. Models retain respective upstream licenses.</p>
-        <p className="flex items-center space-x-2">
-          <span>Hosted on GitHub Pages</span>
-          <span>·</span>
-          <span>Target: <code className="bg-canvas-200 px-1 py-0.5 rounded text-[11px]">vaayuedge.neuralmasteryai.com</code></span>
-        </p>
+        <p>© {currentYear} VaayuEdge, a product of <a href="../" className="underline hover:text-teal-700">InferEdge AI</a>. Models retain their respective upstream licenses.</p>
+        <p><a href="https://x.com/NeuralMastery" target="_blank" rel="noopener" className="hover:text-teal-700">Contact us on X</a></p>
       </div>
     </footer>
   );

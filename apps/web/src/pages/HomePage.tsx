@@ -50,23 +50,23 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
     },
     {
       q: "Does it work on mobile phones?",
-      a: "The web client is fully responsive and installable as a Progressive Web App (PWA) on Android and iOS. Native on-device mobile neural runtime optimization using quantised ARM inference is currently in active development."
+      a: "VaayuEdge runs in modern browsers on laptops, desktops and recent phones. The first use needs a one-time model download of about 500 MB, after which it works offline."
     },
     {
-      q: "Is the project free and open source?",
-      a: "Yes. The VaayuEdge application code, contracts, and test harnesses are published under the MIT License on GitHub. Model weights (Whisper, IndicTrans2) retain their respective open research and author licenses."
+      q: "Is VaayuEdge free?",
+      a: "Yes. VaayuEdge is free to use in your browser. The underlying open models (Whisper, Opus-MT, Meta MMS) keep their original licenses."
     },
     {
       q: "What happens to my voice recordings?",
-      a: "In local mode, nothing leaves your device. Ingested audio is held in transient memory only for the duration of inference and immediately unlinked. It is never logged, stored in databases, or used for model training."
+      a: "With on-device AI enabled, nothing leaves your device. Your audio is processed in your browser's memory and is never uploaded, stored on a server, or used for training."
     },
     {
       q: "Which AI models does VaayuEdge use?",
-      a: "VaayuEdge uses modular adapters: OpenAI Whisper / whisper.cpp for English speech recognition, AI4Bharat IndicTrans2 for English-to-Telugu translation, and a verified lightweight Telugu speech synthesis adapter."
+      a: "OpenAI Whisper for English speech recognition, Helsinki-NLP Opus-MT for English-to-Telugu translation, and Meta MMS-TTS for the Telugu voice — all compressed to run on your device."
     },
     {
-      q: "Can I run this on my own laptop right now?",
-      a: "Yes. Clone the GitHub repository (https://github.com/ravivarmapatturi/vaayuedge) and run ./scripts/setup-dev.sh. The repository includes reproducible unit tests, Dockerfiles, and benchmark runners."
+      q: "How do I contact the team?",
+      a: "Message us on X at @NeuralMastery (x.com/NeuralMastery). We read every message."
     }
   ];
 
@@ -688,30 +688,22 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         </div>
       </section>
 
-      {/* 13. Final Call to Action (Section N) */}
+      {/* 13. Final Call to Action */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="bg-canvas-900 text-white rounded-3xl p-8 sm:p-12 text-center space-y-5 shadow-popover">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            Explore the codebase and evaluate benchmarks locally
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Questions, feedback or partnerships?</h2>
           <p className="max-w-xl mx-auto text-sm text-canvas-300 leading-relaxed font-normal">
-            VaayuEdge is developed openly. Inspect our architecture specifications, clone the repository, and evaluate speech transfer on your own machine.
+            VaayuEdge is built by InferEdge AI. We'd love to hear how you use it.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <a
-              href="https://github.com/ravivarmapatturi/vaayuedge"
-              target="_blank"
-              rel="noreferrer"
-              className="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-charcoal-950 font-semibold rounded-xl text-xs transition"
-            >
-              Inspect GitHub Repository
+            <a href="https://x.com/NeuralMastery" target="_blank" rel="noopener"
+              className="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-charcoal-950 font-semibold rounded-xl text-xs transition">
+              Message us on X · @NeuralMastery
             </a>
-            <button
-              onClick={() => onSelectTab('docs')}
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold rounded-xl text-xs transition"
-            >
-              Browse Technical Documentation
-            </button>
+            <a href="#demo-workspace"
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold rounded-xl text-xs transition">
+              Try VaayuEdge
+            </a>
           </div>
         </div>
       </section>
