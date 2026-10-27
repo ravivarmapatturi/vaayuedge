@@ -15,7 +15,8 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
         "http://localhost:3000",
         "https://ravivarmapatturi.github.io",
-        "https://vaayuedge.neuralmasteryai.com",
+        "https://inferedgeai.com",
+        "https://www.inferedgeai.com",
         "https://vaayuedge.com",
         "https://www.vaayuedge.com"
     ]

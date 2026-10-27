@@ -101,7 +101,7 @@ export default function Footer({ onSelectTab }: FooterProps) {
 
       {/* Bottom Bar */}
       <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-canvas-300 flex flex-col sm:flex-row items-center justify-between text-xs text-charcoal-500 gap-3">
-        <p>© {currentYear} VaayuEdge. Open-source under MIT License. Models retain respective upstream licenses.</p>
+        <p>© {currentYear} VaayuEdge, a product of <a href="../" className="underline hover:text-teal-700">InferEdge AI</a>. Open-source under MIT License. Models retain respective upstream licenses.</p>
         <p className="flex items-center space-x-2">
           <span>Hosted on GitHub Pages</span>
           <span>·</span>

@@ -21,10 +21,16 @@ jobs:
       - name: Build
         working-directory: apps/web
         run: npm ci && npm run build
+      # Site layout: InferEdge AI company page at the root, VaayuEdge product at /vaayuedge/
+      - name: Assemble site
+        run: |
+          mkdir -p site/vaayuedge
+          cp -r apps/company/. site/
+          cp -r apps/web/dist/. site/vaayuedge/
       # Set repo variable CUSTOM_DOMAIN=vaayuedge.com once its DNS points at GitHub Pages.
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: apps/web/dist
+          publish_dir: site
           cname: ${{ vars.CUSTOM_DOMAIN }}
