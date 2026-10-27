@@ -17,11 +17,22 @@
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "VaayuEdge", "applicationCategory": "MultimediaApplication", "operatingSystem": "Web browser", "url": "https://inferedgeai.com/vaayuedge/", "description": "English to Telugu speech translation with natural Telugu voice, running entirely on your device.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "InferEdge AI", "url": "https://inferedgeai.com/"}}</script>
 
     <link rel="manifest" href="./manifest.json" />
+    <style>
+      /* Pre-JS fallback (also what search engines read): styled like the app's hero so the hand-off is seamless. */
+      body { margin: 0; background: #fbfbfa; }
+      .seo-fallback { max-width: 760px; margin: 0 auto; padding: 120px 20px 64px; text-align: center; color: #334155;
+        font-family: Inter, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.65; font-size: 17px; }
+      .seo-fallback h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.1; letter-spacing: -0.03em; color: #0f172a; margin: 0 0 20px; }
+      .seo-fallback h2 { font-size: 22px; color: #0f172a; margin: 48px 0 12px; }
+      .seo-fallback h3 { font-size: 17px; color: #0f172a; margin: 20px 0 4px; }
+      .seo-fallback ol, .seo-fallback ul { text-align: left; display: inline-block; margin: 0; }
+      .seo-fallback a { color: #0f766e; }
+    </style>
   </head>
   <body class="bg-canvas-50 text-charcoal-900 min-h-screen">
     <div id="root">
       <!-- Static content for search engines and no-JS visitors; React replaces it on load. -->
-      <main style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,sans-serif;color:#0f172a;line-height:1.6">
+      <main class="seo-fallback">
         <h1>VaayuEdge — English to Telugu speech translation on your device</h1>
         <p>Speak English and hear natural Telugu. VaayuEdge turns your speech into Telugu text and Telugu voice entirely
           on your device. Your voice is never uploaded, there is nothing to install, and it keeps working offline.
