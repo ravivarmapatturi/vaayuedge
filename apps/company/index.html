@@ -44,6 +44,10 @@
          line-height: 1.6; -webkit-font-smoothing: antialiased; }
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  /* Scale up on large laptop/desktop screens so the page fills the viewport. */
+  @media (min-width: 1536px) { body { zoom: 1.1; } }
+  @media (min-width: 1800px) { body { zoom: 1.22; } }
+  @media (min-width: 2300px) { body { zoom: 1.4; } }
   @media (max-width: 640px) { .wrap { padding: 0 16px; } }
 
   /* Nav */

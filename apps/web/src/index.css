@@ -37,3 +37,8 @@
     }
   }
 }
+
+/* Scale the whole UI up on large laptop/desktop screens so it fills the viewport (Tailwind sizes are rem-based). */
+@media (min-width: 1536px) { html { font-size: 17px; } }
+@media (min-width: 1800px) { html { font-size: 18.5px; } }
+@media (min-width: 2300px) { html { font-size: 21px; } }
