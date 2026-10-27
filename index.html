@@ -57,20 +57,20 @@
   @media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
 
   /* Hero */
-  .hero { padding: 96px 0 72px; text-align: center; }
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--accent);
+  .hero { padding: clamp(40px, 9vh, 96px) 0 clamp(36px, 7vh, 72px); text-align: center; }
+  .eyebrow { display: inline-flex; margin-bottom: clamp(14px, 3vh, 28px) !important; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--accent);
              background: var(--accent-soft); border-radius: 999px; padding: 6px 14px; margin-bottom: 28px; }
   .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-  h1 { font-size: clamp(38px, 6.4vw, 68px); line-height: 1.05; letter-spacing: -0.035em; font-weight: 800; max-width: 900px; margin: 0 auto; }
+  h1 { font-size: clamp(34px, min(5vw, 8.5vh), 64px); line-height: 1.08; letter-spacing: -0.035em; font-weight: 800; max-width: 860px; margin: 0 auto; text-wrap: balance; }
   h1 em { font-style: normal; color: var(--accent); }
-  .lede { font-size: clamp(17px, 2vw, 20px); color: var(--text-2); max-width: 680px; margin: 24px auto 36px; }
+  .lede { font-size: clamp(16px, 1.6vw, 19px); color: var(--text-2); max-width: 640px; margin: clamp(14px, 2.6vh, 24px) auto clamp(20px, 4vh, 36px); text-wrap: pretty; }
   .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
   /* Sections */
-  section { padding: 80px 0; }
+  section { padding: clamp(48px, 9vh, 88px) 0; }
   .label { font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 500; letter-spacing: .08em;
            text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
-  h2 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.025em; line-height: 1.15; font-weight: 800; max-width: 720px; }
+  h2 { text-wrap: balance; font-size: clamp(26px, 3.2vw, 38px); letter-spacing: -0.025em; line-height: 1.15; font-weight: 800; max-width: 720px; }
   .sub { color: var(--text-2); font-size: 17px; max-width: 680px; margin-top: 14px; }
 
   .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; }
