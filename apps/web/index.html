@@ -19,7 +19,34 @@
     <link rel="manifest" href="./manifest.json" />
   </head>
   <body class="bg-canvas-50 text-charcoal-900 min-h-screen">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static content for search engines and no-JS visitors; React replaces it on load. -->
+      <main style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,sans-serif;color:#0f172a;line-height:1.6">
+        <h1>VaayuEdge — English to Telugu speech translation on your device</h1>
+        <p>Speak English and hear natural Telugu. VaayuEdge turns your speech into Telugu text and Telugu voice entirely
+          on your device. Your voice is never uploaded, there is nothing to install, and it keeps working offline.
+          VaayuEdge is a product of <a href="https://inferedgeai.com/">InferEdge AI</a>, an edge AI company.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li><strong>Speak or type in English.</strong> On-device speech recognition (Whisper) converts your voice to text.</li>
+          <li><strong>Translate to Telugu.</strong> A compact neural translation model (Opus-MT) produces natural Telugu.</li>
+          <li><strong>Hear it in Telugu.</strong> A neural Telugu voice (Meta MMS-TTS) speaks the translation aloud.</li>
+        </ol>
+        <h2>Why on-device</h2>
+        <ul>
+          <li><strong>Private:</strong> audio and text stay in your browser — nothing is sent to a server.</li>
+          <li><strong>Offline:</strong> after a one-time model download, translation works without internet.</li>
+          <li><strong>Free:</strong> runs on the phone or laptop you already own, with no installation.</li>
+        </ul>
+        <h2>Frequently asked questions</h2>
+        <h3>Does VaayuEdge upload my voice?</h3>
+        <p>No. Speech recognition, translation and Telugu speech synthesis all run locally in your browser.</p>
+        <h3>Does it work on mobile phones?</h3>
+        <p>VaayuEdge runs in modern browsers on laptops, desktops and recent phones. A one-time model download (about 500 MB) is needed on first use.</p>
+        <h3>Is VaayuEdge free?</h3>
+        <p>Yes, VaayuEdge is free to use.</p>
+      </main>
+    </div>
     <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>
