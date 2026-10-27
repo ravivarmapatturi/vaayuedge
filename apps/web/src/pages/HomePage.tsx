@@ -71,9 +71,9 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
   ];
 
   return (
-    <div className="space-y-24 pb-20">
+    <div className="space-y-16 sm:space-y-20 pb-20">
       {/* 1. Hero Section */}
-      <section className="pt-12 sm:pt-20 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-6">
+      <section className="pt-8 sm:pt-12 lg:pt-14 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-5">
         <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-semibold shadow-subtle">
           <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
           <span>English → తెలుగు</span>
@@ -81,13 +81,14 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
           <span>Private by design</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-charcoal-900 leading-tight">
+        <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight text-charcoal-900 leading-[1.1] [text-wrap:balance]">
           Your speech. Your language. <br className="hidden sm:inline" />
           <span className="text-teal-700">Your device.</span>
         </h1>
 
-        <p className="max-w-2xl mx-auto text-base sm:text-lg text-charcoal-600 leading-relaxed font-normal">
-          VaayuEdge is building lightweight speech intelligence to help turn English conversations into natural Telugu — with a focus on efficient, privacy-conscious processing on personal devices.
+        <p className="max-w-2xl mx-auto text-base sm:text-lg text-charcoal-600 leading-relaxed font-normal [text-wrap:pretty]">
+          Speak English and hear natural Telugu. VaayuEdge turns your speech into Telugu text and voice entirely on your
+          device — nothing is uploaded, and it keeps working offline.
         </p>
 
         {/* Action Buttons */}
@@ -96,29 +97,29 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
             href="#demo-workspace"
             className="px-6 py-3 bg-charcoal-900 hover:bg-charcoal-800 text-white rounded-xl text-sm font-semibold shadow-subtle hover:shadow transition"
           >
-            Explore the Demo
+            Try it free
           </a>
           <button
-            onClick={() => onSelectTab('technology')}
+            onClick={() => onSelectTab('how-it-works')}
             className="px-6 py-3 bg-canvas-100 hover:bg-canvas-200 text-charcoal-800 border border-canvas-300 rounded-xl text-sm font-semibold transition"
           >
-            Explore the Technology
+            How it works
           </button>
         </div>
 
         {/* Credibility Badges */}
-        <div className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-charcoal-500">
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-charcoal-500">
           <div className="flex items-center space-x-1.5">
             <span className="text-teal-700 font-bold">✓</span>
-            <span>Zero Cloud Audio Storage</span>
+            <span>Your voice is never uploaded</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="text-teal-700 font-bold">✓</span>
-            <span>Context-Aware Telugu Syntax</span>
+            <span>Works offline</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="text-teal-700 font-bold">✓</span>
-            <span>Runs on Standard Laptop CPUs</span>
+            <span>No installation</span>
           </div>
         </div>
       </section>
