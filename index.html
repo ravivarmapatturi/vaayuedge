@@ -141,6 +141,18 @@
   .chip { font-family: "JetBrains Mono", monospace; font-size: 13px; border: 1px solid var(--border); background: var(--surface);
           border-radius: 8px; padding: 8px 12px; color: var(--text-2); }
 
+  /* Research */
+  .research { background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 36px; }
+  @media (max-width: 700px) { .research-grid { grid-template-columns: 1fr; } }
+  .research-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; transition: border-color .15s, transform .15s; }
+  .research-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .research-card h3 { font-size: 17px; margin-bottom: 5px; }
+  .research-card h3 span { color: var(--accent); font-size: 18px; margin-left: 5px; }
+  .research-card .meta { color: var(--accent); font-family: "JetBrains Mono", monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+  .research-card p { color: var(--text-2); font-size: 14px; }
+  .research-note { margin-top: 24px; color: var(--muted); font-size: 13px; }
+
   /* Contact / footer */
   .contact { text-align: center; }
   .contact h2 { margin: 0 auto; }
@@ -160,6 +172,7 @@
       <a href="#capabilities">Capabilities</a>
       <a href="#why">Why edge</a>
       <a href="#products">Products</a>
+      <a href="#research">Research</a>
       <a href="#contact">Contact</a>
       <a class="btn btn-primary" href="vaayuedge/">Try VaayuEdge</a>
     </nav>
@@ -239,6 +252,23 @@
           <div class="bubble b-te"><small style="font-family:'JetBrains Mono',monospace">VaayuEdge says</small>మీటింగ్ పూర్తయ్యాక నేను మీకు ఫోన్ చేస్తాను.</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="research" class="research">
+    <div class="wrap">
+      <div class="label">Edge AI research</div>
+      <h2>Stay close to the work making local intelligence possible.</h2>
+      <p class="sub">A living reading list for running language and speech models on laptops, phones, browsers and embedded devices with limited memory and connectivity.</p>
+      <div class="research-grid">
+        <a class="research-card" href="https://arxiv.org/abs/2211.10438" target="_blank" rel="noopener"><h3>SmoothQuant <span>↗</span></h3><div class="meta">Quantization · 2023</div><p>Training-free activation smoothing for accurate INT8 inference in large language models.</p></a>
+        <a class="research-card" href="https://arxiv.org/abs/2210.17323" target="_blank" rel="noopener"><h3>GPTQ <span>↗</span></h3><div class="meta">Post-training quantization · 2022</div><p>One-shot weight quantization that makes larger models practical on constrained hardware.</p></a>
+        <a class="research-card" href="https://arxiv.org/abs/2306.00978" target="_blank" rel="noopener"><h3>AWQ <span>↗</span></h3><div class="meta">Weight-only quantization · 2023</div><p>Protects salient weights during low-bit compression for efficient 4-bit deployment.</p></a>
+        <a class="research-card" href="https://arxiv.org/abs/2402.14905" target="_blank" rel="noopener"><h3>MobileLLM <span>↗</span></h3><div class="meta">Mobile architecture · 2024</div><p>Sub-billion-parameter language models designed around on-device use cases and API calling.</p></a>
+        <a class="research-card" href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener"><h3>llama.cpp / GGUF <span>↗</span></h3><div class="meta">Laptop · CPU · GPU</div><p>Portable local inference, quantization tools and a server for running models across desktop hardware.</p></a>
+        <a class="research-card" href="https://docs.pytorch.org/executorch/stable/llm/getting-started.html" target="_blank" rel="noopener"><h3>ExecuTorch <span>↗</span></h3><div class="meta">Android · iOS · embedded</div><p>PyTorch’s edge runtime with export, quantization and mobile deployment paths for LLMs.</p></a>
+      </div>
+      <p class="research-note">Our tracking focus: model quality, peak RAM, KV-cache size, first-token latency, sustained tokens/sec, battery, thermals and offline reliability.</p>
     </div>
   </section>
 
