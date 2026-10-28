@@ -6,6 +6,7 @@ import ProductPage from './pages/ProductPage';
 import HowItWorksPage from './pages/HowItWorksPage';
 import TechnologyPage from './pages/TechnologyPage';
 import AboutPage from './pages/AboutPage';
+import ResearchPage from './pages/ResearchPage';
 import { fetchCapabilities, Capabilities } from './lib/api';
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (['home', 'product', 'how-it-works', 'technology', 'about'].includes(hash)) {
+      if (['home', 'product', 'how-it-works', 'technology', 'research', 'about'].includes(hash)) {
         setCurrentTab(hash as NavTab);
       }
     };
@@ -68,6 +69,7 @@ export default function App() {
         {currentTab === 'product' && <ProductPage />}
         {currentTab === 'how-it-works' && <HowItWorksPage />}
         {currentTab === 'technology' && <TechnologyPage />}
+        {currentTab === 'research' && <ResearchPage />}
         {currentTab === 'about' && <AboutPage />}
       </main>
 
