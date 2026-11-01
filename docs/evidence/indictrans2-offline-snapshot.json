@@ -1,0 +1,21 @@
+{
+  "upstream_model": "ai4bharat/indictrans2-en-indic-dist-200M",
+  "revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+  "purpose": "Private offline CPU recovery input; unadapted upstream weights",
+  "files": {
+    "config.json": "1429519f3b36f8bab631ed632b328a3422c19c4225c825dcde27c545746f475e",
+    "generation_config.json": "6c8b29ae72e680d5a2d9e849567f6f556d3f4e9bbd42434964a646f49b556972",
+    "model.safetensors": "0039e4304e9889acc5c8350a193311d07aa5399b6d9fb0445e8fde19e3533bb5",
+    "dict.SRC.json": "c6f65113581422c8777991d3770123c63447fe63dc5f3e8f4187eeff7553a689",
+    "dict.TGT.json": "f7817850c9e4b99c59fad57d0611c7720f1921f215e6f247cf25d52eff7f1146",
+    "model.SRC": "3cedc5cbcc740369b76201942a0f096fec7287fee039b55bdb956f301235b914",
+    "model.TGT": "ac9257c8e76b8b607705b959cc3d075656ea33032f7a974e467b8941df6e98d4",
+    "tokenizer_config.json": "283f76ffdd7e553ec7f108ad8eeb0124052db4bdadd924b3c291c591c8dd6625",
+    "special_tokens_map.json": "9046da57c270c8e74d0f38832b4adce269c9d914ef21d2a0925e7772152dd793",
+    "configuration_indictrans.py": "d7e4ce84efacc18981228f5071b00dba6e3bf165f8ea7bcc8ecdada8942e1a52",
+    "modeling_indictrans.py": "99a90c287f959ad4ad30c2dcfbd0bb0675e8658d6d40c1db3a218615a08f706f",
+    "tokenization_indictrans.py": "35396cf65b9fdc21379f8bc12cd658eec32fbe5de87a25fa5f4df190c5ffc4e3",
+    "README.md": "facd405782577b68ec1b0703fe42e947009c05a2387d5d70ab1f74d2d4a387f3"
+  },
+  "archive_bytes": 1106591990
+}

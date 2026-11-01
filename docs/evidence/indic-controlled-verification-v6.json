@@ -1,0 +1,60 @@
+{
+  "evidence_type": "Kaggle committed execution output, UI extracted; raw files retained in Kaggle",
+  "version_id": 363634942,
+  "baseline": {
+    "model_source": "ai4bharat/indictrans2-en-indic-dist-200M",
+    "base_revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+    "split": "internal validation; BPCC-H-Daily",
+    "full_validation_rows": 412,
+    "sample_rows": 412,
+    "sampling": "smallest sha256(indic-validation-v1: + raw source)",
+    "validation_file_sha256": "79d333b0817b4c04de648034f9930b3d091e91ed2a0d99b3c7f12fba09e0227f",
+    "bleu": 21.340703588668887,
+    "chrf_plus_plus": 54.169783911586,
+    "bleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0",
+    "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0",
+    "seconds": 217.24386037300008,
+    "output_reference_char_ratio": 1.023030303030303,
+    "empty_outputs": 0,
+    "settings": {
+      "beams": 3,
+      "max_length": 256,
+      "batch_size": 4
+    },
+    "limitation": "Internal validation used for selection; not external benchmark or unbiased final-test evidence",
+    "environment": {
+      "python": "3.13.15",
+      "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+      "torch": "2.11.0+cpu",
+      "cpu_threads": 4,
+      "device": "cpu",
+      "packages": {
+        "transformers": "4.51.3",
+        "IndicTransToolkit": "1.1.1",
+        "sacrebleu": "2.6.0",
+        "safetensors": "0.8.0"
+      }
+    },
+    "evaluator_sha256": "3b5af2a35444c87faafebb9ac008dabac19056669e1265c12c4869e854624d3d",
+    "inference_transformation": {
+      "method": "none",
+      "quantized_linear_layers": 0,
+      "scope": "CPU feasibility only; not a trained model or phone/browser export",
+      "lm_head_excluded": false
+    }
+  },
+  "gate": {
+    "rows": 412,
+    "chrf_plus_plus_delta": 0.9023820391264437,
+    "identical_predictions": 288,
+    "checks": {
+      "complete_internal_validation": true,
+      "no_chrf_regression": true,
+      "no_new_empty_outputs": true,
+      "length_ratio_within_10_percent_of_baseline": true
+    },
+    "internal_gate_passed": true,
+    "production_approved": false,
+    "limitation": "Internal retention gate only. External quality, native human review and device measurements remain required."
+  }
+}

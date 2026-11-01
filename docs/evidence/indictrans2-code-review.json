@@ -1,0 +1,13 @@
+{
+  "model": "ai4bharat/indictrans2-en-indic-dist-200M",
+  "revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+  "review": "Reviewed model/tokenizer imports and file operations: model math, tokenizer JSON/SentencePiece reads and save operations; no shell execution or HTTP calls found in retrieved custom code. Limited source review, not a security guarantee.",
+  "files": {
+    "modeling_indictrans.py": "99a90c287f959ad4ad30c2dcfbd0bb0675e8658d6d40c1db3a218615a08f706f",
+    "tokenization_indictrans.py": "35396cf65b9fdc21379f8bc12cd658eec32fbe5de87a25fa5f4df190c5ffc4e3",
+    "configuration_indictrans.py": "d7e4ce84efacc18981228f5071b00dba6e3bf165f8ea7bcc8ecdada8942e1a52"
+  },
+  "environment": "/tmp/inferedge-indic-env; transformers 4.51.3; IndicTransToolkit 1.1.1",
+  "benchmark_settings": "CPU four threads, batches four, three beams, maximum length 256; required language/script preprocessing and postprocessing",
+  "state": "Model files downloaded; benchmark process starting; no quality or edge-readiness result yet"
+}

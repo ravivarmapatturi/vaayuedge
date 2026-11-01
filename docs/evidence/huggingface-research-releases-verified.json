@@ -1,0 +1,32 @@
+[
+  {
+    "repo": "ravivarmapatturi/inferedge-indictrans2-en-te-1000steps-v1",
+    "url": "https://huggingface.co/ravivarmapatturi/inferedge-indictrans2-en-te-1000steps-v1",
+    "commit": "a2562b9862a5d58fcf14ba313b7fb1a5bb61796b",
+    "public": true,
+    "verified_file_count": 30,
+    "all_file_content_hashes_match": true,
+    "weight_sha256": "76eac41af9c997e5cd90740eedfe2631cc4bf25d6012561d25149ac252f80df1",
+    "production_approved": false
+  },
+  {
+    "repo": "ravivarmapatturi/inferedge-indictrans2-en-te-100steps-v1",
+    "url": "https://huggingface.co/ravivarmapatturi/inferedge-indictrans2-en-te-100steps-v1",
+    "commit": "3dba3782c79b916690025e36e8351625bc1715d5",
+    "public": true,
+    "verified_file_count": 32,
+    "all_file_content_hashes_match": true,
+    "weight_sha256": "4d91e08ef40b83f5345f180c729e2953373cd5382cf007bb4759be132a94aef3",
+    "production_approved": false
+  },
+  {
+    "repo": "ravivarmapatturi/inferedge-opus-en-te-100steps-research-v1",
+    "url": "https://huggingface.co/ravivarmapatturi/inferedge-opus-en-te-100steps-research-v1",
+    "commit": "6fc353b50bfc5f13be9cdeeedaefc58687a0e6f2",
+    "public": true,
+    "verified_file_count": 22,
+    "all_file_content_hashes_match": true,
+    "weight_sha256": "a098bf15738dbd0af6b4bfb43a341099ef0344242f04a61c871492acc7761e37",
+    "production_approved": false
+  }
+]

@@ -1,0 +1,406 @@
+Browser tab: 1, Title: "Kaggle Notebook Editor", URL: "https://www.kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training/edit".
+0 AXWebArea Kaggle Notebook Editor, URL: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training/edit
+	1 container
+		2 container root
+			3 container Main Kaggle page navigation
+				4 button Navigation menu
+				5 link Description: Skip to content, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training/edit#site-content
+				6 pop up button Create on Kaggle
+					7 text Create
+				8 container
+					9 container
+						10 content list
+							11 container Home List Item
+								12 link Description: Home, Value: kaggle.com/
+							13 container Competitions List Item
+								14 link Description: Competitions, Value: kaggle.com/competitions
+							15 container Benchmarks List Item
+								16 link Description: Benchmarks, Value: kaggle.com/benchmarks
+							17 container Arenas List Item
+								18 link Description: Arenas, Value: kaggle.com/arenas
+							19 container Game Arena List Item
+								20 link Description: Game Arena, Value: kaggle.com/game-arena
+						21 content list
+							22 container Data Hub List Item
+								23 link (collapsed) Description: Data Hub, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training/edit#, Secondary Actions: Expand
+						24 content list
+							25 container More on Kaggle List Item
+								26 link (collapsed) Description: More on Kaggle, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training/edit#, Secondary Actions: Expand
+					27 button (expanded) Event running 1 View Active Events, Secondary Actions: Collapse
+						28 container
+							29 container Event running
+								30 text update
+							31 text 1
+						32 text View Active Events
+			33 container site-content
+				34 container
+					35 text Kaggle uses cookies from Google to deliver and enhance the quality of its services and to analyze traffic.
+					36 link Description: Learn more, Value: kaggle.com/cookies
+					37 text OK, Got it.
+				38 container
+					39 heading InferEdge English Telugu Training, Value: 1
+						40 container
+							41 text field (settable) Description: Title: InferEdge English Telugu Training, Value: InferEdge English Telugu Training, ID: notebook-title-input
+					42 text Draft saved
+					43 button File
+					44 button Edit
+					45 button View
+					46 button Run
+					47 button Settings
+					48 button Add-ons
+					49 button Help
+					50 button Share
+					51 button Save Version
+					52 button Description: Show Versions, ID: show-versions-button-trigger
+					53 button Add cell
+					54 button Add cell options
+					55 button Cut cell
+					56 button Copy cell
+					57 button Paste cell
+					58 button Run current cell
+					59 button Run All
+						60 text fast_forward
+						61 text Run All
+					62 button Show options
+					63 button off (run a cell to start) Draft Session off (run a cell to start)
+						64 container off (run a cell to start)
+							65 text circle
+						66 text Draft Session
+						67 text off (run a cell to start)
+					68 button More settings
+					69 container Notebook editor cells
+							71 container
+								72 container
+									73 container id-a88b7b72-7633-48d8-8023-4dc6f7f1f34a
+										74 container Description: notebook content, ID: id-34eadb3e-ee53-47ea-8c17-fb22f26db6fc
+											75 container Cells
+												76 container Description: Code Cell Content with Output, ID: a17efb54-c30b-46a8-9886-d5e78f3c8743
+													77 container
+														78 button (disabled) Move Cell Up
+														79 button (disabled) Move Cell Down
+														80 button (disabled) Delete Cell
+													81 container
+														82 container
+															83 button Execute cell. Cell executed in 99.788s at 6:08pm
+																84 container Execute cell. Cell executed in 99.788s at 6:08pm
+																	85 text play_arrow
+															86 image
+														87 text entry area (settable) """Kaggle cell: bounded real-data CPU adaptation, never GPU training."""
+import hashlib,json,os,pathlib,shutil,subprocess,sys
+os.environ['CUDA_VISIBLE_DEVICES']=''
+venv=pathlib.Path('/tmp/indic-adaptation-env')
+subprocess.run([sys.executable,'-m','venv','--without-pip','--system-site-packages',str(venv)],check=True,timeout=120)
+runtime=str(venv/'bin/python')
+subprocess.run([runtime,'-m','pip','install','-q','transformers==4.51.3','lightning==2.6.6','torchdata==0.11.0','sentencepiece','safetensors==0.8.0','IndicTransToolkit==1.1.1','sacrebleu==2.6.0'],check=True,timeout=600)
+source=next(p.parent for p in pathlib.Path('/kaggle/input').rglob('BUNDLE_MANIFEST.json') if 'docs/indictrans2-adaptation-pilot-plan.md' in json.loads(p.read_text())['files'])
+manifest=json.loads((source/'BUNDLE_MANIFEST.json').read_text())
+root=pathlib.Path('/tmp/indic-adaptation-source')
+root.mkdir(exist_ok=True)
+for name,digest in manifest['files'].items():
+    path=source/name
+    assert hashlib.sha256(path.read_bytes()).hexdigest()==digest,'Input hash mismatch'
+    target=root/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,target)
+# Verify and cache private upstream input; no online Hub access or token needed.
+snapshot_source=next(pathlib.Path('/kaggle/input').rglob('PINNED_SNAPSHOT.json')).parent
+snapshot=json.loads((snapshot_source/'PINNED_SNAPSHOT.json').read_text())
+assert snapshot['revision']=='2cfd0a20057756d756bf3e53528f492afc52f91a'
+os.environ['HF_HUB_CACHE']='/tmp/indic-hf-cache'
+os.environ['HF_HUB_OFFLINE']='1'
+os.environ['TRANSFORMERS_OFFLINE']='1'
+cache=pathlib.Path(os.environ['HF_HUB_CACHE'])/'models--ai4bharat--indictrans2-en-indic-dist-200M'/'snapshots'/snapshot['revision']
+cache.mkdir(parents=True,exist_ok=True)
+for name,digest in snapshot['files'].items():
+    path=snapshot_source/name
+    assert hashlib.sha256(path.read_bytes()).hexdigest()==digest,'Pinned snapshot hash mismatch'
+    shutil.copyfile(path,cache/name)
+out=pathlib.Path('/kaggle/working/indic-adaptation-100steps')
+print('Starting real-data CPU adaptation:100steps,batch2,7673train rows; no GPU',flush=True)
+base=[runtime,'-u',str(root/'scripts/train-indictrans2-lightning.py'),'--output',str(out),'--batch-size','2','--accelerator','cpu','--max-steps','100','--learning-rate','2e-6']
+subprocess.run(base,cwd=root,check=True,timeout=1800)
+print('Optimizer run completed; starting complete internal validation generation',flush=True)
+subprocess.run([runtime,'-u',str(root/'scripts/validate-indictrans2-generation.py'),'--export-dir',str(out/'export'),'--sample-size','412','--output','/kaggle/working/indic-adaptation-validation'],cwd=root,check=True,timeout=900)
+print('Pilot and internal generation completed; no production or public release approval',flush=True)
+
+
+															88 text """Kaggle cell: bounded real-data CPU adaptation, never GPU training."""
+															89 container
+																90 text import  hashlib , json , os , pathlib , shutil , subprocess , sys
+															91 container
+																92 text os . environ [ 'CUDA_VISIBLE_DEVICES' ] = ''
+															93 container
+																94 text venv = pathlib . Path ( '/tmp/indic-adaptation-env' )
+															95 container
+																96 text subprocess . run ( [ sys . executable , '-m' , 'venv' , '--without-pip' , '--system-site-packages' , str ( venv ) ] , check = True , timeout = 120 )
+															97 container
+																98 text runtime = str ( venv / 'bin/python' )
+															99 container
+																100 text subprocess . run ( [ runtime , '-m' , 'pip' , 'install' , '-q' , 'transformers==4.51.3' , 'lightning==2.6.6' , 'torchdata==0.11.0' , 'sentencepiece' , 'safetensors==0.8.0' , 'IndicTransToolkit==1.1.1' , 'sacrebleu==2.6.0' ] , check = True , timeout = 600 )
+															101 container
+																102 text source = next ( p . parent for  p  in  pathlib . Path ( '/kaggle/input' ) . rglob ( 'BUNDLE_MANIFEST.json' ) if 'docs/indictrans2-adaptation-pilot-plan.md' in  json . loads ( p . read_text ( ) ) [ 'files' ] )
+															103 container
+																104 text manifest = json . loads ( ( source / 'BUNDLE_MANIFEST.json' ) . read_text ( ) )
+															105 container
+																106 text root = pathlib . Path ( '/tmp/indic-adaptation-source' )
+															107 container
+																108 text root . mkdir ( exist_ok = True )
+															109 container
+																110 text for  name , digest  in  manifest [ 'files' ] . items ( ) :
+															111 container
+																112 text     path = source / name
+															113 container
+																114 text assert  hashlib . sha256 ( path . read_bytes ( ) ) . hexdigest ( ) == digest , 'Input hash mismatch'
+															115 container
+																116 text     target = root / name ; target . parent . mkdir ( parents = True , exist_ok = True ) ; shutil . copyfile ( path , target )
+															117 text # Verify and cache private upstream input; no online Hub access or token needed.
+															118 container
+																119 text snapshot_source = next ( pathlib . Path ( '/kaggle/input' ) . rglob ( 'PINNED_SNAPSHOT.json' ) ) . parent
+															120 container
+																121 text snapshot = json . loads ( ( snapshot_source / 'PINNED_SNAPSHOT.json' ) . read_text ( ) )
+															122 container
+																123 text assert  snapshot [ 'revision' ] == '2cfd0a20057756d756bf3e53528f492afc52f91a'
+															124 container
+																125 text os . environ [ 'HF_HUB_CACHE' ] = '/tmp/indic-hf-cache'
+															126 container
+																127 text os . environ [ 'HF_HUB_OFFLINE' ] = '1'
+															128 container
+																129 text os . environ [ 'TRANSFORMERS_OFFLINE' ] = '1'
+															130 container
+																131 text cache = pathlib . Path ( os . environ [ 'HF_HUB_CACHE' ] ) / 'models--ai4bharat--indictrans2-en-indic-dist-200M' / 'snapshots' / snapshot [ 'revision' ]
+															132 container
+																133 text cache . mkdir ( parents = True , exist_ok = True )
+															134 container
+																135 text for  name , digest  in  snapshot [ 'files' ] . items ( ) :
+															136 container
+																137 text     path = snapshot_source / name
+															138 container
+																139 text assert  hashlib . sha256 ( path . read_bytes ( ) ) . hexdigest ( ) == digest , 'Pinned snapshot hash mismatch'
+															140 container
+																141 text     shutil . copyfile ( path , cache / name )
+															142 container
+																143 text out = pathlib . Path ( '/kaggle/working/indic-adaptation-100steps' )
+															144 container
+																145 text print ( 'Starting real-data CPU adaptation:100steps,batch2,7673train rows; no GPU' , flush = True )
+															146 container
+																147 text base = [ runtime , '-u' , str ( root / 'scripts/train-indictrans2-lightning.py' ) , '--output' , str ( out ) , '--batch-size' , '2' , '--accelerator' , 'cpu' , '--max-steps' , '100' , '--learning-rate' , '2e-6' ]
+															148 container
+																149 text subprocess . run ( base , cwd = root , check = True , timeout = 1800 )
+															150 container
+																151 text print ( 'Optimizer run completed; starting complete internal validation generation' , flush = True )
+															152 container
+																153 text subprocess . run ( [ runtime , '-u' , str ( root / 'scripts/validate-indictrans2-generation.py' ) , '--export-dir' , str ( out / 'export' ) , '--sample-size' , '412' , '--output' , '/kaggle/working/indic-adaptation-validation' ] , cwd = root , check = True , timeout = 900 )
+															154 container
+																155 text print ( 'Pilot and internal generation completed; no production or public release approval' , flush = True )
+													156 container
+														157 container
+															158 text Starting BPCC-H-Daily pilot: 7673 training rows, 100 optimizer steps
+
+														159 container
+															160 container
+																161 text Seed set to 42
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights: 100%|██████████| 258 /258  [00:00<00:00, 12546.59it /s ]
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger]( https://pypi.org/project/litlogger/ ) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+ /usr/local/lib/python3.13/dist-packages/lightning/pytorch/utilities/_pytree.py:21 : `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+ /usr/local/lib/python3.13/dist-packages/lightning/pytorch/trainer/connectors/data_connector.py:434 : The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+
+														162 container
+															163 text ┏━━━┳━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━┳━━━━━━━┓
+┃   ┃ Name  ┃ Type          ┃ Params ┃ Mode ┃ FLOPs ┃
+┡━━━╇━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━╇━━━━━━━┩
+│ 0 │ model │ MarianMTModel │ 76.9 M │ eval │     0 │
+└───┴───────┴───────────────┴────────┴──────┴───────┘
+Trainable params: 76.9 M                                                        
+Non-trainable params: 0                                                         
+Total params: 76.9 M                                                            
+Total estimated model params size (MB): 307.577                                 
+Modules in train mode: 0                                                        
+Modules in eval mode: 180                                                       
+Total FLOPs: 0                                                                  
+
+														164 container
+															165 container
+																166 text /usr/local/lib/python3.13/dist-packages/lightning/pytorch/trainer/connectors/data_connector.py:434 : The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+ /usr/local/lib/python3.13/dist-packages/lightning/pytorch/loops/fit_loop.py:538 : Found 180 module(s) in eval mode at the start of training. This may lead to unexpected behavior during training. If this is intentional, you can ignore this warning.
+`Trainer.fit` stopped: `max_steps=100` reached.
+
+														167 container
+															168 text Epoch 0/-2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100/100 0:00:23 • 0:00:00 4.34it/s 
+
+														169 container
+															170 text LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+														171 container
+															172 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     2.789006471633911     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103/103 0:00:03 • 0:00:00 33.43it/s 
+
+														173 container
+															174 container
+																175 text `weights_only` was not set, defaulting to `False`.
+Writing model shards: 100%|██████████| 1 /1  [00:00<00:00,  9.64it /s ]
+
+														176 container
+															177 text {"completed_optimizer_steps": 100, "export": "/kaggle/working/inferedge-pilot-100steps/export", "artifact_manifest": "/kaggle/working/inferedge-pilot-100steps/artifact-manifest.json"}
+Pilot completed; checkpoint and export: /kaggle/working/inferedge-pilot-100steps
+
+													178 container
+														179 button add Code, Help: Add a code cell
+															180 text add
+															181 text  Code
+														182 button add Markdown, Help: Add a markdown text cell
+															183 text add
+															184 text  Markdown
+					185 container
+						186 button Description: Open console, ID: frame-container-next-focus-element
+						187 button Open command palette
+					188 button validated 12 / 412 (Fetching worker time...)
+						189 text validated 12 / 412
+						190 container
+							191 text ( Fetching worker time... )
+					192 container
+						193 container editor-sidebar-scroll-container
+							194 heading Notebook, Value: 2
+								195 text Notebook
+							196 container
+								197 heading Input, Value: 3
+									198 text Input
+								199 button (expanded) Description: Collapse Input, Secondary Actions: Collapse
+							200 button Add Input
+							201 button Upload
+							202 text DATASETS
+							203 content list
+								204 container
+									205 button (collapsed) arrow_right, Help: Expand IndicTrans2 Pinned Upstream Private Recovery, Secondary Actions: Expand
+									206 text IndicTrans2 Pinned Upstream Private Recovery
+									207 button Description: Copy file path (IndicTrans2 Pinned Upstream Private Recovery), Help: Copy
+									208 button More actions for (IndicTrans2 Pinned Upstream Private Recovery)
+								209 container
+									210 button (collapsed) arrow_right, Help: Expand InferEdge IndicTrans2 Adaptation Bundle v2, Secondary Actions: Expand
+									211 text InferEdge IndicTrans2 Adaptation Bundle v2
+									212 button Description: Copy file path (InferEdge IndicTrans2 Adaptation Bundle v2), Help: Copy
+									213 button More actions for (InferEdge IndicTrans2 Adaptation Bundle v2)
+								214 container
+									215 button (collapsed) arrow_right, Help: Expand InferEdge IndicTrans2 CPU Recovery 20261030, Secondary Actions: Expand
+									216 text InferEdge IndicTrans2 CPU Recovery 20261030
+									217 button Description: Copy file path (InferEdge IndicTrans2 CPU Recovery 20261030), Help: Copy
+									218 button More actions for (InferEdge IndicTrans2 CPU Recovery 20261030)
+								219 container
+									220 button (collapsed) arrow_right, Help: Expand InferEdge Telugu Pilot 20261028, Secondary Actions: Expand
+									221 text InferEdge Telugu Pilot 20261028
+									222 button Description: Copy file path (InferEdge Telugu Pilot 20261028), Help: Copy
+									223 button More actions for (InferEdge Telugu Pilot 20261028)
+							224 container
+								225 heading Output, Value: 3
+									226 text Output
+								227 button (expanded) Description: Collapse Output, Secondary Actions: Collapse
+							228 content list
+								229 container
+									230 button (collapsed) arrow_right, Help: Expand /kaggle/working, Secondary Actions: Expand
+									231 text /kaggle/working
+									232 button Description: Copy directory path (/kaggle/working), Help: Copy
+									233 button Refresh directory contents (/kaggle/working)
+							234 container
+								235 heading Table of contents, Value: 3
+									236 text Table of contents
+								237 button (expanded) Description: Collapse Table of contents, Secondary Actions: Collapse
+							238 heading No sections detected, Value: 6
+								239 text No sections detected
+							240 text Add markdown headers to add a section
+							241 container
+								242 heading Session options, Value: 3
+									243 text Session options
+								244 button (expanded) Description: Collapse Session options, Secondary Actions: Collapse
+							245 container
+								246 container Description: Select Accelerator. None currently selected., ID: :r1l:
+									247 text Accelerator
+								248 combo box (collapsed) Select Accelerator. None currently selected., Value: None, Secondary Actions: Expand
+									249 text None
+							250 container
+								251 container Description: Select Persistence. No persistence currently selected., ID: :r1n:
+									252 text Persistence
+								253 combo box (collapsed) Select Persistence. No persistence currently selected., Value: No persistence, Secondary Actions: Expand
+									254 text No persistence
+							255 container
+								256 container Description: Select Environment. Pin to original environment (2026-10-22) currently selected., ID: :r1p:
+									257 text Environment
+								258 combo box (collapsed) Select Environment. Pin to original environment (2026-10-22) currently selected., Value: Pin to original environment (2026-10-22), Secondary Actions: Expand
+									259 text Pin to original environment (2026-10-22)
+								260 text You won't get new packages, but your code is less likely to break. 
+								261 button (collapsed) What is a notebook environment?, Secondary Actions: Expand
+							262 text Internet
+							263 container internet-toggle-switch-label
+								264 checkbox (settable, integer) Description: Internet on, Value: 1
+								265 text Internet on
+							266 text Tags
+							267 container Description: Tags, ID: combo-tags-menu-chipset
+								268 link Description: GPU opens in new window, Value: kaggle.com/code?tagIds=16580-GPU
+								269 button Edit Tags
+							270 text Dependency Manager
+							271 button Install Dependencies
+							272 container
+								273 text Some  accelerators, such as TPUs, require identity verification.
+								274 link Verify identity
+									275 text Verify identity
+							276 container
+								277 heading Schedule a notebook to run, Value: 3
+									278 text Schedule a notebook to run
+								279 button (collapsed) Description: Expand Schedule a notebook to run, Secondary Actions: Expand
+					280 button Collapse Sidebar
+						281 container Collapse Sidebar
+							282 text arrow_right
+			283 text Adding data source
+		284 container Status for InferEdge English Telugu Training: [object Object]. Click to open InferEdge English Telugu Training in new window List Item InferEdge IndicTrans2 Adaptation Bundle v2 List Item Status for InferEdge English Telugu Training: Successful. Click to open InferEdge English Telugu Training in new window List Item Status for InferEdge English Telugu Training: Failed. Click to open InferEdge English Telugu Training in new window List Item undefined List Item
+			285 container active-events-panel
+				286 content list
+					287 container Status for InferEdge English Telugu Training: [object Object]. Click to open InferEdge English Telugu Training in new window List Item
+						288 link Status for InferEdge English Telugu Training: [object Object]. Click to open InferEdge English Telugu Training in new window
+							289 button Loading
+								290 progress indicator Loading
+							291 text InferEdge English Telugu Training
+							292 text Version #5
+							293 text Running
+							294 text : 
+							295 text 9 minutes
+						296 text 8 minutes
+						297 button More options for InferEdge English Telugu Training
+					298 container InferEdge IndicTrans2 Adaptation Bundle v2 List Item
+						299 link InferEdge IndicTrans2 Adaptation Bundle v2
+							300 text InferEdge IndicTrans2 Adaptation Bundle v2
+							301 text Initial release
+							302 text Successful
+						303 text 9 minutes
+						304 button More options for undefined
+					305 container Status for InferEdge English Telugu Training: Successful. Click to open InferEdge English Telugu Training in new window List Item
+						306 link Status for InferEdge English Telugu Training: Successful. Click to open InferEdge English Telugu Training in new window
+							307 text open_in_new
+							308 text InferEdge English Telugu Training
+							309 text Version #4
+							310 text Successful
+						311 text an hour
+						312 button More options for InferEdge English Telugu Training
+					313 container Status for InferEdge English Telugu Training: Failed. Click to open InferEdge English Telugu Training in new window List Item
+						314 link Status for InferEdge English Telugu Training: Failed. Click to open InferEdge English Telugu Training in new window
+							315 text open_in_new
+							316 text InferEdge English Telugu Training
+							317 text Version #3
+							318 text Failed
+						319 text an hour
+						320 button More options for InferEdge English Telugu Training
+				321 content list
+					322 container undefined List Item
+						323 link Event running 1 1 Active Event
+							324 container
+								325 container Event running
+									326 text update
+								327 text 1
+							328 container
+								329 text 1  Active Event
+						330 button Collapse Active Events dialog
+
+The focused UI element is 299 link InferEdge IndicTrans2 Adaptation Bundle v2

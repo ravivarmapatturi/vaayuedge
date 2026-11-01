@@ -1,0 +1,157 @@
+Browser tab: 11, Title: "notebookf5fe5882da", URL: "https://www.kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956".
+0 AXWebArea notebookf5fe5882da, URL: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956
+	1 container root
+		2 container Main Kaggle page navigation
+			3 button Navigation menu
+			4 link Description: Skip to content, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956#site-content
+			5 link Description: Return to Kaggle home page, Value: kaggle.com/
+			6 pop up button Create on Kaggle
+				7 text Create
+			8 container
+				9 container
+					10 content list
+						11 container Home List Item
+							12 link Description: Home, Value: kaggle.com/
+						13 container Competitions List Item
+							14 link Description: Competitions, Value: kaggle.com/competitions
+						15 container Benchmarks List Item
+							16 link Description: Benchmarks, Value: kaggle.com/benchmarks
+						17 container Arenas List Item
+							18 link Description: Arenas, Value: kaggle.com/arenas
+						19 container Game Arena List Item
+							20 link Description: Game Arena, Value: kaggle.com/game-arena
+					21 content list
+						22 container Data Hub List Item
+							23 container
+								24 link (collapsed) Description: Data Hub, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956#, Secondary Actions: Expand
+								25 button Expand
+					26 content list
+						27 container More on Kaggle List Item
+							28 container
+								29 link (collapsed) Description: More on Kaggle, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956#, Secondary Actions: Expand
+								30 button Expand
+				31 content list
+					32 container Your Work List Item
+						33 container
+							34 link Description: Your Work, Value: kaggle.com/work
+							35 button (expanded) Description: Collapse Your Work, Help: Collapse
+					36 container Collapse Viewed List Item
+						37 container
+							38 link (expanded) Description: Collapse Viewed, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956#, Secondary Actions: Collapse
+							39 button Collapse Viewed
+					40 content list
+						41 container notebookf5fe5882da List Item
+							42 link Description: notebookf5fe5882da, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da
+						43 container InferEdge English Telugu Training List Item
+							44 link Description: InferEdge English Telugu Training, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training
+						45 container CHI-Bench List Item
+							46 link Description: CHI-Bench, Value: kaggle.com/competitions/chi-bench
+						47 container ARC Prize 2026 - Paper Track List Item
+							48 link Description: ARC Prize 2026 - Paper Track, Value: kaggle.com/competitions/arc-prize-2026-paper-track
+						49 container Google - The Gemma 4 Developer Agent Competition List Item
+							50 link Description: Google - The Gemma 4 Developer Agent Competition, Value: kaggle.com/competitions/gemma-4-developer-agent
+					51 container Collapse Edited List Item
+						52 container
+							53 link (expanded) Description: Collapse Edited, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956#, Secondary Actions: Collapse
+							54 button Collapse Edited
+					55 content list
+						56 container notebookf5fe5882da List Item
+							57 link Description: notebookf5fe5882da, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da
+						58 container InferEdge English Telugu Training List Item
+							59 link Description: InferEdge English Telugu Training, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training
+						60 container notebook09ec4917a0 List Item
+							61 link Description: notebook09ec4917a0, Value: kaggle.com/code/ravivarmapatturi/notebook09ec4917a0
+						62 container notebooke2d1dc60cf List Item
+							63 link Description: notebooke2d1dc60cf, Value: kaggle.com/code/ravivarmapatturi/notebooke2d1dc60cf
+						64 container TransferPolicy Notebook List Item
+							65 link Description: TransferPolicy Notebook, Value: kaggle.com/code/ravivarmapatturi/transferpolicy-notebook
+				66 button (collapsed) Open Active Events dialog View Active Events, Secondary Actions: Expand
+					67 container Open Active Events dialog
+						68 text auto_awesome_motion
+					69 text View Active Events
+		70 container Main menu, search and your account
+			71 container
+				72 text field (settable) :r6:
+				73 button NeuralMastery
+					74 image
+		75 container site-content
+			76 container
+				77 text Kaggle uses cookies from Google to deliver and enhance the quality of its services and to analyze traffic.
+				78 link Description: Learn more, Value: kaggle.com/cookies
+				79 text OK, Got it.
+			80 link Description: NeuralMastery's profile, Value: kaggle.com/ravivarmapatturi
+			81 text NeuralMastery · 
+			82 container Description: 38 minutes ago, Help: Fri Oct 30 2026 07:31:55 GMT+0530 (India Standard Time)
+				83 text 38m ago
+			84 text  ·  Private
+			85 container
+				86 button Upvote
+				87 button 0 votes
+			88 button Share
+			89 link Description: Edit, Value: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da/edit/run/363664956
+			90 pop up button (collapsed) Download, Secondary Actions: Expand
+			91 button More options for this notebook
+			92 heading notebookf5fe5882da, Value: 1
+				93 text notebookf5fe5882da
+			94 button Edit title
+			95 tab group
+				96 tab (selected, settable, boolean) Description: Notebook, 1 of 6, Value: 1
+				97 tab (selectable, settable, boolean) Description: Input, 2 of 6, Value: 0
+				98 tab (selectable, settable, boolean) Description: Output, 3 of 6, Value: 0
+				99 tab (selectable, settable, boolean) Description: Logs, 4 of 6, Value: 0
+				100 tab (selectable, settable, boolean) Description: Comments (0), 5 of 6, Value: 0
+				101 tab (selectable, settable, boolean) Description: Settings, 6 of 6, Value: 0
+			102 container
+				103 button Version 1 of 1
+					104 text Version 
+					105 text 1 of 1
+				106 button Description: Collapse Sidebar, ID: notebook-side-bar-trigger
+				107 heading Runtime, Value: 2
+					108 text Runtime
+				109 text play_arrow 37m 21s
+				110 button Go to input tab
+				111 text Datasets
+				112 text InferEdge Frozen IndicTrans2 Heldout Evaluation v1
+				113 text Notebooks
+				114 text InferEdge English Telugu Training
+				115 heading Tags, Value: 2
+					116 text Tags
+				117 button Add Tags
+				118 heading Language, Value: 2
+					119 text Language
+				120 text Python
+			121 container Description: Main Notebook Content, ID: rendered-kernel-content
+					123 container
+						124 container
+							125 text In [1]:
+							126 container (showing 0-500 of 1095 items)
+								127 text import subprocess , sys , os os . environ [ 'CUDA_VISIBLE_DEVICES' ] = '' subprocess . run ([ sys . executable , '-m' , 'pip' , 'install' , '-q' , 'sacrebleu==2.6.0' ], check = True , timeout = 180 ) """Rescore frozen paired predictions and percentile-bootstrap corpus chrF++ deltas.""" import argparse import hashlib import json import random from pathlib import Path def analyze ( base_dir , candidate_dir , data , repetitions = 1000 , seed = 20261030 ): from sacrebleu.metrics import BLEU , CHRF raw = data . read_bytes () expected = [ json . loads ( line ) for line in raw . decode () . splitlines ()] expected . sort ( key = lambda row : hashlib . sha256 (( 'indic-validation-v1:' + row [ 'source' ]) . encode ()) . hexdigest ()) identity = lambda rows : [( r [ 'source' ], r [ 'target' ]) for r in rows ] reports , predictions = [], [] for directory in ( base_dir , candidate_dir ): report = json . loads (( directory / 'metrics.json' ) . read_text ()) rows = [ json . loads ( line ) for line in ( directory / 'predictions.jsonl' ) . read_text () . splitlines ()] if identity ( rows ) != identity ( expected ) or report [ 'sample_rows' ] != len ( expected ): raise ValueError ( 'Incomplete or mismatched ordered corpus' ) if report [ 'validation_file_sha256' ] != hashlib . sha256 ( raw ) . hexdigest (): raise ValueError ( 'Dataset fingerprint mismatch' ) pred = [ r [ 'prediction' ] for r in rows ] for metric , key , signature in (( CHRF ( word_order = 2 ), 'chrf_plus_plus' , 'chrf_signature' ), ( BLEU (), 'bleu' , 'bleu_signature' )): score = metric . corpus_score ( pred , [[ r [ 'target' ] for r in expected ]]) . score if abs ( score - report [ key ]) > 1e-8 or str ( metric . get_signature ()) != report [ signature ]: raise ValueError ( 'Saved score or signature disagrees with predictions' ) reports . append ( report ) predictions . append ( pred ) for key in ( 'split' , 'settings' , 'environment' , 'evaluator_sha256' , 'base_revision' ): if reports [ 0 ][ key ]
+							128 text {"split": "bpcc-test", "rows": 426, "repetitions": 1000, "seed": 20261030, "chrf_delta": 0.9589347666144192, "percentile_95_interval": [0.3809923978037304, 1.6154849731151657], "method": "paired sentence resampling; recomputed corpus chrF++; percentile interval", "limitations": "Exploratory intervals per split, no multiplicity adjustment; no claim about human quality or universal superiority", "prediction_sha256": ["2f45874387e8b5d1a0b38f5b6d8c064143ff75bf181222a09e2b94e5cc3e963b", "22076b5605e8a9e23f488d0d8079a6eaf6767cec7903914b31e90888053e3a8c"], "production_approved": false}
+{"split": "in22-conv", "rows": 1503, "repetitions": 1000, "seed": 20261030, "chrf_delta": 0.21915069073804716, "percentile_95_interval": [0.01731978869401729, 0.41139274744700316], "method": "paired sentence resampling; recomputed corpus chrF++; percentile interval", "limitations": "Exploratory intervals per split, no multiplicity adjustment; no claim about human quality or universal superiority", "prediction_sha256": ["aa185d3937a6cbf23a594dada5bd20b6f1b7fb63d47032f22274596152f1cd82", "749a8047bb8635997474b61dfd8775902381ffcad5846944011f8d9a13dc4752"], "production_approved": false}
+{"split": "in22-gen", "rows": 1024, "repetitions": 1000, "seed": 20261030, "chrf_delta": -0.05396305363415621, "percentile_95_interval": [-0.1698348636426914, 0.06327075906715152], "method": "paired sentence resampling; recomputed corpus chrF++; percentile interval", "limitations": "Exploratory intervals per split, no multiplicity adjustment; no claim about human quality or universal superiority", "prediction_sha256": ["871707f42c10064838a9809da943e163af372927dd6e38a8eb17cb13012f78c9", "d385c98db115bc4896da7f3d48d69a2963b06fe6bf151b2e97390625771f85bc"], "production_approved": false}
+
+			129 heading Continue exploring, Value: 2
+				130 text Continue exploring
+			131 content list
+				132 container Input List Item
+					133 link Input
+						134 text input
+						135 text Input
+						136 text 2 files
+				137 container Output List Item
+					138 link Output
+						139 text output
+						140 text Output
+						141 text 3 files
+				142 container Logs List Item
+					143 link Logs
+						144 text list_alt
+						145 text Logs
+						146 text 2241.4 second run - successful
+				147 container Comments List Item
+					148 link Comments
+						149 text comment
+						150 text Comments
+						151 text 0 comments
+
+The focused UI element is 0 AXWebArea notebookf5fe5882da, URL: kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956

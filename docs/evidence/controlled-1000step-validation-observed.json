@@ -1,0 +1,48 @@
+{
+  "source": "https://www.kaggle.com/code/ravivarmapatturi/notebookbad499785d?scriptVersionId=363813322",
+  "runtime_seconds": 1577.7,
+  "status": "Successful",
+  "report": {
+    "model_source": "/kaggle/working/indic-controlled-1000steps-seed42/export",
+    "base_revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+    "split": "internal validation; BPCC-H-Daily",
+    "full_validation_rows": 412,
+    "sample_rows": 412,
+    "sampling": "smallest sha256(indic-validation-v1: + raw source)",
+    "validation_file_sha256": "79d333b0817b4c04de648034f9930b3d091e91ed2a0d99b3c7f12fba09e0227f",
+    "bleu": 27.51378713384213,
+    "chrf_plus_plus": 58.31445176462468,
+    "bleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0",
+    "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0",
+    "seconds": 253.18072739800004,
+    "output_reference_char_ratio": 0.9947826086956522,
+    "empty_outputs": 0,
+    "settings": {
+      "beams": 3,
+      "max_length": 256,
+      "batch_size": 4
+    },
+    "limitation": "Internal validation used for selection; not external benchmark or unbiased final-test evidence",
+    "environment": {
+      "python": "3.13.15",
+      "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+      "torch": "2.11.0+cu128",
+      "cpu_threads": 4,
+      "device": "cpu",
+      "packages": {
+        "transformers": "4.51.3",
+        "IndicTransToolkit": "1.1.1",
+        "sacrebleu": "2.6.0",
+        "safetensors": "0.8.0"
+      }
+    },
+    "evaluator_sha256": "3b5af2a35444c87faafebb9ac008dabac19056669e1265c12c4869e854624d3d",
+    "inference_transformation": {
+      "method": "none",
+      "quantized_linear_layers": 0,
+      "scope": "CPU feasibility only; not a trained model or phone/browser export",
+      "lm_head_excluded": false
+    },
+    "export_manifest_sha256": "39e33825ad4bcc891ad648ee8acd3aea163d17041e0bb4aea8be165712958249"
+  }
+}

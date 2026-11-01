@@ -1,0 +1,10 @@
+{
+  "model": "ai4bharat/indictrans2-en-indic-dist-200M",
+  "revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+  "source": "https://huggingface.co/ai4bharat/indictrans2-en-indic-dist-200M/resolve/2cfd0a20057756d756bf3e53528f492afc52f91a/LICENSE",
+  "sha256": "383258420065a19d9fef0daf00d10792d3f8a5ccf783d94a91f5d6755386615b",
+  "bytes": 1128,
+  "retrieved_utc_date": "2026-10-30",
+  "hub_metadata_license": "mit",
+  "scope": "Exact pinned checkpoint license only; not a full legal/provenance clearance"
+}

@@ -1,0 +1,12 @@
+{
+  "purpose": "Frozen v5 held-out inference only; no optimization or test-driven selection",
+  "frozen_export_manifest_sha256": "5235276b82864e619e7868d374bfc4acaa21b204c8cf2f99addbf347c6575515",
+  "files": {
+    "scripts/evaluate-frozen-indictrans2.py": "78dc0d4e28586394a9c4770e904a719bfda8a6d4c620602dc37d4dbcf1080a67",
+    "artifacts/kaggle-pilot/data/test.jsonl": "b5929aa34d12069066b999cdcc558d1f873513fdad0dca75a9791e3cbf554272",
+    "artifacts/pilot-benchmark-v1/in22-conv.jsonl": "947b4ebe11683bda9e0d4766cc4d028d41e6694bb258aafe07ef653fc18f30c0",
+    "artifacts/pilot-benchmark-v1/in22-gen.jsonl": "2966cbba6a485eda13f91d31a2366dd3b882ccf39771f223eadbc36fe099c857"
+  },
+  "archive_sha256": "b08c6f88747a8f3b9b0c5f9b5e8e9bee1ebfd9ecd0781abd8ee8dffe03401866",
+  "archive_bytes": 302735
+}

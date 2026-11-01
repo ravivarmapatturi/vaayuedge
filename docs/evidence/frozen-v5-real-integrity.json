@@ -1,0 +1,16 @@
+{
+  "integrity_verified": true,
+  "manifest_sha256": "5235276b82864e619e7868d374bfc4acaa21b204c8cf2f99addbf347c6575515",
+  "base_revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+  "file_count": 13,
+  "manifested_bytes": 1108559190,
+  "publication_approved": false,
+  "remaining_gates": [
+    "Exact upstream license and notices",
+    "Training data attribution",
+    "Research model card and tested loading example",
+    "Authorized destination and final upload allowlist review"
+  ],
+  "scope": "Byte integrity only; no model execution, credential scan, license clearance or device validation",
+  "source": "https://www.kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363811442"
+}

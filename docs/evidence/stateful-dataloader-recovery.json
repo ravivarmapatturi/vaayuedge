@@ -1,0 +1,25 @@
+{
+  "remaining_batches_identical": true,
+  "remaining_batches": [
+    [
+      9,
+      11,
+      12
+    ],
+    [
+      10,
+      6,
+      2
+    ],
+    [
+      1,
+      7,
+      14
+    ],
+    [
+      0,
+      5
+    ]
+  ],
+  "scope": "loader recovery contract only; full model integration pending"
+}

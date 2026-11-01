@@ -1,0 +1,22 @@
+{
+  "model_name": "Helsinki-NLP/opus-mt-en-dra",
+  "model_revision": "5ecfd223f954f860b67f1b4c42e6f4c70d347581",
+  "weight_format": "pytorch_model.bin",
+  "adapter_settings": {
+    "target_prefix": ">>tel<<",
+    "max_length": 256,
+    "num_beams": 3
+  },
+  "references": {
+    "path": "/tmp/inferedge-in22-r1tbY5/export/in22-gen.jsonl",
+    "bytes": 640443,
+    "sha256": "2966cbba6a485eda13f91d31a2366dd3b882ccf39771f223eadbc36fe099c857"
+  },
+  "predictions": {
+    "path": "/tmp/inferedge-gen-final/in22-gen.predictions.jsonl",
+    "bytes": 548613,
+    "sha256": "c38230f4de2f18c6e668f17e92e6a20525d48925198616e56b7e03d2c3375a0b"
+  },
+  "rows": 1024,
+  "evidence_class": "measured deployed-baseline predictions"
+}

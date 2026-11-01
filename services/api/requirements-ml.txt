@@ -1,9 +1,18 @@
 # Real on-device models (CPU). Installed by scripts/start-local.sh.
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch
+# Transformers refuses unsafe legacy PyTorch checkpoints with torch <2.6.
+# Keep the CPU companion wheels aligned for reproducible local validation;
+# the extra index above remains suitable for the gated CPU environment.
+torch>=2.6,<2.7
+torchvision>=0.21,<0.22
+torchaudio>=2.6,<2.7
 openai-whisper
 transformers>=4.40
 sentencepiece
 sacremoses
 scipy
 numpy
+sacrebleu>=2.4,<3
+# Training orchestration is intentionally declared here, but installation and
+# accelerator use remain gated by the readiness report and license audit.
+lightning>=2.2,<3

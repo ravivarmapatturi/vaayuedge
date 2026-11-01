@@ -1,0 +1,29 @@
+{
+  "evidence_class": "measured upstream metadata audit",
+  "checked_on": "2026-10-28",
+  "repository": "ai4bharat/BPCC",
+  "revision": "5bde309374f21c39e7c3d505f28ae11f58f2a220",
+  "hub_api": {
+    "resolved_sha": "5bde309374f21c39e7c3d505f28ae11f58f2a220",
+    "last_modified": "2025-12-26T13:42:26.000Z",
+    "cardData_license": null,
+    "declared_daily_file": "daily/tel_Telu.tsv"
+  },
+  "upstream_rights_evidence": {
+    "source": "https://github.com/AI4Bharat/IndicTrans2/blob/main/README.md",
+    "retrieved_on": "2026-10-28",
+    "artifact_family": "BPCC-H-Daily",
+    "declared_license": "CC-BY-4.0",
+    "evidence_class": "published upstream claim",
+    "limitation": "The pinned Hugging Face dataset revision does not expose a license field or a file-level rights manifest; this README claim is corroborating provenance, not a complete artifact-level clearance record."
+  },
+  "artifact": {
+    "path": "daily/tel_Telu.tsv",
+    "oid": "3acc79d8ff7b5f84fe9425d1f146acbb1069742d",
+    "size_bytes": 1608845
+  },
+  "decision": "component_specific_audit_required",
+  "training_status": "blocked",
+  "reason": "Published upstream documentation identifies BPCC-H-Daily as CC-BY-4.0, but the pinned dataset metadata does not provide an artifact-level or dataset-level license or rights manifest. Preserve the upstream claim as corroborating evidence; do not treat it as complete permission to train or redistribute the exact TSV.",
+  "next_action": "Obtain and preserve an authoritative artifact-level rights record from the upstream corpus owners before preparing a release training manifest."
+}

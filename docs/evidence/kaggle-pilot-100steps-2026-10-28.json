@@ -1,0 +1,17 @@
+{
+  "evidence_source": "Previously observed authenticated Kaggle notebook output; not reverified remotely this heartbeat",
+  "notebook": "https://www.kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training",
+  "base_model": "Helsinki-NLP/opus-mt-en-dra",
+  "revision": "5ecfd223f954f860b67f1b4c42e6f4c70d347581",
+  "optimizer_steps": 100,
+  "batch_size": 4,
+  "available_training_rows": 7673,
+  "validation_rows": 412,
+  "validation_loss": 2.789006471633911,
+  "training_seconds_displayed": 23,
+  "artifact_directory": "/kaggle/working/inferedge-pilot-100steps",
+  "durable_output_save_verified": false,
+  "gpu_session_current_state": "unknown",
+  "benchmark_scores": null,
+  "recovery_blocker": "Browser control unavailable; no local Kaggle CLI credentials found"
+}

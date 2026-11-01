@@ -1,0 +1,162 @@
+{
+  "repo": "ravivarmapatturi/inferedge-indictrans2-en-te-1000steps-v1",
+  "commit": "e9ae9e49bde7664f4dd04efa15375a4e0181a8e7",
+  "private": false,
+  "files": [
+    {
+      "rfilename": ".gitattributes",
+      "blobId": "11606f55d681c608e6b5a9d923af2871dd57e903",
+      "size": 1611
+    },
+    {
+      "rfilename": "ATTRIBUTION.md",
+      "blobId": "1fbc6cea38178e1fb8f56549ae05aef9042c4ebe",
+      "size": 1789
+    },
+    {
+      "rfilename": "LICENSE",
+      "blobId": "03070285be3aab2c5603737115bb71df3f7bbdf5",
+      "size": 1128
+    },
+    {
+      "rfilename": "README.md",
+      "blobId": "e40c739119568fd116f3cba380bf3118d587f753",
+      "size": 4875
+    },
+    {
+      "rfilename": "UPSTREAM_MODEL_CARD.md",
+      "blobId": "ea51dc456db5d613501df00f8d5ffdce38c197fa",
+      "size": 4595
+    },
+    {
+      "rfilename": "benchmarks/controlled-1000step-independent-validation-gate.json",
+      "blobId": "1a5836edfdb143694d737861c0c9d0cd5a98b41b",
+      "size": 469
+    },
+    {
+      "rfilename": "benchmarks/controlled-1000step-offline-smoke.json",
+      "blobId": "a12862d311f672153ee43c4744de1242e7974ebd",
+      "size": 450
+    },
+    {
+      "rfilename": "benchmarks/controlled-1000step-validation-observed.json",
+      "blobId": "568367a6752266289112d5f929f17b4c8936b29e",
+      "size": 1921
+    },
+    {
+      "rfilename": "config.json",
+      "blobId": "326153e504c1c59cdc221bed798e616d2786b731",
+      "size": 1306
+    },
+    {
+      "rfilename": "configuration_indictrans.py",
+      "blobId": "110d923f8fffda96398f05c30e00f94e341670ec",
+      "size": 14155
+    },
+    {
+      "rfilename": "dict.SRC.json",
+      "blobId": "f83fb32ddeece4c6e59b5a12fea2cd8479bd1689",
+      "size": 726400
+    },
+    {
+      "rfilename": "dict.TGT.json",
+      "blobId": "07a91ed487a8115a6c85e4f38cf6ba198bf3f937",
+      "size": 5279195
+    },
+    {
+      "rfilename": "export-manifest.json",
+      "blobId": "dca6a53f8e262ee66acbbf4870b99bf0932ccaf5",
+      "size": 1781
+    },
+    {
+      "rfilename": "generation_config.json",
+      "blobId": "0e96861359dabc83e20eb38173ba69cfe9abec91",
+      "size": 163
+    },
+    {
+      "rfilename": "model.SRC",
+      "blobId": "ef809c185ec3443c4b1a7b575f62823c188cbc44",
+      "size": 759425,
+      "lfs": {
+        "sha256": "3cedc5cbcc740369b76201942a0f096fec7287fee039b55bdb956f301235b914",
+        "size": 759425,
+        "pointerSize": 131
+      }
+    },
+    {
+      "rfilename": "model.TGT",
+      "blobId": "e3cfbb624421efbf88f1c816d99b386d29329e61",
+      "size": 3256903,
+      "lfs": {
+        "sha256": "ac9257c8e76b8b607705b959cc3d075656ea33032f7a974e467b8941df6e98d4",
+        "size": 3256903,
+        "pointerSize": 132
+      }
+    },
+    {
+      "rfilename": "model.safetensors",
+      "blobId": "8b470829d3586d2d95d6476a0ba99fa593317d78",
+      "size": 1098427592,
+      "lfs": {
+        "sha256": "76eac41af9c997e5cd90740eedfe2631cc4bf25d6012561d25149ac252f80df1",
+        "size": 1098427592,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "modeling_indictrans.py",
+      "blobId": "dec79d3e6161c3e90dabcd14887198a62ce5783d",
+      "size": 79786
+    },
+    {
+      "rfilename": "reproducibility/README.md",
+      "blobId": "6491312914d988366514205d83ff552beabec908",
+      "size": 313
+    },
+    {
+      "rfilename": "reproducibility/compare-internal-validation.py",
+      "blobId": "4953e705ae8ec40f8a04fa8c72ef163f7443aca3",
+      "size": 4398
+    },
+    {
+      "rfilename": "reproducibility/data-manifest.json",
+      "blobId": "698dcdcd1c270245f7bca981f3d7ab069b3abf99",
+      "size": 1106
+    },
+    {
+      "rfilename": "reproducibility/indictrans2_export.py",
+      "blobId": "3a4c66aec63a5a7e1688a9a79841b0ad9d226897",
+      "size": 2906
+    },
+    {
+      "rfilename": "reproducibility/train-indictrans2-lightning.py",
+      "blobId": "60888437f71aad36f782da6c33268366db94cff7",
+      "size": 6970
+    },
+    {
+      "rfilename": "reproducibility/validate-indictrans2-generation.py",
+      "blobId": "c36bce75936b48202c125a46155fd72788176b3b",
+      "size": 5112
+    },
+    {
+      "rfilename": "requirements.txt",
+      "blobId": "219e74e01e4166f3ada37bf974dc1952be8e40d4",
+      "size": 92
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "blobId": "a782b2f1cdab4d0bacb2dc0f85d02c4b1e31f0bd",
+      "size": 552
+    },
+    {
+      "rfilename": "tokenization_indictrans.py",
+      "blobId": "53c9be07a1dda3273ed8c2af4f30b635edff4b31",
+      "size": 8044
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "blobId": "4294f09bb862034771f802171a0e3cc6f892450b",
+      "size": 1074
+    }
+  ]
+}

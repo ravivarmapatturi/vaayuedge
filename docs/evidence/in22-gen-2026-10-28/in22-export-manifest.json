@@ -1,0 +1,25 @@
+{
+  "evaluation_only": true,
+  "benchmarks": {
+    "in22-conv": {
+      "repo": "ai4bharat/IN22-Conv",
+      "revision": "18cd45870ff0a9e65df9b80dbbcc615eec0e489",
+      "archive_sha256": "739a2819858ad615d14700f43fde0b23550fd7a690f024b5253111c233b46995",
+      "artifact": "in22-conv.jsonl",
+      "artifact_bytes": 368750,
+      "artifact_sha256": "947b4ebe11683bda9e0d4766cc4d028d41e6694bb258aafe07ef653fc18f30c0",
+      "rows": 1503,
+      "archive_source": "huggingface_hub"
+    },
+    "in22-gen": {
+      "repo": "ai4bharat/IN22-Gen",
+      "revision": "e042ab3d3063110b1a85efa0a59bdbf8553bb928",
+      "archive_sha256": "739a2819858ad615d14700f43fde0b23550fd7a690f024b5253111c233b46995",
+      "artifact": "in22-gen.jsonl",
+      "artifact_bytes": 640443,
+      "artifact_sha256": "2966cbba6a485eda13f91d31a2366dd3b882ccf39771f223eadbc36fe099c857",
+      "rows": 1024,
+      "archive_source": "huggingface_hub"
+    }
+  }
+}

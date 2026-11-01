@@ -76,3 +76,9 @@ scratch/
 Thumbs.db
 .claude/
 public/models/
+
+# Local research outputs (models live on Hugging Face / Kaggle)
+artifacts/
+output/
+tmp/
+codex-autonomous.sh

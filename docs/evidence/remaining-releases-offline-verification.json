@@ -1,0 +1,24 @@
+{
+  "v5": {
+    "offline_load_passed": true,
+    "output": [
+      "దయచేసి లైట్లు ఆఫ్ చేయండి."
+    ],
+    "scope": "One-sentence offline loading smoke test; not a benchmark or human quality rating"
+  },
+  "opus": {
+    "offline_load_passed": true,
+    "output": [
+      "దయచేసి లైట్లు ఆఫ్ చేయండి"
+    ],
+    "scope": "One-sentence offline loading smoke test; not a benchmark or human quality rating"
+  },
+  "in22-conv": {
+    "rows": 1503,
+    "bleu_chrf_independently_reproduced": true
+  },
+  "in22-gen": {
+    "rows": 1024,
+    "bleu_chrf_independently_reproduced": true
+  }
+}

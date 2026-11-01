@@ -1,0 +1,9 @@
+{
+  "rows": 32,
+  "same_recorded_environment_and_evaluator": true,
+  "fp32_generation_seconds": 19.8702032029978,
+  "int8_generation_seconds": 9.068839310959447,
+  "single_run_time_ratio_fp32_over_int8": 2.191041490721442,
+  "chrf_delta": -0.9500793568479224,
+  "limitation": "Single runs; no repetitions or process peak-memory sampling. Timing excludes loading and quantization. Not phone/browser evidence; quality gate fails."
+}

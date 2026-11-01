@@ -1,0 +1,66 @@
+{
+  "reason": "User explicitly requested movie removal to free disk",
+  "removed": [
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - DC (2026) TRUE WEB-DL - 4K SDR - HEVC - [Tel + Tam] - (DD+5.1 ATMOS - 448Kbps & AAC) - 16GB - ESub.mkv",
+      "bytes": 17099125157
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.flights - Baahubali The Epic (2025) 1080p Telugu WEB-DL - AVC - (AAC 2.0) - 3.7GB - ESub.mkv",
+      "bytes": 4031007625
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.clinic - Coolie (2025) 1080p Telugu TRUE WEB-DL - 1080p - AVC - (DD+5.1 - 640Kbps _ AAC 2.0) - 3.5GB - ESub.mkv",
+      "bytes": 3764322142
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - Hi (2026) 4K TRUE WEB-DL - SDR - HEVC - [Tel + Tam + Mal + Kan] - (DD+5.1 - 192Kbps & AAC) - 5.4GB - ESub.mkv",
+      "bytes": 5796721300
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.lighting - Shambhala (2025) Telugu WEB-DL - 4K SDR - 2160p HQ -\u00a0HEVC\u00a0- (DD+5.1 - 192Kbps & AAC 2.0) - 4.8GB - ESub.mkv",
+      "bytes": 5180600931
+    },
+    {
+      "path": "/home/ravivarma/Downloads/Sampradayaini Suppini Suddapusaani (2026) 720p Telugu HQ HDRip - x264 - (DD+5.1 - 192Kbps & AAC) - 1.4GB - ESub.mkv",
+      "bytes": 1487616457
+    },
+    {
+      "path": "/home/ravivarma/Downloads/Parimala and Co (2026) HQ HDRip - x264 - [Tel + Hin + Kan] - AAC - 800MB - ESub.mkv",
+      "bytes": 874636473
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - Pallaburusu (2026) Telugu HQ HDRip - 1080p - x264 - (DD+5.1 - 640Kbps & AAC 2.0) - 2.7GB - ESub.mkv",
+      "bytes": 2990915911
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - Irumudi (2026) 1080p HQ WEB-DL - x264 - (DD+5.1 - 640kbps & AAC) [Tel + Tam + Hin + Mal + Kan] - 8.4GB - ESub.mkv",
+      "bytes": 9022985954
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - Magudam (2026) 1080p TRUE WEB-DL - AVC - [Tel + Tam + Mal + Kan] -\u00a0(DD+5.1 - 640Kbps & AAC) - 9.5GB - ESub.mkv",
+      "bytes": 10249029191
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - Khalifa The Ruler (2026) 1080p TRUE WEB-DL - AVC - [Tel + Tam + Hin + Mal + Kan] (DD+5.1 - 640kbps & AAC) - 9GB - ESub.mkv",
+      "bytes": 9651853935
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - G.D.N. (2026) 1080p Telugu HQ HDRip - x264 - (DD+5.1 - 640Kbps & AAC 2.0) - 3GB - ESub.mkv",
+      "bytes": 3228800360
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - Vishwanath and Sons (2026) 1080p Telugu TRUE WEB-DL - AVC - (DD+5.1 - 640Kbps & AAC) - 2.9GB - ESub.mkv",
+      "bytes": 3146257602
+    },
+    {
+      "path": "/home/ravivarma/Downloads/www.5MovieRulz.company - Mandaadi (2026) 1080p TRUE WEB-DL - AVC - [Tel + Tam + Hin + Mal + Kan] - (DD+5.1 - 640Kbps & AAC) - 8GB - ESub.mkv",
+      "bytes": 8666170928
+    },
+    {
+      "path": "/home/ravivarma/Videos/www.5MovieRulz.company - Toxic (2026) 1080p Telugu DVDScr - x264 - AAC - 7.8GB.mkv",
+      "bytes": 8334356816
+    }
+  ],
+  "total_bytes": 93524400782
+}

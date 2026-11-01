@@ -1,0 +1,82 @@
+{
+  "blockers": [
+    "model license audit remains research-only",
+    "unresolved model-license hold: Bodhan gated access/terms and provenance",
+    "unresolved model-license hold: Gemma upstream terms and provenance",
+    "candidate training corpus rights are unresolved: ai4bharat/samanantar, ai4bharat/BPCC",
+    "BPCC artifact-rights audit remains unresolved",
+    "deployment bundles are missing: whisper_cpp_binary, whisper_cpp_model, translation_model, tts_model"
+  ],
+  "checks": {
+    "candidate_inventory": {
+      "candidate_count": 4,
+      "candidate_entries_valid": true,
+      "candidate_ids_unique": true,
+      "exists": true,
+      "path": "docs/model-candidate-inventory.json",
+      "required_fields_present": true,
+      "valid_json": true
+    },
+    "corpus_inventory": {
+      "candidate_corpora_count": 2,
+      "candidate_corpora_rights_clear": false,
+      "exists": true,
+      "path": "docs/corpus-inventory.json",
+      "required_fields_present": true,
+      "unresolved_candidate_corpora": [
+        {
+          "id": "ai4bharat/samanantar",
+          "status": "hold_pending_resolution"
+        },
+        {
+          "id": "ai4bharat/BPCC",
+          "status": "component_specific_audit_required"
+        }
+      ],
+      "valid_json": true
+    },
+    "corpus_rights_audit": {
+      "artifact_oid": "3acc79d8ff7b5f84fe9425d1f146acbb1069742d",
+      "artifact_path": "daily/tel_Telu.tsv",
+      "authoritative_rights_clear": false,
+      "decision": "component_specific_audit_required",
+      "exists": true,
+      "matches_inventory": true,
+      "path": "docs/evidence/bpcc-rights-audit-2026-10-28.json",
+      "repository": "ai4bharat/BPCC",
+      "revision": "5bde309374f21c39e7c3d505f28ae11f58f2a220",
+      "training_status": "blocked",
+      "valid_json": true
+    },
+    "deployment_preflight": {
+      "exists": true,
+      "missing_bundles": [
+        "whisper_cpp_binary",
+        "whisper_cpp_model",
+        "translation_model",
+        "tts_model"
+      ],
+      "path": "docs/evidence/deployment-preflight-2026-10-28.json",
+      "preflight_valid": true,
+      "ready_for_local_bundle_benchmark": false,
+      "required_fields_present": true,
+      "valid_json": true
+    },
+    "license_audit": {
+      "exists": true,
+      "path": "docs/model-license-audit.md",
+      "research_only_hold": true,
+      "unresolved_holds": [
+        "Bodhan gated access/terms and provenance",
+        "Gemma upstream terms and provenance"
+      ]
+    },
+    "lightning_importable": true,
+    "sacrebleu_importable": true,
+    "training_manifest": {
+      "provided": false
+    }
+  },
+  "evidence_class": "readiness diagnostic; not a training result",
+  "gpu_gate": "NOT READY"
+}

@@ -1,0 +1,101 @@
+{
+  "removed": [
+    {
+      "path": "/home/ravivarma/Downloads/lineage-20.0-20250809-MAINLINE-waydroid_x86-vendor.zip",
+      "bytes": 97833742
+    },
+    {
+      "path": "/home/ravivarma/Downloads/ubuntu-22.04.5-desktop-amd64.iso",
+      "bytes": 4762707968
+    },
+    {
+      "path": "/home/ravivarma/Downloads/google-chrome-stable_current_amd64.deb",
+      "bytes": 112472656
+    },
+    {
+      "path": "/home/ravivarma/Downloads/Anaconda3-2024.10-1-Linux-x86_64.sh",
+      "bytes": 1102495056
+    },
+    {
+      "path": "/home/ravivarma/Downloads/zoom_amd64.deb",
+      "bytes": 207310562
+    },
+    {
+      "path": "/home/ravivarma/Downloads/discord-0.0.74.deb",
+      "bytes": 106461904
+    },
+    {
+      "path": "/home/ravivarma/Downloads/utserver (1).tar.gz",
+      "bytes": 2257373
+    },
+    {
+      "path": "/home/ravivarma/Downloads/utserver (3).tar.gz",
+      "bytes": 2259340
+    },
+    {
+      "path": "/home/ravivarma/Downloads/jam-amd64.deb",
+      "bytes": 77910386
+    },
+    {
+      "path": "/home/ravivarma/Downloads/postman-linux-arm64.tar.gz",
+      "bytes": 146237299
+    },
+    {
+      "path": "/home/ravivarma/Downloads/utserver.tar.gz",
+      "bytes": 2259698
+    },
+    {
+      "path": "/home/ravivarma/Downloads/mongodb-mongosh_2.5.10_amd64.deb",
+      "bytes": 57994804
+    },
+    {
+      "path": "/home/ravivarma/Downloads/code_1.105.1-1760482543_amd64.deb",
+      "bytes": 113598926
+    },
+    {
+      "path": "/home/ravivarma/Downloads/chatgpt_amd64.deb",
+      "bytes": 517772878
+    },
+    {
+      "path": "/home/ravivarma/Downloads/mongodb-atlas-cli_1.50.1_linux_x86_64.deb",
+      "bytes": 16114402
+    },
+    {
+      "path": "/home/ravivarma/Downloads/discord-0.0.82.deb",
+      "bytes": 101320540
+    },
+    {
+      "path": "/home/ravivarma/Downloads/webtorrent-desktop_0.24.0_amd64.deb",
+      "bytes": 62049756
+    },
+    {
+      "path": "/home/ravivarma/Downloads/Antigravity.tar.gz",
+      "bytes": 168575536
+    },
+    {
+      "path": "/home/ravivarma/Downloads/utserver (2).tar.gz",
+      "bytes": 2259340
+    },
+    {
+      "path": "/home/ravivarma/Downloads/cursor_2.5.26_amd64.deb",
+      "bytes": 180986840
+    },
+    {
+      "path": "/home/ravivarma/Downloads/smart-browser-2.3.0.deb",
+      "bytes": 106726240
+    },
+    {
+      "path": "/home/ravivarma/Downloads/claude-desktop_amd64.deb",
+      "bytes": 172579328
+    },
+    {
+      "path": "/home/ravivarma/Downloads/utweb_installer.exe",
+      "bytes": 1797776
+    },
+    {
+      "path": "/home/ravivarma/Downloads/hackathon/discord-0.0.76.deb",
+      "bytes": 101639228
+    }
+  ],
+  "total_bytes": 8223621578
+}

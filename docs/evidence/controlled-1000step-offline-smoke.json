@@ -1,0 +1,11 @@
+{
+  "offline_load_passed": true,
+  "rows": 2,
+  "outputs": [
+    "దయచేసి లైట్లు ఆఫ్ చేయండి.",
+    "నేను ఐదు గంటలకు వస్తాను."
+  ],
+  "seconds_including_load": 5.308540334983263,
+  "scope": "Offline portability smoke test only; not latency benchmark or human quality assessment",
+  "manifest_sha256": "39e33825ad4bcc891ad648ee8acd3aea163d17041e0bb4aea8be165712958249"
+}

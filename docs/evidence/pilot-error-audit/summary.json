@@ -1,0 +1,23 @@
+{
+  "train_rows": 7673,
+  "training_target_tokens_over_128": 0,
+  "median_target_tokens": 12,
+  "benchmarks": {
+    "in22-conv": {
+      "rows": 1503,
+      "sentence_chrf_worse": 684,
+      "sentence_chrf_better": 655,
+      "unchanged_outputs": 159,
+      "pilot_ascii_digits_missing_from_source_count": 10,
+      "digit_check_caveat": "Surface diagnostic only; Telugu digits or verbalization may be valid"
+    },
+    "in22-gen": {
+      "rows": 1024,
+      "sentence_chrf_worse": 726,
+      "sentence_chrf_better": 291,
+      "unchanged_outputs": 6,
+      "pilot_ascii_digits_missing_from_source_count": 44,
+      "digit_check_caveat": "Surface diagnostic only; Telugu digits or verbalization may be valid"
+    }
+  }
+}

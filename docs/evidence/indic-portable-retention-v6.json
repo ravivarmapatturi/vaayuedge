@@ -1,0 +1,14 @@
+{
+  "rows": 32,
+  "chrf_plus_plus_delta": 0.0,
+  "identical_predictions": 32,
+  "checks": {
+    "complete_internal_validation": false,
+    "no_chrf_regression": true,
+    "no_new_empty_outputs": true,
+    "length_ratio_within_10_percent_of_baseline": true
+  },
+  "internal_gate_passed": false,
+  "production_approved": false,
+  "limitation": "Internal retention gate only. External quality, native human review and device measurements remain required."
+}

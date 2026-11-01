@@ -1,0 +1,367 @@
+Browser tab: 5, Title: "notebookbad499785d", URL: "https://www.kaggle.com/code/ravivarmapatturi/notebookbad499785d/notebook?scriptVersionId=363813322".
+0 AXWebArea notebookbad499785d, URL: kaggle.com/code/ravivarmapatturi/notebookbad499785d/notebook?scriptVersionId=363813322
+	1 container root
+		2 container Main Kaggle page navigation
+			3 button Navigation menu
+			4 link Description: Skip to content, Value: kaggle.com/code/ravivarmapatturi/notebookbad499785d/notebook?scriptVersionId=363813322#site-content
+			5 pop up button Create on Kaggle
+				6 text Create
+			7 container
+				8 container
+					9 content list
+						10 container Home List Item
+							11 link Description: Home, Value: kaggle.com/
+						12 container Competitions List Item
+							13 link Description: Competitions, Value: kaggle.com/competitions
+						14 container Benchmarks List Item
+							15 link Description: Benchmarks, Value: kaggle.com/benchmarks
+						16 container Arenas List Item
+							17 link Description: Arenas, Value: kaggle.com/arenas
+						18 container Game Arena List Item
+							19 link Description: Game Arena, Value: kaggle.com/game-arena
+					20 content list
+						21 container Data Hub List Item
+							22 link (collapsed) Description: Data Hub, Value: kaggle.com/code/ravivarmapatturi/notebookbad499785d/notebook?scriptVersionId=363813322#, Secondary Actions: Expand
+					23 content list
+						24 container More on Kaggle List Item
+							25 link (collapsed) Description: More on Kaggle, Value: kaggle.com/code/ravivarmapatturi/notebookbad499785d/notebook?scriptVersionId=363813322#, Secondary Actions: Expand
+				26 button (collapsed) Open Active Events dialog View Active Events, Secondary Actions: Expand
+					27 container Open Active Events dialog
+						28 text auto_awesome_motion
+					29 text View Active Events
+		30 container Main menu, search and your account
+			31 container
+				32 text field (settable) :r6:
+				33 button NeuralMastery
+					34 image
+		35 container site-content
+			43 link Description: NeuralMastery's profile, Value: kaggle.com/ravivarmapatturi
+			44 text NeuralMastery · 
+			45 container Description: 32 minutes ago, Help: Fri Oct 30 2026 15:43:25 GMT+0530 (India Standard Time)
+				46 text 32m ago
+			47 text  ·  1 view  ·  Private
+			48 container
+				49 button Upvote
+				50 button 0 votes
+			51 button Share
+			52 link Description: Edit, Value: kaggle.com/code/ravivarmapatturi/notebookbad499785d/edit/run/363813322
+			53 pop up button (collapsed) Download, Secondary Actions: Expand
+			54 button More options for this notebook
+			55 heading notebookbad499785d, Value: 1
+				56 text notebookbad499785d
+			57 button Edit title
+			58 tab group
+				59 tab (selected, settable, boolean) Description: Notebook, 1 of 6, Value: 1
+				60 tab (selectable, settable, boolean) Description: Input, 2 of 6, Value: 0
+				61 tab (selectable, settable, boolean) Description: Output, 3 of 6, Value: 0
+				62 tab (selectable, settable, boolean) Description: Logs, 4 of 6, Value: 0
+				63 tab (selectable, settable, boolean) Description: Comments (0), 5 of 6, Value: 0
+				64 tab (selectable, settable, boolean) Description: Settings, 6 of 6, Value: 0
+			65 button Description: Open Sidebar, ID: notebook-side-bar-trigger
+			66 container
+				67 heading Runtime, Value: 2
+					68 text Runtime
+				69 text play_arrow 26m 18s  · GPU T4 x2
+				70 button Version 1 of 1
+					71 text Version 
+					72 text 1 of 1
+				73 button Go to input tab
+				74 text Datasets
+				75 text IndicTrans2 Pinned Upstream Private Recovery
+				76 text InferEdge IndicTrans2 Adaptation Bundle v2
+				77 heading Tags, Value: 2
+					78 text Tags
+				79 container Description: Tags, ID: combo-tags-menu-chipset
+					80 link Description: GPU opens in new window, Value: kaggle.com/code?tagIds=16580-GPU
+					81 button Edit Tags
+				82 heading Language, Value: 2
+					83 text Language
+				84 text Python
+			85 container Description: Main Notebook Content, ID: rendered-kernel-content
+					111 container
+						112 container
+							113 text In [1]:
+							114 container (showing 0-500 of 870 items)
+								115 text """Kaggle cell: bounded1000-step train/validation-only GPU experiment; verify free quota before submitting.""" import hashlib , json , os , pathlib , shutil , subprocess , sys EXPECTED_BUNDLE_MANIFEST = '286d44fc6140be8493165122e6187670c61e432a1533a2e58398707f76076ac9' # Accelerator must be explicitly selected after verifying free quota. import torch if not torch . cuda . is_available (): raise RuntimeError ( 'GPU experiment requires CUDA; refusing CPU fallback' ) print ({ 'cuda' : torch . version . cuda , 'gpu' : torch . cuda . get_device_name ( 0 )}, flush = True ) venv = pathlib . Path ( '/tmp/indic-adaptation-env' ) subprocess . run ([ sys . executable , '-m' , 'venv' , '--without-pip' , '--system-site-packages' , str ( venv )], check = True , timeout = 120 ) runtime = str ( venv / 'bin/python' ) subprocess . run ([ runtime , '-m' , 'pip' , 'install' , '-q' , 'transformers==4.51.3' , 'lightning==2.6.6' , 'torchdata==0.11.0' , 'sentencepiece' , 'safetensors==0.8.0' , 'IndicTransToolkit==1.1.1' , 'sacrebleu==2.6.0' ], check = True , timeout = 600 ) source = next ( p . parent for p in pathlib . Path ( '/kaggle/input' ) . rglob ( 'BUNDLE_MANIFEST.json' ) if hashlib . sha256 ( p . read_bytes ()) . hexdigest () == EXPECTED_BUNDLE_MANIFEST ) manifest = json . loads (( source / 'BUNDLE_MANIFEST.json' ) . read_text ()) root = pathlib . Path ( '/tmp/indic-adaptation-source' ) root . mkdir ( exist_ok = True ) if any ( 'test.jsonl' in n or 'in22' in n . lower () for n in manifest [ 'files' ]): raise ValueError ( 'Held-out data forbidden in training bundle' ) for name , digest in manifest [ 'files' ] . items (): path = source / name assert hashlib . sha256 ( path . read_bytes ()) . hexdigest () == digest , 'Input hash mismatch' target = root / name ; target . parent . mkdir ( parents = True , exist_ok = True ); shutil . copyfile ( path , target ) # Verify and cache private upstream input; no online Hub access or token needed. snapshot_source = next ( pathlib . Path ( '/kaggle/input' ) . rglob ( 'PINNED_SNAPSHOT.json' )) . parent snapshot = json . loads (( snapshot_source / 'PINNED_SNAPSHOT.json' ) . read_text ()) assert snapshot [ 'revision' ] == '2cfd0a20057756d756bf3e53528f492afc52f91a' os . environ [ 'HF_HUB_CACHE' ] = '/tmp/indic-hf-cache' os . environ [ 'HF_HUB_OFFLINE' ] = '1' os . environ [ 'TRANSFORMERS_OFFLINE' ] = '1' cache = pathlib . Path ( os . environ [ 'HF_HUB_CACHE' ]) / 'models--ai4bharat--indictrans2-en-indic-dist-200M' / 'snapshots' / snapshot [ 'revision' ] cache . mkdir ( parents = True , exist_ok = True ) for name , digest in snapshot [ 'files' ] . items (): path = snapshot_source / name assert hashlib . sha256 ( path . read_bytes ()) . hexdigest () == digest , 'Pinned snapshot hash mismatch' shutil . copyfile ( path , cache / name ) # Explicit reviewed trainer override; source digest retained with outputs. import base64
+							116 text {'cuda': '12.8', 'gpu': 'Tesla T4'}
+
+							117 text ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+gradio 6.26.0 requires huggingface-hub<2.0,>=1.16.0, but you have huggingface-hub 0.36.2 which is incompatible.
+gradio 6.26.0 requires pillow<13.0,>=8.0, but you have pillow 13.0.0 which is incompatible.
+diffusers 0.40.0 requires huggingface-hub<2.0,>=1.23.0, but you have huggingface-hub 0.36.2 which is incompatible.
+Seed set to 42
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+`Trainer(val_check_interval=1)` was configured so validation will run after every batch.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							118 text ┏━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name  ┃ Type                               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ model │ IndicTransForConditionalGeneration │  211 M │ train │     0 │
+└───┴───────┴────────────────────────────────────┴────────┴───────┴───────┘
+Trainable params: 211 M                                                         
+Non-trainable params: 0                                                         
+Total params: 211 M                                                             
+Total estimated model params size (MB): 847.106                                 
+Modules in train mode: 519                                                      
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+
+							119 text /tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+`Trainer.fit` stopped: `max_steps=2` reached.
+
+							120 text Epoch 0/-2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2/2 0:00:33 • 0:00:00 0.00it/s 
+
+							121 text LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							122 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     0.542425274848938     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2/2 0:00:00 • 0:00:00 10.19it/s 
+
+							123 text `weights_only` was not set, defaulting to `False`.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							124 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     0.542425274848938     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2/2 0:00:00 • 0:00:00 10.19it/s 
+Completed steps 2
+
+							125 text Seed set to 42
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+`Trainer(val_check_interval=1)` was configured so validation will run after every batch.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:881: Checkpoint directory /tmp/indic-recovery-fixture/checkpoints exists and is not empty.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:881: Checkpoint directory /tmp/indic-recovery-fixture/recovery exists and is not empty.
+Restoring states from the checkpoint path at /tmp/indic-recovery-fixture/recovery/latest.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							126 text ┏━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name  ┃ Type                               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ model │ IndicTransForConditionalGeneration │  211 M │ train │     0 │
+└───┴───────┴────────────────────────────────────┴────────┴───────┴───────┘
+Trainable params: 211 M                                                         
+Non-trainable params: 0                                                         
+Total params: 211 M                                                             
+Total estimated model params size (MB): 847.106                                 
+Modules in train mode: 519                                                      
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+
+							127 text Restored all states from the checkpoint at /tmp/indic-recovery-fixture/recovery/latest.ckpt
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+`Trainer.fit` stopped: `max_steps=4` reached.
+
+							128 text Epoch 2/-2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2/2 0:00:28 • 0:00:00 0.04it/s 
+
+							129 text LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							130 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     0.541236937046051     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2/2 0:00:00 • 0:00:00 10.99it/s 
+
+							131 text `weights_only` was not set, defaulting to `False`.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							132 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     0.541236937046051     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2/2 0:00:00 • 0:00:00 11.36it/s 
+Completed steps 4
+Starting1000-step controlled GPU adaptation: seed42, batch2, validation only
+
+							133 text Seed set to 42
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							134 text ┏━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name  ┃ Type                               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ model │ IndicTransForConditionalGeneration │  211 M │ train │     0 │
+└───┴───────┴────────────────────────────────────┴────────┴───────┴───────┘
+Trainable params: 211 M                                                         
+Non-trainable params: 0                                                         
+Total params: 211 M                                                             
+Total estimated model params size (MB): 847.106                                 
+Modules in train mode: 519                                                      
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+
+							135 text /tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+`Trainer.fit` stopped: `max_steps=1000` reached.
+
+							136 text Epoch 0/-2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1000/1000 0:14:31 • 0:00:00 3.95it/s 
+
+							137 text LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							138 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     1.296498417854309     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 206/206 0:00:17 • 0:00:00 11.68it/s 
+
+							139 text `weights_only` was not set, defaulting to `False`.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+
+							140 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     1.296498417854309     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 206/206 0:00:17 • 0:00:00 12.00it/s 
+Completed steps 1000
+Optimizer run completed; starting complete internal validation generation
+validated 4 / 412
+validated 8 / 412
+validated 12 / 412
+validated 16 / 412
+validated 20 / 412
+validated 24 / 412
+validated 28 / 412
+validated 32 / 412
+validated 36 / 412
+validated 40 / 412
+validated 44 / 412
+validated 48 / 412
+validated 52 / 412
+validated 56 / 412
+validated 60 / 412
+validated 64 / 412
+validated 68 / 412
+validated 72 / 412
+validated 76 / 412
+validated 80 / 412
+validated 84 / 412
+validated 88 / 412
+validated 92 / 412
+validated 96 / 412
+validated 100 / 412
+validated 104 / 412
+validated 108 / 412
+validated 112 / 412
+validated 116 / 412
+validated 120 / 412
+validated 124 / 412
+validated 128 / 412
+validated 132 / 412
+validated 136 / 412
+validated 140 / 412
+validated 144 / 412
+validated 148 / 412
+validated 152 / 412
+validated 156 / 412
+validated 160 / 412
+validated 164 / 412
+validated 168 / 412
+validated 172 / 412
+validated 176 / 412
+validated 180 / 412
+validated 184 / 412
+validated 188 / 412
+validated 192 / 412
+validated 196 / 412
+validated 200 / 412
+validated 204 / 412
+validated 208 / 412
+validated 212 / 412
+validated 216 / 412
+validated 220 / 412
+validated 224 / 412
+validated 228 / 412
+validated 232 / 412
+validated 236 / 412
+validated 240 / 412
+validated 244 / 412
+validated 248 / 412
+validated 252 / 412
+validated 256 / 412
+validated 260 / 412
+validated 264 / 412
+validated 268 / 412
+validated 272 / 412
+validated 276 / 412
+validated 280 / 412
+validated 284 / 412
+validated 288 / 412
+validated 292 / 412
+validated 296 / 412
+validated 300 / 412
+validated 304 / 412
+validated 308 / 412
+validated 312 / 412
+validated 316 / 412
+validated 320 / 412
+validated 324 / 412
+validated 328 / 412
+validated 332 / 412
+validated 336 / 412
+validated 340 / 412
+validated 344 / 412
+validated 348 / 412
+validated 352 / 412
+validated 356 / 412
+validated 360 / 412
+validated 364 / 412
+validated 368 / 412
+validated 372 / 412
+validated 376 / 412
+validated 380 / 412
+validated 384 / 412
+validated 388 / 412
+validated 392 / 412
+validated 396 / 412
+validated 400 / 412
+validated 404 / 412
+validated 408 / 412
+validated 412 / 412
+{"model_source": "/kaggle/working/indic-controlled-1000steps-seed42/export", "base_revision": "2cfd0a20057756d756bf3e53528f492afc52f91a", "split": "internal validation; BPCC-H-Daily", "full_validation_rows": 412, "sample_rows": 412, "sampling": "smallest sha256(indic-validation-v1: + raw source)", "validation_file_sha256": "79d333b0817b4c04de648034f9930b3d091e91ed2a0d99b3c7f12fba09e0227f", "bleu": 27.51378713384213, "chrf_plus_plus": 58.31445176462468, "bleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0", "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0", "seconds": 253.18072739800004, "output_reference_char_ratio": 0.9947826086956522, "empty_outputs": 0, "settings": {"beams": 3, "max_length": 256, "batch_size": 4}, "limitation": "Internal validation used for selection; not external benchmark or unbiased final-test evidence", "environment": {"python": "3.13.15", "platform": "Linux-6.18.55+-x86_64-with-glibc2.39", "torch": "2.11.0+cu128", "cpu_threads": 4, "device": "cpu", "packages": {"transformers": "4.51.3", "IndicTransToolkit": "1.1.1", "sacrebleu": "2.6.0", "safetensors": "0.8.0"}}, "evaluator_sha256": "3b5af2a35444c87faafebb9ac008dabac19056669e1265c12c4869e854624d3d", "inference_transformation": {"method": "none", "quantized_linear_layers": 0, "scope": "CPU feasibility only; not a trained model or phone/browser export", "lm_head_excluded": false}, "export_manifest_sha256": "39e33825ad4bcc891ad648ee8acd3aea163d17041e0bb4aea8be165712958249"}
+Pilot and internal generation completed; no production or public release approval
+
+			87 heading Continue exploring, Value: 2
+				88 text Continue exploring
+			89 content list
+				90 container Input List Item
+					91 link Input
+						92 text input
+						93 text Input
+						94 text 2 files
+				95 container Output List Item
+					96 link Output
+						97 text output
+						98 text Output
+						99 text 23 files
+				100 container Logs List Item
+					101 link Logs
+						102 text list_alt
+						103 text Logs
+						104 text 1577.7 second run - successful
+				105 container Comments List Item
+					106 link Comments
+						107 text comment
+						108 text Comments
+						109 text 0 comments
+
+The focused UI element is 59 tab (selected, settable, boolean) Description: Notebook, 1 of 6, Value: 1

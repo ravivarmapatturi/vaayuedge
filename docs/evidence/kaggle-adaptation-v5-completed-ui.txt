@@ -1,0 +1,312 @@
+Browser tab: 5, Title: "InferEdge English Telugu Training", URL: "https://www.kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232".
+0 AXWebArea InferEdge English Telugu Training, URL: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232
+	1 container root
+		2 container Main Kaggle page navigation
+			3 button Navigation menu
+			4 link Description: Skip to content, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232#site-content
+			5 link Description: Return to Kaggle home page, Value: kaggle.com/
+			6 pop up button Create on Kaggle
+				7 text Create
+			8 container
+				9 container
+					10 content list
+						11 container Home List Item
+							12 link Description: Home, Value: kaggle.com/
+						13 container Competitions List Item
+							14 link Description: Competitions, Value: kaggle.com/competitions
+						15 container Benchmarks List Item
+							16 link Description: Benchmarks, Value: kaggle.com/benchmarks
+						17 container Arenas List Item
+							18 link Description: Arenas, Value: kaggle.com/arenas
+						19 container Game Arena List Item
+							20 link Description: Game Arena, Value: kaggle.com/game-arena
+					21 content list
+						22 container Data Hub List Item
+							23 container
+								24 link (collapsed) Description: Data Hub, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232#, Secondary Actions: Expand
+								25 button Expand
+					26 content list
+						27 container More on Kaggle List Item
+							28 container
+								29 link (collapsed) Description: More on Kaggle, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232#, Secondary Actions: Expand
+								30 button Expand
+				31 content list
+					32 container Your Work List Item
+						33 container
+							34 link Description: Your Work, Value: kaggle.com/work
+							35 button (expanded) Description: Collapse Your Work, Help: Collapse
+					36 container Collapse Viewed List Item
+						37 container
+							38 link (expanded) Description: Collapse Viewed, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232#, Secondary Actions: Collapse
+							39 button Collapse Viewed
+					40 content list
+						41 container InferEdge English Telugu Training List Item
+							42 link Description: InferEdge English Telugu Training, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training
+						43 container CHI-Bench List Item
+							44 link Description: CHI-Bench, Value: kaggle.com/competitions/chi-bench
+						45 container ARC Prize 2026 - Paper Track List Item
+							46 link Description: ARC Prize 2026 - Paper Track, Value: kaggle.com/competitions/arc-prize-2026-paper-track
+						47 container Google - The Gemma 4 Developer Agent Competition List Item
+							48 link Description: Google - The Gemma 4 Developer Agent Competition, Value: kaggle.com/competitions/gemma-4-developer-agent
+						49 container Smart Buildings Competition List Item
+							50 link Description: Smart Buildings Competition, Value: kaggle.com/competitions/neurips-2026-smart-buildings
+					51 container Collapse Edited List Item
+						52 container
+							53 link (expanded) Description: Collapse Edited, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232#, Secondary Actions: Collapse
+							54 button Collapse Edited
+					55 content list
+						56 container InferEdge English Telugu Training List Item
+							57 link Description: InferEdge English Telugu Training, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training
+						58 container notebook09ec4917a0 List Item
+							59 link Description: notebook09ec4917a0, Value: kaggle.com/code/ravivarmapatturi/notebook09ec4917a0
+						60 container notebooke2d1dc60cf List Item
+							61 link Description: notebooke2d1dc60cf, Value: kaggle.com/code/ravivarmapatturi/notebooke2d1dc60cf
+						62 container TransferPolicy Notebook List Item
+							63 link Description: TransferPolicy Notebook, Value: kaggle.com/code/ravivarmapatturi/transferpolicy-notebook
+						64 container notebook1ee5fd46cd List Item
+							65 link Description: notebook1ee5fd46cd, Value: kaggle.com/code/ravivarmapatturi/notebook1ee5fd46cd
+				66 button (collapsed) Open Active Events dialog View Active Events, Secondary Actions: Expand
+					67 container Open Active Events dialog
+						68 text auto_awesome_motion
+					69 text View Active Events
+		70 container Main menu, search and your account
+			71 container
+				72 text field (settable) :r6:
+				73 button NeuralMastery
+					74 image
+		75 container site-content
+			76 container
+				77 text Kaggle uses cookies from Google to deliver and enhance the quality of its services and to analyze traffic.
+				78 link Description: Learn more, Value: kaggle.com/cookies
+				79 text OK, Got it.
+			80 link Description: NeuralMastery's profile, Value: kaggle.com/ravivarmapatturi
+			81 text NeuralMastery · 
+			82 container Description: 18 minutes ago, Help: Fri Oct 30 2026 03:21:28 GMT+0530 (India Standard Time)
+				83 text 18m ago
+			84 text  ·  5 views  ·  Private
+			85 container
+				86 button Upvote
+				87 button 0 votes
+			88 button Share
+			89 link Description: Edit, Value: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training/edit/run/363628232
+			90 pop up button (collapsed) Download, Secondary Actions: Expand
+			91 button More options for this notebook
+			92 heading InferEdge English Telugu Training, Value: 1
+				93 text InferEdge English Telugu Training
+			94 button Edit title
+			95 tab group
+				96 tab (selected, settable, boolean) Description: Notebook, 1 of 6, Value: 1
+				97 tab (selectable, settable, boolean) Description: Input, 2 of 6, Value: 0
+				98 tab (selectable, settable, boolean) Description: Output, 3 of 6, Value: 0
+				99 tab (selectable, settable, boolean) Description: Logs, 4 of 6, Value: 0
+				100 tab (selectable, settable, boolean) Description: Comments (0), 5 of 6, Value: 0
+				101 tab (selectable, settable, boolean) Description: Settings, 6 of 6, Value: 0
+			102 container
+				103 button Version 5 of 5
+					104 text Version 
+					105 text 5 of 5
+				106 button Description: Collapse Sidebar, ID: notebook-side-bar-trigger
+				107 heading Runtime, Value: 2
+					108 text Runtime
+				109 text play_arrow 11m 48s
+				110 button Go to input tab
+				111 text Datasets
+				112 text IndicTrans2 Pinned Upstream Private Recovery
+				113 text InferEdge IndicTrans2 Adaptation Bundle v2
+				114 text InferEdge IndicTrans2 CPU Recovery 20261030
+				115 text InferEdge Telugu Pilot 20261028
+				116 heading Tags, Value: 2
+					117 text Tags
+				118 button Add Tags
+				119 heading Language, Value: 2
+					120 text Language
+				121 text Python
+			122 container Description: Main Notebook Content, ID: rendered-kernel-content
+					124 container
+						125 container
+							126 text In [1]:
+							127 container (showing 0-500 of 545 items)
+								128 text """Kaggle cell: bounded real-data CPU adaptation, never GPU training.""" import hashlib , json , os , pathlib , shutil , subprocess , sys os . environ [ 'CUDA_VISIBLE_DEVICES' ] = '' venv = pathlib . Path ( '/tmp/indic-adaptation-env' ) subprocess . run ([ sys . executable , '-m' , 'venv' , '--without-pip' , '--system-site-packages' , str ( venv )], check = True , timeout = 120 ) runtime = str ( venv / 'bin/python' ) subprocess . run ([ runtime , '-m' , 'pip' , 'install' , '-q' , 'transformers==4.51.3' , 'lightning==2.6.6' , 'torchdata==0.11.0' , 'sentencepiece' , 'safetensors==0.8.0' , 'IndicTransToolkit==1.1.1' , 'sacrebleu==2.6.0' ], check = True , timeout = 600 ) source = next ( p . parent for p in pathlib . Path ( '/kaggle/input' ) . rglob ( 'BUNDLE_MANIFEST.json' ) if 'docs/indictrans2-adaptation-pilot-plan.md' in json . loads ( p . read_text ())[ 'files' ]) manifest = json . loads (( source / 'BUNDLE_MANIFEST.json' ) . read_text ()) root = pathlib . Path ( '/tmp/indic-adaptation-source' ) root . mkdir ( exist_ok = True ) for name , digest in manifest [ 'files' ] . items (): path = source / name assert hashlib . sha256 ( path . read_bytes ()) . hexdigest () == digest , 'Input hash mismatch' target = root / name ; target . parent . mkdir ( parents = True , exist_ok = True ); shutil . copyfile ( path , target ) # Verify and cache private upstream input; no online Hub access or token needed. snapshot_source = next ( pathlib . Path ( '/kaggle/input' ) . rglob ( 'PINNED_SNAPSHOT.json' )) . parent snapshot = json . loads (( snapshot_source / 'PINNED_SNAPSHOT.json' ) . read_text ()) assert snapshot [ 'revision' ] == '2cfd0a20057756d756bf3e53528f492afc52f91a' os . environ [ 'HF_HUB_CACHE' ] = '/tmp/indic-hf-cache' os . environ [ 'HF_HUB_OFFLINE' ] = '1' os . environ [ 'TRANSFORMERS_OFFLINE' ] = '1' cache = pathlib . Path ( os . environ [ 'HF_HUB_CACHE' ]) / 'models--ai4bharat--indictrans2-en-indic-dist-200M' / 'snapshots' / snapshot [ 'revision' ] cache . mkdir ( parents = True , exist_ok = True ) for name , digest in snapshot [ 'files' ] . items (): path = snapshot_source / name assert hashlib . sha256 ( path . read_bytes ()) . hexdigest () == digest , 'Pinned snapshot hash mismatch' shutil . copyfile ( path , cache / name ) out = pathlib . Path ( '/kaggle/working/indic-adaptation-100steps' ) print ( 'Starting real-data CPU adaptation:100steps,batch2,7673train rows; no GPU' , flush = True ) base = [ runtime , '-u' , str ( root / 'scripts/train-indictrans2-lightning.py' ), '--output' , str ( out ), '--batch-size' , '2' , '--accelerator' , 'cpu' , '--max-steps' , '100' , '--learning-rate' , '2e-6' ] subprocess . run ( base , cwd = root , check = True , timeout = 1800 ) print ( 'Optimizer run completed; starting complete internal validation generation' , flush = True ) subprocess . run ([ runtime , '-u'
+							129 text ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+gradio 6.26.0 requires huggingface-hub<2.0,>=1.16.0, but you have huggingface-hub 0.36.2 which is incompatible.
+gradio 6.26.0 requires pillow<13.0,>=8.0, but you have pillow 13.0.0 which is incompatible.
+diffusers 0.40.0 requires huggingface-hub<2.0,>=1.23.0, but you have huggingface-hub 0.36.2 which is incompatible.
+
+							130 text Starting real-data CPU adaptation:100steps,batch2,7673train rows; no GPU
+
+							131 text Seed set to 42
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+
+							132 text ┏━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name  ┃ Type                               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ model │ IndicTransForConditionalGeneration │  211 M │ train │     0 │
+└───┴───────┴────────────────────────────────────┴────────┴───────┴───────┘
+Trainable params: 211 M                                                         
+Non-trainable params: 0                                                         
+Total params: 211 M                                                             
+Total estimated model params size (MB): 847.106                                 
+Modules in train mode: 519                                                      
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+
+							133 text /tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+/tmp/indic-adaptation-env/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+`Trainer.fit` stopped: `max_steps=100` reached.
+
+							134 text Epoch 0/-2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100/100 0:03:02 • 0:00:00 0.57it/s 
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     1.478582739830017     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 206/206 0:00:39 • 0:00:00 5.37it/s 
+
+							135 text `weights_only` was not set, defaulting to `False`.
+
+							136 text ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│         val_loss          │     1.478582739830017     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 206/206 0:00:39 • 0:00:00 5.36it/s 
+Completed steps 100
+Optimizer run completed; starting complete internal validation generation
+
+							137 text WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+
+							138 text validated 4 / 412
+validated 8 / 412
+validated 12 / 412
+validated 16 / 412
+validated 20 / 412
+validated 24 / 412
+validated 28 / 412
+validated 32 / 412
+validated 36 / 412
+validated 40 / 412
+validated 44 / 412
+validated 48 / 412
+validated 52 / 412
+validated 56 / 412
+validated 60 / 412
+validated 64 / 412
+validated 68 / 412
+validated 72 / 412
+validated 76 / 412
+validated 80 / 412
+validated 84 / 412
+validated 88 / 412
+validated 92 / 412
+validated 96 / 412
+validated 100 / 412
+validated 104 / 412
+validated 108 / 412
+validated 112 / 412
+validated 116 / 412
+validated 120 / 412
+validated 124 / 412
+validated 128 / 412
+validated 132 / 412
+validated 136 / 412
+validated 140 / 412
+validated 144 / 412
+validated 148 / 412
+validated 152 / 412
+validated 156 / 412
+validated 160 / 412
+validated 164 / 412
+validated 168 / 412
+validated 172 / 412
+validated 176 / 412
+validated 180 / 412
+validated 184 / 412
+validated 188 / 412
+validated 192 / 412
+validated 196 / 412
+validated 200 / 412
+validated 204 / 412
+validated 208 / 412
+validated 212 / 412
+validated 216 / 412
+validated 220 / 412
+validated 224 / 412
+validated 228 / 412
+validated 232 / 412
+validated 236 / 412
+validated 240 / 412
+validated 244 / 412
+validated 248 / 412
+validated 252 / 412
+validated 256 / 412
+validated 260 / 412
+validated 264 / 412
+validated 268 / 412
+validated 272 / 412
+validated 276 / 412
+validated 280 / 412
+validated 284 / 412
+validated 288 / 412
+validated 292 / 412
+validated 296 / 412
+validated 300 / 412
+validated 304 / 412
+validated 308 / 412
+validated 312 / 412
+validated 316 / 412
+validated 320 / 412
+validated 324 / 412
+validated 328 / 412
+validated 332 / 412
+validated 336 / 412
+validated 340 / 412
+validated 344 / 412
+validated 348 / 412
+validated 352 / 412
+validated 356 / 412
+validated 360 / 412
+validated 364 / 412
+validated 368 / 412
+validated 372 / 412
+validated 376 / 412
+validated 380 / 412
+validated 384 / 412
+validated 388 / 412
+validated 392 / 412
+validated 396 / 412
+validated 400 / 412
+validated 404 / 412
+validated 408 / 412
+validated 412 / 412
+{"model_source": "/kaggle/working/indic-adaptation-100steps/export", "base_revision": "2cfd0a20057756d756bf3e53528f492afc52f91a", "split": "internal validation; BPCC-H-Daily", "full_validation_rows": 412, "sample_rows": 412, "sampling": "smallest sha256(indic-validation-v1: + raw source)", "validation_file_sha256": "79d333b0817b4c04de648034f9930b3d091e91ed2a0d99b3c7f12fba09e0227f", "bleu": 22.754523138026283, "chrf_plus_plus": 55.072165950712446, "bleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0", "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0", "seconds": 216.84090541, "output_reference_char_ratio": 1.011014492753623, "empty_outputs": 0, "settings": {"beams": 3, "max_length": 256, "batch_size": 4}, "limitation": "Internal validation used for selection; not external benchmark or unbiased final-test evidence", "environment": {"python": "3.13.15", "platform": "Linux-6.18.55+-x86_64-with-glibc2.39", "torch": "2.11.0+cpu", "cpu_threads": 4, "device": "cpu", "packages": {"transformers": "4.51.3", "IndicTransToolkit": "1.1.1", "sacrebleu": "2.6.0", "safetensors": "0.8.0"}}, "evaluator_sha256": "3b5af2a35444c87faafebb9ac008dabac19056669e1265c12c4869e854624d3d", "inference_transformation": {"method": "none", "quantized_linear_layers": 0, "scope": "CPU feasibility only; not a trained model or phone/browser export", "lm_head_excluded": false}, "export_manifest_sha256": "5235276b82864e619e7868d374bfc4acaa21b204c8cf2f99addbf347c6575515"}
+Pilot and internal generation completed; no production or public release approval
+
+			139 heading Continue exploring, Value: 2
+				140 text Continue exploring
+			141 content list
+				142 container Input List Item
+					143 link Input
+						144 text input
+						145 text Input
+						146 text 4 files
+				147 container Output List Item
+					148 link Output
+						149 text output
+						150 text Output
+						151 text 20 files
+				152 container Logs List Item
+					153 link Logs
+						154 text list_alt
+						155 text Logs
+						156 text 708.0 second run - successful
+				157 container Comments List Item
+					158 link Comments
+						159 text comment
+						160 text Comments
+						161 text 0 comments
+
+The focused UI element is 0 AXWebArea InferEdge English Telugu Training, URL: kaggle.com/code/ravivarmapatturi/inferedge-english-telugu-training?scriptVersionId=363628232

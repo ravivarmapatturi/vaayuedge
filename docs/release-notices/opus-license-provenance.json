@@ -1,0 +1,8 @@
+{
+  "upstream_model": "Helsinki-NLP/opus-mt-en-dra",
+  "revision": "5ecfd223f954f860b67f1b4c42e6f4c70d347581",
+  "hub_metadata_license": "apache-2.0",
+  "standard_license_source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+  "license_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "scope": "Checkpoint Hub metadata attribution plus standard Apache2 license text; preserve original model card separately"
+}

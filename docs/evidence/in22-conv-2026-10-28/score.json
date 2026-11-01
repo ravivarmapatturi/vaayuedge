@@ -1,0 +1,47 @@
+{
+  "evaluator": {
+    "version": "2026-10-28-input-provenance-v2",
+    "references": {
+      "path": "docs/evidence/in22-conv-2026-10-28/in22-conv.jsonl",
+      "bytes": 368750,
+      "sha256": "947b4ebe11683bda9e0d4766cc4d028d41e6694bb258aafe07ef653fc18f30c0",
+      "rows": 1503
+    },
+    "predictions": {
+      "path": "docs/evidence/in22-conv-2026-10-28/in22-conv.predictions.jsonl",
+      "bytes": 367103,
+      "sha256": "e1d8cfaee1f1f54ebbc03778572b4d38abd2d030ed10f2838755055801b912cd",
+      "rows": 1503
+    },
+    "allow_partial": false,
+    "allow_duplicate_sources": true,
+    "prediction_provenance": {
+      "model_name": "Helsinki-NLP/opus-mt-en-dra",
+      "model_revision": "5ecfd223f954f860b67f1b4c42e6f4c70d347581",
+      "pipeline_source": "deployed-helsinki-local-adapter"
+    }
+  },
+  "metrics": {
+    "bleu": 3.852172500944975,
+    "bleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0",
+    "chrf_plus_plus": 28.36747647035544,
+    "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0"
+  },
+  "counts": {
+    "reference_rows": 1503,
+    "prediction_rows": 1503,
+    "matched": 1503,
+    "missing_predictions": 0,
+    "extra_predictions": 0,
+    "complete_coverage": true
+  },
+  "stratified": {
+    "in22-conv": {
+      "rows": 1503,
+      "empty_predictions": 0
+    }
+  },
+  "evaluation_only": true,
+  "benchmark_text_written_to_training_artifacts": false,
+  "evidence_class": "measured benchmark score"
+}

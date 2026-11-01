@@ -1,0 +1,61 @@
+{
+  "source": "https://www.kaggle.com/code/ravivarmapatturi/notebookf5fe5882da?scriptVersionId=363664956",
+  "status": "Successful",
+  "runtime_seconds": 2241.4,
+  "reports": [
+    {
+      "split": "bpcc-test",
+      "rows": 426,
+      "repetitions": 1000,
+      "seed": 20261030,
+      "chrf_delta": 0.9589347666144192,
+      "percentile_95_interval": [
+        0.3809923978037304,
+        1.6154849731151657
+      ],
+      "method": "paired sentence resampling; recomputed corpus chrF++; percentile interval",
+      "limitations": "Exploratory intervals per split, no multiplicity adjustment; no claim about human quality or universal superiority",
+      "prediction_sha256": [
+        "2f45874387e8b5d1a0b38f5b6d8c064143ff75bf181222a09e2b94e5cc3e963b",
+        "22076b5605e8a9e23f488d0d8079a6eaf6767cec7903914b31e90888053e3a8c"
+      ],
+      "production_approved": false
+    },
+    {
+      "split": "in22-conv",
+      "rows": 1503,
+      "repetitions": 1000,
+      "seed": 20261030,
+      "chrf_delta": 0.21915069073804716,
+      "percentile_95_interval": [
+        0.01731978869401729,
+        0.41139274744700316
+      ],
+      "method": "paired sentence resampling; recomputed corpus chrF++; percentile interval",
+      "limitations": "Exploratory intervals per split, no multiplicity adjustment; no claim about human quality or universal superiority",
+      "prediction_sha256": [
+        "aa185d3937a6cbf23a594dada5bd20b6f1b7fb63d47032f22274596152f1cd82",
+        "749a8047bb8635997474b61dfd8775902381ffcad5846944011f8d9a13dc4752"
+      ],
+      "production_approved": false
+    },
+    {
+      "split": "in22-gen",
+      "rows": 1024,
+      "repetitions": 1000,
+      "seed": 20261030,
+      "chrf_delta": -0.05396305363415621,
+      "percentile_95_interval": [
+        -0.1698348636426914,
+        0.06327075906715152
+      ],
+      "method": "paired sentence resampling; recomputed corpus chrF++; percentile interval",
+      "limitations": "Exploratory intervals per split, no multiplicity adjustment; no claim about human quality or universal superiority",
+      "prediction_sha256": [
+        "871707f42c10064838a9809da943e163af372927dd6e38a8eb17cb13012f78c9",
+        "d385c98db115bc4896da7f3d48d69a2963b06fe6bf151b2e97390625771f85bc"
+      ],
+      "production_approved": false
+    }
+  ]
+}

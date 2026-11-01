@@ -1,0 +1,72 @@
+{
+  "bundles": [
+    {
+      "configured_path": "/usr/local/bin/whisper-cli",
+      "exists": false,
+      "file_count": 0,
+      "kind": "missing",
+      "label": "whisper_cpp_binary",
+      "readable": false,
+      "resolved_path": "/usr/local/bin/whisper-cli",
+      "size_bytes": 0
+    },
+    {
+      "configured_path": "./models/ggml-tiny.en.bin",
+      "exists": false,
+      "file_count": 0,
+      "kind": "missing",
+      "label": "whisper_cpp_model",
+      "readable": false,
+      "resolved_path": "/home/ravivarma/Documents/DREAM_PROJECT/vaayuedge/models/ggml-tiny.en.bin",
+      "size_bytes": 0
+    },
+    {
+      "configured_path": "./models/indictrans2-en-indic-1B",
+      "exists": false,
+      "file_count": 0,
+      "kind": "missing",
+      "label": "translation_model",
+      "readable": false,
+      "resolved_path": "/home/ravivarma/Documents/DREAM_PROJECT/vaayuedge/models/indictrans2-en-indic-1B",
+      "size_bytes": 0
+    },
+    {
+      "configured_path": "./models/tts_telugu",
+      "exists": false,
+      "file_count": 0,
+      "kind": "missing",
+      "label": "tts_model",
+      "readable": false,
+      "resolved_path": "/home/ravivarma/Documents/DREAM_PROJECT/vaayuedge/models/tts_telugu",
+      "size_bytes": 0
+    }
+  ],
+  "configured_adapters": {
+    "asr": "whisper_local",
+    "translation": "opus_mt",
+    "tts": "mms_telugu_tts"
+  },
+  "evidence_class": "deployment preflight; no model loading or inference",
+  "limitations": [
+    "Presence and disk size do not establish model quality, RAM use, latency, or license rights.",
+    "The current end-to-end benchmark still uses synthetic audio, fixed text, and mock TTS."
+  ],
+  "missing_bundles": [
+    "whisper_cpp_binary",
+    "whisper_cpp_model",
+    "translation_model",
+    "tts_model"
+  ],
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "python": "3.12.2",
+  "ready_for_local_bundle_benchmark": false,
+  "repository_root": "/home/ravivarma/Documents/DREAM_PROJECT/vaayuedge",
+  "required_bundles": [
+    "translation_model",
+    "tts_model",
+    "whisper_cpp_binary",
+    "whisper_cpp_model"
+  ],
+  "total_discovered_bytes": 0,
+  "total_discovered_mb": 0.0
+}

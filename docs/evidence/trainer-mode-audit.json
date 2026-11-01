@@ -1,0 +1,6 @@
+{
+  "loaded_export_training_mode": false,
+  "explicit_train_mode": true,
+  "explicit_eval_mode": false,
+  "interpretation": "Mode transitions verified without optimizer steps; not a proven explanation of pilot regression"
+}

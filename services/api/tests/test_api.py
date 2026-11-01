@@ -1,11 +1,35 @@
+import asyncio
 import io
 import re
 import pytest
-from fastapi.testclient import TestClient
+import httpx
 from app.main import app
 from app.services.session_service import session_service
 
-client = TestClient(app)
+class ASGIClient:
+    """Synchronous facade over an explicit async ASGI transport."""
+
+    async def _request(self, method, url, **kwargs):
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(
+            transport=transport, base_url="http://testserver"
+        ) as client:
+            return await client.request(method, url, **kwargs)
+
+    def request(self, method, url, **kwargs):
+        return asyncio.run(self._request(method, url, **kwargs))
+
+    def get(self, url, **kwargs):
+        return self.request("GET", url, **kwargs)
+
+    def post(self, url, **kwargs):
+        return self.request("POST", url, **kwargs)
+
+    def delete(self, url, **kwargs):
+        return self.request("DELETE", url, **kwargs)
+
+
+client = ASGIClient()
 
 
 @pytest.fixture(autouse=True)

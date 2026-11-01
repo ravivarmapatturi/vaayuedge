@@ -67,7 +67,7 @@ tts_adapter = get_tts_adapter()
 
 
 @api_router.get("/health", response_model=HealthResponse)
-def get_health():
+async def get_health():
     """Health check endpoint reporting uptime and service status."""
     uptime = time.time() - START_TIME
     return HealthResponse(
@@ -79,7 +79,7 @@ def get_health():
 
 
 @api_router.get("/v1/capabilities", response_model=CapabilitiesResponse)
-def get_capabilities():
+async def get_capabilities():
     """Reports supported features, device metrics, and active model adapters."""
     device_info = RuntimeDeviceManager.get_device_info()
     is_offline = RuntimeDeviceManager.is_offline_mode(settings.PROCESSING_MODE)
@@ -164,7 +164,7 @@ async def create_transcription(
 
 
 @api_router.post("/v1/translations", response_model=TranslationResponse)
-def create_translation(request: TranslationRequest):
+async def create_translation(request: TranslationRequest):
     """
     Translate English text into Telugu, preserving semantic intent and context.
     """
@@ -201,7 +201,7 @@ def create_translation(request: TranslationRequest):
 
 
 @api_router.post("/v1/speech", response_model=SpeechResponse)
-def create_speech(request: SpeechRequest):
+async def create_speech(request: SpeechRequest):
     """
     Synthesize Telugu text into audio bytes (WAV/PCM base64 encoded).
     """
@@ -234,19 +234,19 @@ def create_speech(request: SpeechRequest):
 
 
 @api_router.get("/v1/sessions", response_model=List[SessionRecord])
-def list_sessions():
+async def list_sessions():
     """Retrieve list of saved sessions."""
     return session_service.list_sessions()
 
 
 @api_router.post("/v1/sessions", response_model=SessionRecord)
-def save_session(session: SessionRecord):
+async def save_session(session: SessionRecord):
     """Persist a completed session record locally."""
     return session_service.add_session(session)
 
 
 @api_router.delete("/v1/sessions/{session_id}", response_model=SessionDeleteResponse)
-def delete_session(session_id: str):
+async def delete_session(session_id: str):
     """Explicitly delete a stored session record."""
     success = session_service.delete_session(session_id)
     if not success:

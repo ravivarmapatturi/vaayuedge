@@ -1,0 +1,67 @@
+{
+  "checked_on": "2026-10-28",
+  "status": "research_only_no_training",
+  "candidates": [
+    {
+      "id": "Helsinki-NLP/opus-mt-en-dra",
+      "role": "actual_native_baseline",
+      "target_prefix": ">>tel<<",
+      "browser_derivative": "ravivarmapatturi/vayyuedge-opus-mt-en-dra-onnx"
+    },
+    {
+      "id": "sarvamai/sarvam-translate",
+      "role": "competitor_and_possible_teacher_pending_license_review",
+      "revision": "e0a7a6bc21665b568c0c624986d422f6d7f58326",
+      "architecture": "Gemma3ForConditionalGeneration",
+      "parameters_from_hub_metadata": 4300079472,
+      "hub_license_tag": "gpl-3.0",
+      "gated": false,
+      "metadata_source": "https://huggingface.co/api/models/sarvamai/sarvam-translate",
+      "caution": "Read full license and upstream Gemma conditions before training, distillation or redistribution. Metadata is not legal clearance. No quality measurements performed."
+    },
+    {
+      "id": "ai4bharat/indictrans2-en-indic-dist-200M",
+      "role": "compact_translation_candidate",
+      "status": "access_granted_but_not_first_choice_without_comparison",
+      "revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+      "architecture": "IndicTransForConditionalGeneration",
+      "encoder_decoder_layers": "18+18",
+      "hidden_size": 512,
+      "source_max_positions": 256,
+      "license": "MIT",
+      "hub_model_card_recommends": "bodhan-ai/indic-translate",
+      "caution": "The 200M label does not imply lightweight runtime: 18 encoder and 18 decoder layers; test peak memory and export early."
+    },
+    {
+      "id": "bodhan-ai/indic-translate",
+      "role": "newer_candidate_and_competitor_to_assess",
+      "status": "metadata_audited_access_gated",
+      "revision": "3c5c3b4e2747b0fca133accf077132326c88b267",
+      "base_model": "google/gemma-4-E4B-it",
+      "hub_license_tag": "other",
+      "gated": "auto",
+      "license_files": ["Bodhan_AI_Open_Model_License.md", "indic-open-license.md"],
+      "license_audit": {
+        "status": "research_only_pending_access_and_upstream_review",
+        "access": "Hugging Face requires sharing contact information and accepting the license before file access.",
+        "model_card_parameters": 7940000000,
+        "model_card_bfloat16_weights_gb": 15.9,
+        "internal_use": "License permits fine-tuning, distillation, quantization, and other modification for internal use.",
+        "distribution": "A derivative made available to a third party must carry the exact Indic Open Model License v1.0; attribution notice is required.",
+        "hosting": "Third-party API or hosted inference generally requires prior written approval, subject to the open-release waiver and public-interest carve-outs.",
+        "large_scale": "A separate license is required above 500 million monthly active users or US$250 million annual revenue, except for eligible public-interest entities.",
+        "upstream": "The license grants no rights to upstream models or datasets; Google’s official Gemma 4 page currently publishes an Apache 2.0 license, but the exact Bodhan checkpoint provenance and all upstream terms still require independent review.",
+        "audit_record": "docs/model-license-audit.md",
+        "sources": [
+          "https://huggingface.co/bodhan-ai/indic-translate",
+          "https://github.com/Bodhan-AI/bodhan-model-info/blob/main/licenses/indic-open-model-license/v1/Indic_Open_Model_License.md",
+          "https://github.com/Bodhan-AI/bodhan-model-info/blob/main/licenses/indic-open-model-license/v1/Indic_Open_Model_License_Deed.md",
+          "https://ai.google.dev/gemma/apache_2",
+          "https://ai.google.dev/gemma/terms/"
+        ]
+      },
+      "caution": "The 7.94B/15.9GB BF16 model is a quality comparator, not an assumed low-memory student. Do not train, redistribute, or host it until gated access and Gemma/upstream terms are separately cleared."
+    }
+  ],
+  "evaluation_policy": "No benchmark win claims before matched, reproducible evaluation. Public benchmark overlap with upstream training remains a limitation even after local decontamination."
+}

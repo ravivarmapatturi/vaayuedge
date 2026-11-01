@@ -1,0 +1,41 @@
+{
+  "checked_on": "2026-10-28",
+  "corpora": [
+    {
+      "id": "ai4bharat/samanantar",
+      "role": "candidate_parallel_training",
+      "languages": ["en", "te"],
+      "source": "https://huggingface.co/datasets/ai4bharat/samanantar",
+      "hub_license_tag": "cc-by-nc-4.0",
+      "commercial_training_status": "hold_pending_resolution",
+      "reason": "Hub card reports noncommercial license; upstream BPCC overview reports CC0 for existing mined corpora. Do not assume these distributions have interchangeable permissions."
+    },
+    {
+      "id": "ai4bharat/BPCC",
+      "role": "candidate_parallel_training",
+      "source": "https://huggingface.co/datasets/ai4bharat/BPCC",
+      "revision": "5bde309374f21c39e7c3d505f28ae11f58f2a220",
+      "file": "daily/tel_Telu.tsv",
+      "license_status": "component_specific_audit_required",
+      "ingest_attribution": "AI4Bharat BPCC-H-Daily; IndicTrans2 authors",
+      "ingest_license_recorded_by": "scripts/import-bpcc-daily.py (CC-BY-4.0 metadata)",
+      "restriction": "Keep IN22 evaluation splits out of training and pseudo-label generation."
+    },
+    {
+      "id": "ai4bharat/IN22-Conv",
+      "role": "conversation_evaluation",
+      "access": "granted after user accepted repository conditions on 2026-10-28",
+      "revision": "18cd45870ff0a9e65df9b80dbbcc615eec0e4899"
+    },
+    {
+      "id": "ai4bharat/IN22-Gen",
+      "role": "general_evaluation",
+      "access": "granted after user accepted repository conditions on 2026-10-28",
+      "revision": "e042ab3d3063110b1a85efa0a59bdbf8553bb928"
+    }
+  ],
+  "human_evaluation": {
+    "status": "not_collected",
+    "requirement": "Native Telugu reviewers; blinded model identity and randomized pair order. Separately score meaning, naturalness, register, negation, entities and numbers."
+  }
+}

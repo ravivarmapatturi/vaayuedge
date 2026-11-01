@@ -1,0 +1,14 @@
+{
+  "model": "ai4bharat/indictrans2-en-indic-dist-200M",
+  "revision": "2cfd0a20057756d756bf3e53528f492afc52f91a",
+  "device": "cpu",
+  "batch_rows": 2,
+  "training_mode": true,
+  "masked_label_positions": 3,
+  "loss": 1.8347584009170532,
+  "gradient_tensors": 766,
+  "all_gradients_finite": true,
+  "seconds": 2.7348626530147158,
+  "optimizer_steps": 0,
+  "evidence_class": "real-model CPU training-path probe; no adaptation quality claim"
+}
