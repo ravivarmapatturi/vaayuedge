@@ -50,12 +50,31 @@ export function getApiBase(): string {
   return 'http://127.0.0.1:8000';
 }
 
-export async function fetchCapabilities(): Promise<Capabilities> {
+const NATIVE_ENGINE_KEY = 'vaayuedge.nativeEngine.enabled';
+
+export function shouldTryLocalDaemon(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (window.location.port === '8000' || window.location.port === '5173') return true;
+  try {
+    return localStorage.getItem(NATIVE_ENGINE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+export function rememberLocalDaemon(): void {
+  try {
+    localStorage.setItem(NATIVE_ENGINE_KEY, 'true');
+  } catch {}
+}
+
+export async function fetchCapabilities(force = false): Promise<Capabilities> {
   const apiBase = getApiBase();
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 2000);
 
   try {
+    if (!force && !shouldTryLocalDaemon()) throw new Error('Local daemon not enabled');
     const res = await fetch(`${apiBase}/v1/capabilities`, {
       signal: controller.signal,
     });
@@ -102,6 +121,7 @@ export async function transcribeAudio(audioBlob: Blob): Promise<{
   formData.append('audio', audioBlob, 'recording.wav');
 
   try {
+    if (!shouldTryLocalDaemon()) throw new Error('Local daemon not enabled');
     const res = await fetch(`${apiBase}/v1/transcriptions`, {
       method: 'POST',
       body: formData,
@@ -170,6 +190,7 @@ export async function translateText(text: string): Promise<{
   // 2. Try on-device background neural daemon (Opus-MT)
   const apiBase = getApiBase();
   try {
+    if (!shouldTryLocalDaemon()) throw new Error('Local daemon not enabled');
     const res = await fetch(`${apiBase}/v1/translations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -229,6 +250,7 @@ export async function synthesizeSpeech(teluguText: string): Promise<string> {
   // 2. Try on-device background neural TTS daemon (Meta MMS)
   const apiBase = getApiBase();
   try {
+    if (!shouldTryLocalDaemon()) throw new Error('Local daemon not enabled');
     const res = await fetch(`${apiBase}/v1/speech`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

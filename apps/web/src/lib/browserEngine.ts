@@ -3,7 +3,8 @@
 const ENABLED_KEY = 'vaayuedge.browserEngine.enabled';
 
 type Progress = { task: string; file: string; loaded: number; total: number };
-type ProgressListener = (overallPct: number, detail: Progress) => void;
+export type EngineProgress = Progress & { percent: number; loadedBytes: number; totalBytes: number };
+type ProgressListener = (progress: EngineProgress) => void;
 
 let worker: Worker | null = null;
 let seq = 0;
@@ -26,8 +27,8 @@ function getWorker(): Worker {
           loaded += f.loaded;
           total += f.total;
         });
-        const pct = total ? Math.min(99, Math.floor((loaded / total) * 100)) : 0;
-        listeners.forEach((l) => l(pct, msg));
+        const percent = total ? Math.min(99, Math.floor((loaded / total) * 100)) : 0;
+        listeners.forEach((l) => l({ ...msg, percent, loadedBytes: loaded, totalBytes: total }));
         return;
       }
       const p = pending.get(msg.id);
