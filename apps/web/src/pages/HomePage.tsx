@@ -38,7 +38,7 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
   const faqs = [
     {
       q: "What is VaayuEdge?",
-      a: "VaayuEdge is an early-stage edge AI product project focused on making speech intelligence private, lightweight, and accessible on personal devices. The initial direction is English speech recognition and contextual Telugu translation."
+      a: "VaayuEdge is an English-to-Telugu conversation product that combines speech recognition, editable transcripts, translation and Telugu playback."
     },
     {
       q: "Does it support English-to-Telugu translation?",
@@ -50,15 +50,15 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
     },
     {
       q: "Does it work on mobile phones?",
-      a: "VaayuEdge runs in modern browsers on laptops, desktops and recent phones. The first use needs a one-time model download of about 500 MB, after which it works offline."
+      a: "VaayuEdge's text demo works in modern browsers. The complete on-device flow requires WebAssembly and Web Workers, enough device memory, and a one-time model download whose real byte progress is shown during setup. Browser and device support varies."
     },
     {
       q: "Is VaayuEdge free?",
-      a: "Yes. VaayuEdge is free to use in your browser. The underlying open models (Whisper, Opus-MT, Meta MMS) keep their original licenses."
+      a: "Yes. VaayuEdge is free to use in your browser. Each underlying component keeps its original license; the current Telugu voice weights are restricted to non-commercial use."
     },
     {
       q: "What happens to my voice recordings?",
-      a: "With on-device AI enabled, nothing leaves your device. Your audio is processed in your browser's memory and is never uploaded, stored on a server, or used for training."
+      a: "After the on-device AI status says Ready, audio, translation and Telugu synthesis run in your browser. Before setup, browser speech recognition availability and its data handling depend on your browser, so type text if you do not want to use that feature."
     },
     {
       q: "Which AI models does VaayuEdge use?",
@@ -87,8 +87,8 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         </h1>
 
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-charcoal-600 leading-relaxed font-normal [text-wrap:pretty]">
-          Speak English and hear natural Telugu. VaayuEdge turns your speech into Telugu text and voice entirely on your
-          device — nothing is uploaded, and it keeps working offline.
+          Speak English, review the transcript and translation, then hear Telugu. Enable on-device AI once to process
+          the complete flow in your browser and use it offline after setup.
         </p>
 
         {/* Action Buttons */}
@@ -111,11 +111,11 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         <div className="pt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-charcoal-500">
           <div className="flex items-center space-x-1.5">
             <span className="text-teal-700 font-bold">✓</span>
-            <span>Your voice is never uploaded</span>
+            <span>On-device mode keeps audio local</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="text-teal-700 font-bold">✓</span>
-            <span>Works offline</span>
+            <span>Offline after on-device setup</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="text-teal-700 font-bold">✓</span>

@@ -6,10 +6,12 @@ import {
   synthesizeSpeech,
   Capabilities,
   SessionItem,
+  rememberLocalDaemon,
 } from '../../lib/api';
 import { storage } from '../../lib/storage';
 import { browserEngine } from '../../lib/browserEngine';
 import { VERIFIED_SAMPLES, SampleItem } from '../../lib/sampleData';
+import { canRecordAudio, classifySetupFailure, formatBytes, setupFailureMessage, stopMediaTracks } from '../../lib/setupState';
 
 interface InteractiveDemoProps {
   id?: string;
@@ -44,6 +46,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     browserEngine.isReady() ? 'ready' : 'off'
   );
   const [enginePct, setEnginePct] = useState(0);
+  const [engineBytes, setEngineBytes] = useState({ loaded: 0, total: 0, file: '' });
   const [setupProgress, setSetupProgress] = useState(0);
   const [setupStepText, setSetupStepText] = useState('');
   const [sessions, setSessions] = useState<SessionItem[]>([]);
@@ -60,6 +63,11 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const setupPollRef = useRef<number | null>(null);
 
   const startBrowserEngine = () => {
+    if (!browserEngine.isSupported()) {
+      setEngineState('error');
+      setErrorMessage(setupFailureMessage('unsupported'));
+      return;
+    }
     setEngineState('loading');
     setErrorMessage(null);
     browserEngine
@@ -71,12 +79,15 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
       })
       .catch((e) => {
         setEngineState('error');
-        setErrorMessage(`Could not load the on-device AI models: ${e.message}. Check your connection and try again.`);
+        setErrorMessage(setupFailureMessage(classifySetupFailure(e)));
       });
   };
 
   useEffect(() => {
-    const off = browserEngine.onProgress((pct) => setEnginePct(pct));
+    const off = browserEngine.onProgress((progress) => {
+      setEnginePct(progress.percent);
+      setEngineBytes({ loaded: progress.loadedBytes, total: progress.totalBytes, file: progress.file });
+    });
     // Returning visitors: models are already cached, load them silently.
     if (browserEngine.isEnabled() && !browserEngine.isReady()) startBrowserEngine();
     return () => {
@@ -125,6 +136,15 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     setTranslation('');
     recordedSpeechRef.current = '';
 
+    if (!canRecordAudio({
+      hasGetUserMedia: !!navigator.mediaDevices?.getUserMedia,
+      hasMediaRecorder: typeof MediaRecorder !== 'undefined',
+    })) {
+      setStatusMessage(null);
+      setErrorMessage('This browser cannot record audio. Type English text or upload an audio file, or try the latest Chrome, Edge, Firefox, or Safari.');
+      return;
+    }
+
     let stream: MediaStream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -138,7 +158,15 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     // Record in a container the browser actually supports (Chrome/Firefox: webm, Safari: mp4).
     const mimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg']
       .find((t) => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported?.(t)) || '';
-    const mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+    let mediaRecorder: MediaRecorder;
+    try {
+      mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+    } catch {
+      stopMediaTracks(stream);
+      setStatusMessage(null);
+      setErrorMessage('Audio recording could not start in this browser. Type English text or upload an audio file instead.');
+      return;
+    }
     mediaRecorderRef.current = mediaRecorder;
 
     mediaRecorder.ondataavailable = (event) => {
@@ -448,6 +476,7 @@ pause
   // Step 2: on OK, download the script and watch for the engine to come up for real.
   const confirmInstall = () => {
     setShowInstallConfirm(false);
+    rememberLocalDaemon();
     const blob = new Blob([buildInstallScript()], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -465,7 +494,7 @@ pause
     if (setupPollRef.current) clearInterval(setupPollRef.current);
     const startedAt = Date.now();
     setupPollRef.current = window.setInterval(async () => {
-      const cap = await fetchCapabilities();
+      const cap = await fetchCapabilities(true);
       if (cap.isConnected) {
         if (setupPollRef.current) clearInterval(setupPollRef.current);
         setSetupProgress(100);
@@ -480,7 +509,7 @@ pause
   };
 
   return (
-    <section id={id} className={`w-full ${isStandalonePage ? 'py-8' : 'py-12'} transition-all`}>
+    <section id={id} className={`w-full ${isStandalonePage ? 'py-4 sm:py-8' : 'py-4 sm:py-12'} transition-all`}>
       <div className="max-w-5xl mx-auto">
         {/* Main Product Interactive Box */}
         <div className="bg-canvas-100 border border-canvas-300 rounded-2xl shadow-card overflow-hidden">
@@ -514,7 +543,6 @@ pause
                   onClick={handleInstallSetupLocally}
                   className="px-3.5 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs shadow-subtle hover:shadow transition flex items-center space-x-1.5"
                 >
-                  <span>⚡</span>
                   <span>Enable On-Device AI</span>
                 </button>
               )}
@@ -535,11 +563,11 @@ pause
 
           {/* Install consent popup */}
           {showInstallConfirm && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4" role="dialog" aria-modal="true">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4" role="dialog" aria-modal="true" aria-labelledby="setup-title">
               <div className="bg-canvas-50 rounded-2xl shadow-card max-w-md w-full p-6 space-y-4 text-sm text-charcoal-800">
-                <h3 className="text-base font-bold text-charcoal-900">Enable on-device AI?</h3>
+                <h3 id="setup-title" className="text-base font-bold text-charcoal-900">Enable on-device AI?</h3>
                 <p>
-                  VaayuEdge will download its speech, translation and Telugu voice models (about 300&nbsp;MB, one time) and
+                  VaayuEdge will download its speech, translation and Telugu voice models one time. Setup shows the actual bytes received and
                   store them in your browser. After that, everything runs on this device — your voice is never uploaded,
                   and it keeps working offline.
                 </p>
@@ -556,13 +584,17 @@ pause
           )}
 
           {engineState === 'loading' && (
-            <div className="bg-amber-50/95 border-b border-amber-200 px-5 py-3 space-y-2 text-xs text-amber-950">
+            <div className="bg-amber-50/95 border-b border-amber-200 px-5 py-3 space-y-2 text-xs text-amber-950" role="status" aria-live="polite">
               <div className="flex items-center justify-between">
                 <span className="font-bold">Setting up on-device AI: {enginePct}%</span>
                 <span className="text-amber-800">One-time download · cached for next visit</span>
               </div>
               <div className="w-full bg-amber-200/70 rounded-full h-2 overflow-hidden">
-                <div className="bg-gradient-to-r from-amber-500 via-teal-600 to-emerald-500 h-2 rounded-full transition-all duration-300" style={{ width: `${enginePct}%` }}></div>
+                <div className="bg-teal-700 h-2 rounded-full transition-all duration-300" style={{ width: `${enginePct}%` }}></div>
+              </div>
+              <div className="flex flex-wrap justify-between gap-2 text-amber-800">
+                <span>{formatBytes(engineBytes.loaded)} of {formatBytes(engineBytes.total)} received</span>
+                {engineBytes.file && <span className="font-mono truncate max-w-full">{engineBytes.file}</span>}
               </div>
             </div>
           )}
@@ -596,7 +628,7 @@ pause
           )}
 
           {/* Sample Presets Ribbon */}
-          <div className="bg-canvas-50/60 border-b border-canvas-200 px-5 py-2.5 flex items-center gap-2 overflow-x-auto text-xs">
+          <div className="bg-canvas-50/60 border-b border-canvas-200 px-5 py-2.5 hidden sm:flex items-center gap-2 overflow-x-auto text-xs">
             <span className="text-charcoal-500 text-[11px] font-medium whitespace-nowrap">
               Presets:
             </span>
@@ -617,7 +649,7 @@ pause
 
           {/* Messages & Banners */}
           {errorMessage && (
-            <div className="m-4 mb-0 bg-red-50 border border-red-200 text-red-800 text-xs px-4 py-2.5 rounded-lg flex items-center justify-between">
+            <div className="m-4 mb-0 bg-red-50 border border-red-200 text-red-800 text-xs px-4 py-2.5 rounded-lg flex items-center justify-between" role="alert">
               <span>{errorMessage}</span>
               <button onClick={() => setErrorMessage(null)} className="font-bold ml-2">×</button>
             </div>
@@ -634,7 +666,7 @@ pause
           )}
 
           {/* Dual Panel Grid */}
-          <div className="p-5 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-3 sm:p-5 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Left: English Source & Capture */}
             <div className="flex flex-col space-y-3">
               <div className="flex items-center justify-between">
@@ -662,9 +694,9 @@ pause
                   setTranscript(e.target.value);
                   setIsDemonstrationSample(false);
                 }}
-                rows={5}
+                rows={4}
                 placeholder="Type English text here or record via microphone..."
-                className="w-full bg-white border border-canvas-300 rounded-xl p-3.5 text-sm text-charcoal-900 placeholder-charcoal-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600 outline-none transition resize-none leading-relaxed shadow-sm"
+                className="w-full h-24 sm:h-auto bg-white border border-canvas-300 rounded-xl p-3.5 text-sm text-charcoal-900 placeholder-charcoal-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600 outline-none transition resize-none leading-relaxed shadow-sm"
               />
 
               {/* Input Action Controls */}
@@ -740,9 +772,9 @@ pause
               </div>
 
               {/* Translation Display Window */}
-              <div className="w-full min-h-[140px] bg-white border border-canvas-300 rounded-xl p-4 flex items-center shadow-sm select-text">
+              <div className="w-full min-h-[88px] sm:min-h-[140px] bg-white border border-canvas-300 rounded-xl p-3 sm:p-4 flex items-center shadow-sm select-text">
                 {translation ? (
-                  <p className="text-base sm:text-lg text-charcoal-950 font-telugu leading-relaxed">
+                  <p className="text-lg text-charcoal-950 font-telugu leading-relaxed" lang="te">
                     {translation}
                   </p>
                 ) : (
