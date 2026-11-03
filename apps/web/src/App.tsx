@@ -2,22 +2,23 @@ import { useState, useEffect } from 'react';
 import Navbar, { NavTab } from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
-import ProductPage from './pages/ProductPage';
 import HowItWorksPage from './pages/HowItWorksPage';
-import TechnologyPage from './pages/TechnologyPage';
 import AboutPage from './pages/AboutPage';
-import ResearchPage from './pages/ResearchPage';
 import { fetchCapabilities, Capabilities } from './lib/api';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<NavTab>('home');
   const [capabilities, setCapabilities] = useState<Capabilities | null>(null);
 
-  // Synchronize route with URL hash for 100% reliable GitHub Pages navigation on reload
+  // Synchronize route with URL hash for reliable navigation
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (['home', 'product', 'how-it-works', 'technology', 'research', 'about'].includes(hash)) {
+      if (hash === 'product' || hash === 'research') {
+        setCurrentTab('home');
+      } else if (hash === 'technology') {
+        setCurrentTab('how-it-works');
+      } else if (['home', 'how-it-works', 'about'].includes(hash)) {
         setCurrentTab(hash as NavTab);
       }
     };
@@ -32,8 +33,12 @@ export default function App() {
   }, []);
 
   const handleSelectTab = (tab: NavTab) => {
-    setCurrentTab(tab);
-    window.location.hash = tab;
+    let targetTab = tab;
+    if (tab === 'product' || tab === 'research') targetTab = 'home';
+    if (tab === 'technology') targetTab = 'how-it-works';
+
+    setCurrentTab(targetTab);
+    window.location.hash = targetTab;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -52,9 +57,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-canvas-50 text-charcoal-900 flex flex-col font-sans selection:bg-teal-100 selection:text-teal-900">
-      {/* 1. Announcement Bar */}
-
-      {/* 2. Top Navigation */}
+      {/* Top Navigation */}
       <Navbar
         currentTab={currentTab}
         onSelectTab={handleSelectTab}
@@ -63,17 +66,14 @@ export default function App() {
         isConnected={capabilities?.isConnected ?? false}
       />
 
-      {/* 3. Main Content Router */}
+      {/* Main Content Router */}
       <main className="flex-1 w-full" id="main-content" tabIndex={-1}>
         {currentTab === 'home' && <HomePage onSelectTab={handleSelectTab} />}
-        {currentTab === 'product' && <ProductPage />}
-        {currentTab === 'how-it-works' && <HowItWorksPage />}
-        {currentTab === 'technology' && <TechnologyPage />}
-        {currentTab === 'research' && <ResearchPage />}
-        {currentTab === 'about' && <AboutPage />}
+        {currentTab === 'how-it-works' && <HowItWorksPage onSelectTab={handleSelectTab} />}
+        {currentTab === 'about' && <AboutPage onSelectTab={handleSelectTab} />}
       </main>
 
-      {/* 4. Footer */}
+      {/* Footer */}
       <Footer onSelectTab={handleSelectTab} />
     </div>
   );

@@ -53,23 +53,23 @@ export default function Logo({
   };
 
   const textSizes = {
-    sm: "text-base font-semibold",
-    md: "text-lg font-bold tracking-tight",
-    lg: "text-2xl font-bold tracking-tight",
+    sm: "text-base font-bold tracking-tight font-display",
+    md: "text-lg font-bold tracking-tight font-display",
+    lg: "text-2xl font-bold tracking-tight font-display",
   };
 
   const isLight = variant === "light";
 
   return (
     <div className={`inline-flex items-center space-x-2.5 ${className}`}>
-      <div className={`rounded-lg p-1.5 flex items-center justify-center transition-colors ${
-        isLight ? 'bg-white/10 text-white' : 'bg-teal-950 text-teal-400 border border-teal-800/40 shadow-sm'
+      <div className={`rounded-md p-1.5 flex items-center justify-center transition-colors shrink-0 ${
+        isLight ? 'bg-white/10 text-white' : 'bg-[#042f2e] text-[#2dd4bf]'
       }`}>
         <LogoIcon className={iconSizes[size]} color="currentColor" />
       </div>
       {showWordmark && (
-        <span className={`${textSizes[size]} ${isLight ? 'text-white' : 'text-slate-900'}`}>
-          Vaayu<span className="text-teal-600 font-extrabold">Edge</span>
+        <span className={`${textSizes[size]} ${isLight ? 'text-white' : 'text-charcoal-900'}`}>
+          Vaayu<strong className="text-teal-800 font-extrabold">Edge</strong>
         </span>
       )}
     </div>

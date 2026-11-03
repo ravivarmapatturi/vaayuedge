@@ -2995,3 +2995,16 @@ Completed the requested `e2e-audit` branch audit without GPU, model publication 
 ### 2026-11-03 Claude site upgrade
 
 Rewrote company home around English and Telugu, added /research/ with measured results and limits, shortened VaayuEdge hero. agy could not run headless (command permission denied). Verified at 375px and desktop; typecheck, tests and build passed.
+
+### 2026-11-03 agy VaayuEdge design upgrade
+
+Followed `docs/briefs/design-common.md`. Preserved live translator-first home page intact. Redesigned How It Works, About, Navbar, Footer, and Logo to match the home page and InferEdge site aesthetic.
+- Unified typographic system: display face Manrope, body DM Sans, Telugu Noto Sans Telugu (≥18px).
+- Restrained color palette matching CSS variables, 8px grid, no gradients, no glowing blobs, no emoji icons.
+- Positioning: on-device speech and translation, starting with English and Telugu; Telugu to English is in development.
+- Removed unsupported filler pages (`ProductPage`, `TechnologyPage`, `ResearchPage`) and corrected pipeline descriptions to reflect real on-device models: Whisper base.en (77 MB quantized ASR), Opus-MT en-dra (412 MB quantized MT), Meta MMS-TTS Telugu (114 MB TTS, non-commercial licence).
+- Verified `cd apps/web && npx tsc --noEmit` (0 errors), `npm test -- --run` (18 passed), `npm run build` (success).
+- Validated with headless Chrome across 375px, 768px, 1366px, and 1920px: zero horizontal overflow, zero console errors.
+- Saved 375px and 1366px screenshots for Home, How It Works, and About to `artifacts/design-review/`.
+- Ready for review on branch `design-vaayuedge`. No push.
+

@@ -1,78 +1,157 @@
+import { NavTab } from '../components/layout/Navbar';
 
-export default function AboutPage() {
+interface AboutPageProps {
+  onSelectTab?: (tab: NavTab) => void;
+}
+
+export default function AboutPage({ onSelectTab }: AboutPageProps) {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-16">
+    <div className="pb-16">
       {/* Header */}
-      <div className="space-y-4">
-        <span className="text-xs font-bold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200 px-2.5 py-1 rounded-full">
-          Mission & Background
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-charcoal-900 tracking-tight">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 pt-5 sm:pt-7 pb-4">
+        <div className="text-xs font-semibold tracking-wider uppercase text-teal-800 font-mono">
           About VaayuEdge
+        </div>
+        <h1 className="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-charcoal-900">
+          On-device intelligence for real devices.
         </h1>
-        <p className="text-base text-charcoal-600 max-w-2xl leading-relaxed">
-          Exploring efficient, useful AI that operates on personal devices, preserving both user privacy and linguistic nuance.
+        <p className="mt-1.5 max-w-3xl text-sm sm:text-base text-charcoal-700">
+          VaayuEdge is an on-device speech and translation tool developed by InferEdge AI. It starts with English and Telugu, running speech recognition, translation and speech generation without server dependencies.
         </p>
-      </div>
+        <p className="mt-2 text-xs sm:text-sm font-mono text-charcoal-500">
+          Today English to Telugu is live. Telugu to English is in development.
+        </p>
+      </section>
 
-      {/* The Origin & Philosophy */}
-      <div className="space-y-6 text-sm text-charcoal-700 leading-relaxed">
-        <div className="bg-canvas-100 border border-canvas-300 rounded-2xl p-6 sm:p-8 space-y-4">
-          <h2 className="text-lg font-bold text-charcoal-900">Why VaayuEdge Was Started</h2>
+      {/* Mission & Premise */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-10" aria-labelledby="mission-heading">
+        <h2 id="mission-heading" className="text-xl font-bold text-charcoal-900">
+          Why on-device intelligence matters
+        </h2>
+        <div className="mt-4 space-y-3 text-sm text-charcoal-700 leading-relaxed max-w-3xl">
           <p>
-            Most modern speech and translation platforms assume unlimited cloud compute and continuous connectivity. When users need language assistance for private business conversations, healthcare inquiries, or personal matters, they are forced to transmit raw audio recordings to centralized corporate servers.
+            Most modern speech and language tools assume unlimited cloud compute and constant internet connectivity. Whenever you use them, your voice recordings and private conversations are transmitted to remote servers.
           </p>
           <p>
-            VaayuEdge was conceived with a different premise: <strong>What if speech intelligence ran directly on your own laptop, phone, and edge hardware?</strong>
+            InferEdge AI builds intelligence across modalities for devices with limited memory, compute, energy and connectivity. VaayuEdge proves that complete voice-to-voice translation can execute on the hardware you already own — inside a standard web browser on a laptop or phone — without sending audio across the internet.
           </p>
           <p>
-            Rather than wrapping existing cloud APIs, we focus on quantised inference, modular model adapters, and transparent device execution.
+            After a one-time model download during setup, all speech recognition, translation and audio synthesis run locally and work offline.
           </p>
         </div>
+      </section>
 
-        <div className="bg-white border border-canvas-200 rounded-2xl p-6 sm:p-8 space-y-4 shadow-subtle">
-          <h2 className="text-lg font-bold text-charcoal-900">Why English to Telugu First?</h2>
+      {/* Language Focus */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-14" aria-labelledby="languages-heading">
+        <h2 id="languages-heading" className="text-xl font-bold text-charcoal-900">
+          Starting with English and Telugu
+        </h2>
+        <div className="mt-4 space-y-3 text-sm text-charcoal-700 leading-relaxed max-w-3xl">
           <p>
-            Telugu is a Dravidian language spoken by over 96 million people worldwide with rich literature, complex agglutinative morphology, and subtle distinctions between formal, informal, and instructional registers.
+            Telugu is a Dravidian language spoken by over 96 million people worldwide. Generic machine translation often struggles with Telugu clause structure, polite verb conjugations and conversational context.
           </p>
           <p>
-            Generic machine translation often treats Telugu as a mechanical transliteration exercise, producing robotic, unnatural phrases. By combining Whisper speech recognition with AI4Bharat IndicTrans2, VaayuEdge aims to preserve context, tone, and intent in natural Telugu script.
+            Our initial focus is making English and Telugu conversational assistance reliable on constrained devices. Today, the live product runs English to Telugu: you speak English, inspect and correct the transcript, and hear the resulting Telugu audio.
+          </p>
+          <p>
+            Telugu speech recognition and Telugu-to-English translation are in active development and will be released once they meet our quality and efficiency benchmarks.
           </p>
         </div>
-      </div>
+      </section>
 
-      {/* Principles */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-bold text-charcoal-900">Guiding Engineering Principles</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 bg-canvas-100 rounded-xl border border-canvas-200 space-y-1.5">
-            <h3 className="font-bold text-charcoal-900">1. Truthful Privacy</h3>
-            <p className="text-charcoal-600">Never claim an operation ran on-device unless it truly executed locally. We explicitly label local vs remote processing states.</p>
-          </div>
-          <div className="p-4 bg-canvas-100 rounded-xl border border-canvas-200 space-y-1.5">
-            <h3 className="font-bold text-charcoal-900">2. Less Compute, More Intelligence</h3>
-            <p className="text-charcoal-600">Prioritize quantisation, CPU execution, and low RAM footprints over brute-force cloud GPU scaling.</p>
-          </div>
-          <div className="p-4 bg-canvas-100 rounded-xl border border-canvas-200 space-y-1.5">
-            <h3 className="font-bold text-charcoal-900">3. Meaning-Aware Transfer</h3>
-            <p className="text-charcoal-600">Preserve interrogatives, instructions, and communicative intent rather than verbatim dictionary substitution.</p>
-          </div>
-          <div className="p-4 bg-canvas-100 rounded-xl border border-canvas-200 space-y-1.5">
-            <h3 className="font-bold text-charcoal-900">4. Open & Inspectable</h3>
-            <p className="text-charcoal-600">Publish architecture specifications, model provenance, and automated benchmark runners for independent verification.</p>
-          </div>
+      {/* Engineering and Evidence Discipline */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-14" aria-labelledby="discipline-heading">
+        <h2 id="discipline-heading" className="text-xl font-bold text-charcoal-900">
+          Engineering & evidence discipline
+        </h2>
+        <div className="mt-4 space-y-3 text-sm text-charcoal-700 leading-relaxed max-w-3xl">
+          <p>
+            We do not publish fabricated results, claim universal superiority, or hide model limitations. Every number in our documentation and interfaces is labelled by what was measured:
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-sm">
+            <li>
+              <strong>Real download footprints:</strong> Whisper ASR (77 MB quantized), Opus-MT translation (412 MB quantized), Meta MMS-TTS Telugu voice (114 MB).
+            </li>
+            <li>
+              <strong>Reproducible benchmarks:</strong> Held-out test scores (chrF++ and BLEU) published alongside open competitor evaluations on our public leaderboard.
+            </li>
+            <li>
+              <strong>Transparent limitations:</strong> We document where smaller on-device models lag behind large cloud models and when human review is required.
+            </li>
+          </ul>
         </div>
-      </div>
+      </section>
 
-      {/* Project Status */}
-      <div className="p-5 bg-teal-50/70 border border-teal-200 rounded-2xl text-xs text-teal-900 flex items-start space-x-3">
-        <div className="w-2 h-2 rounded-full bg-teal-600 mt-1.5 shrink-0"></div>
-        <div>
-          <span className="font-bold">Contact: </span>
-          VaayuEdge is built by InferEdge AI. For questions, partnerships or feedback, reach us on X at{' '}
-          <a href="https://x.com/NeuralMastery" target="_blank" rel="noopener" className="underline font-semibold">@NeuralMastery</a>.
+      {/* Upstream Attribution */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-14" aria-labelledby="models-heading">
+        <h2 id="models-heading" className="text-xl font-bold text-charcoal-900">
+          Upstream models & open research
+        </h2>
+        <div className="mt-4 space-y-3 text-sm text-charcoal-700 leading-relaxed max-w-3xl">
+          <p>
+            VaayuEdge builds on foundational open research from the machine learning community:
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-sm">
+            <li>
+              <strong>Speech Recognition:</strong> OpenAI Whisper base.en, quantized to 8-bit for efficient WebAssembly and WebGPU execution.
+            </li>
+            <li>
+              <strong>Translation:</strong> Helsinki-NLP Opus-MT (en-dra), quantized for browser execution via transformers.js.
+            </li>
+            <li>
+              <strong>Telugu Speech Synthesis:</strong> Meta MMS-TTS Telugu, running on WebAssembly under a non-commercial CC-BY-NC licence.
+            </li>
+          </ul>
+          <p className="text-xs text-charcoal-500 font-mono mt-2">
+            All upstream checkpoints retain their respective open-source and research licences.
+          </p>
         </div>
-      </div>
+      </section>
+
+      {/* Contact & Links */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-14" aria-labelledby="contact-heading">
+        <h2 id="contact-heading" className="text-xl font-bold text-charcoal-900">
+          Contact & resources
+        </h2>
+        <p className="mt-3 text-sm text-charcoal-700 leading-relaxed max-w-3xl">
+          Have questions about VaayuEdge, on-device edge AI, or our Telugu research benchmarks?
+        </p>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm">
+          <a
+            href="https://x.com/NeuralMastery"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-teal-800 font-semibold underline"
+          >
+            <span>Contact on X (@NeuralMastery)</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <span className="text-charcoal-300">·</span>
+          <a href="/leaderboard/" className="text-teal-800 underline">
+            Translation leaderboard
+          </a>
+          <span className="text-charcoal-300">·</span>
+          <a href="/research/" className="text-teal-800 underline">
+            Research publications
+          </a>
+          <span className="text-charcoal-300">·</span>
+          <a href="/" className="text-teal-800 underline">
+            InferEdge AI home
+          </a>
+        </div>
+
+        {onSelectTab && (
+          <div className="mt-8 pt-6 border-t border-canvas-300">
+            <button
+              type="button"
+              onClick={() => onSelectTab('home')}
+              className="px-4 py-2 bg-charcoal-900 hover:bg-charcoal-800 text-white rounded text-sm font-semibold transition"
+            >
+              Open translator demo →
+            </button>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
