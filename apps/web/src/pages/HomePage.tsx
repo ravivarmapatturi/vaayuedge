@@ -71,19 +71,12 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
   ];
 
   return (
-    <div className="space-y-16 sm:space-y-20 pb-20">
+    <div className="space-y-8 sm:space-y-10 pb-20">
       {/* 1. Hero Section */}
       <section className="pt-8 sm:pt-12 lg:pt-14 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-5">
-        <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-semibold shadow-subtle">
-          <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-          <span>English → తెలుగు</span>
-          <span>·</span>
-          <span>Private by design</span>
-        </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight text-charcoal-900 leading-[1.1] [text-wrap:balance]">
-          Your speech. Your language. <br className="hidden sm:inline" />
-          <span className="text-teal-700">Your device.</span>
+          Speak English. Hear Telugu. <span className="text-teal-700">On your device.</span>
         </h1>
 
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-charcoal-600 leading-relaxed font-normal [text-wrap:pretty]">
@@ -91,21 +84,6 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
           the complete flow in your browser and use it offline after setup.
         </p>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <a
-            href="#demo-workspace"
-            className="px-6 py-3 bg-charcoal-900 hover:bg-charcoal-800 text-white rounded-xl text-sm font-semibold shadow-subtle hover:shadow transition"
-          >
-            Try it free
-          </a>
-          <button
-            onClick={() => onSelectTab('how-it-works')}
-            className="px-6 py-3 bg-canvas-100 hover:bg-canvas-200 text-charcoal-800 border border-canvas-300 rounded-xl text-sm font-semibold transition"
-          >
-            How it works
-          </button>
-        </div>
 
         {/* Credibility Badges */}
         <div className="pt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-charcoal-500">
