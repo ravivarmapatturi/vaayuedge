@@ -11,7 +11,7 @@ const STEPS = [
     tech: '16 kHz mono PCM',
     model: 'MediaStream API',
     size: 'In-memory',
-    detail: 'Your microphone captures speech at 16 kHz. Audio frames remain strictly in browser memory for processing and are never sent to a server.',
+    detail: 'Your microphone captures speech at 16 kHz. In on-device mode, audio is processed in browser memory.',
   },
   {
     num: '02',
@@ -26,7 +26,7 @@ const STEPS = [
     name: 'Review: English transcript',
     tech: 'Client state',
     model: 'User-in-the-loop review',
-    size: 'Zero network',
+    size: 'Local',
     detail: 'You can edit the English transcript before translation. Correcting names, numbers or technical terms prevents errors in the Telugu output.',
   },
   {
@@ -35,7 +35,7 @@ const STEPS = [
     tech: 'WebAssembly / WebGPU',
     model: 'Opus-MT en-dra',
     size: '412 MB',
-    detail: 'Quantized seq2seq translation model converts the reviewed English sentence into natural Telugu Unicode text on your device.',
+    detail: 'Quantized seq2seq translation model converts the reviewed English sentence into Telugu text on your device.',
   },
   {
     num: '05',
@@ -43,7 +43,7 @@ const STEPS = [
     tech: 'WebAssembly (fp32)',
     model: 'Meta MMS-TTS tel',
     size: '114 MB',
-    detail: 'VITS neural text-to-speech synthesizes Telugu characters into natural speech audio, played through the browser Web Audio API.',
+    detail: 'VITS neural text-to-speech synthesizes Telugu characters into speech audio, played through the browser Web Audio API.',
   },
   {
     num: '06',
@@ -67,7 +67,7 @@ export default function HowItWorksPage({ onSelectTab }: HowItWorksPageProps) {
           How on-device speech and translation works.
         </h1>
         <p className="mt-1.5 max-w-3xl text-sm sm:text-base text-charcoal-700">
-          VaayuEdge runs the entire conversation flow directly inside your device&apos;s browser worker or local engine. Audio, transcripts and translations never leave your hardware.
+          VaayuEdge runs the entire conversation flow directly inside your device&apos;s browser worker or local engine. In on-device mode, audio, transcripts and translations are processed on your device.
         </p>
         <p className="mt-2 text-xs sm:text-sm font-mono text-charcoal-500">
           Today English to Telugu is live. Telugu to English is in development.
@@ -77,10 +77,10 @@ export default function HowItWorksPage({ onSelectTab }: HowItWorksPageProps) {
       {/* SVG Pipeline Diagram */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-8" aria-labelledby="pipeline-diagram-heading">
         <h2 id="pipeline-diagram-heading" className="sr-only">On-device processing pipeline diagram</h2>
-        <div className="p-4 sm:p-6 bg-canvas-100 border border-canvas-300 rounded-lg">
+        <div className="hidden sm:block p-4 sm:p-6 bg-canvas-100 border border-canvas-300 rounded-lg">
           <div className="flex items-center justify-between pb-3 border-b border-canvas-300 mb-4 text-xs font-mono text-charcoal-600">
             <span className="font-semibold text-charcoal-900">Device execution boundary</span>
-            <span className="text-teal-800">Zero cloud transmission</span>
+            <span className="text-teal-800">On-device mode</span>
           </div>
 
           <svg

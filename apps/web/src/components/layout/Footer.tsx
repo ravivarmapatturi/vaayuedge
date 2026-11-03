@@ -113,7 +113,7 @@ export default function Footer({ onSelectTab }: FooterProps) {
         {/* Bottom bar */}
         <div className="pt-6 border-t border-canvas-300 flex flex-col sm:flex-row items-baseline justify-between text-xs text-charcoal-500 gap-2">
           <p>© {currentYear} VaayuEdge, a product of InferEdge AI. Upstream models retain their respective licences.</p>
-          <p className="font-mono text-charcoal-500">Zero audio leaves your device.</p>
+          <p className="font-mono text-charcoal-500">On-device mode keeps audio on your device.</p>
         </div>
       </div>
     </footer>

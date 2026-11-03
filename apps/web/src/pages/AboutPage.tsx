@@ -16,7 +16,7 @@ export default function AboutPage({ onSelectTab }: AboutPageProps) {
           On-device intelligence for real devices.
         </h1>
         <p className="mt-1.5 max-w-3xl text-sm sm:text-base text-charcoal-700">
-          VaayuEdge is an on-device speech and translation tool developed by InferEdge AI. It starts with English and Telugu, running speech recognition, translation and speech generation without server dependencies.
+          VaayuEdge is an on-device speech and translation tool developed by InferEdge AI. It starts with English and Telugu, and in on-device mode runs speech recognition, translation and speech generation in your browser.
         </p>
         <p className="mt-2 text-xs sm:text-sm font-mono text-charcoal-500">
           Today English to Telugu is live. Telugu to English is in development.
@@ -30,10 +30,10 @@ export default function AboutPage({ onSelectTab }: AboutPageProps) {
         </h2>
         <div className="mt-4 space-y-3 text-sm text-charcoal-700 leading-relaxed max-w-3xl">
           <p>
-            Most modern speech and language tools assume unlimited cloud compute and constant internet connectivity. Whenever you use them, your voice recordings and private conversations are transmitted to remote servers.
+            Many speech and language tools send audio to a server and need a constant connection.
           </p>
           <p>
-            InferEdge AI builds intelligence across modalities for devices with limited memory, compute, energy and connectivity. VaayuEdge proves that complete voice-to-voice translation can execute on the hardware you already own — inside a standard web browser on a laptop or phone — without sending audio across the internet.
+            InferEdge AI builds intelligence across modalities for devices with limited memory, compute, energy and connectivity. VaayuEdge shows that complete voice-to-voice translation can execute on the hardware you already own — inside a standard web browser on a laptop or phone — without sending audio across the internet.
           </p>
           <p>
             After a one-time model download during setup, all speech recognition, translation and audio synthesis run locally and work offline.
@@ -48,7 +48,7 @@ export default function AboutPage({ onSelectTab }: AboutPageProps) {
         </h2>
         <div className="mt-4 space-y-3 text-sm text-charcoal-700 leading-relaxed max-w-3xl">
           <p>
-            Telugu is a Dravidian language spoken by over 96 million people worldwide. Generic machine translation often struggles with Telugu clause structure, polite verb conjugations and conversational context.
+            Telugu is a Dravidian language, and its clause order and polite verb forms differ a lot from English.
           </p>
           <p>
             Our initial focus is making English and Telugu conversational assistance reliable on constrained devices. Today, the live product runs English to Telugu: you speak English, inspect and correct the transcript, and hear the resulting Telugu audio.
