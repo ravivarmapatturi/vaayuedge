@@ -85,6 +85,8 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
         </p>
 
 
+        <p className="text-sm"><a href="/leaderboard/" className="text-teal-800 underline">See how small on-device models compare, and where ours stands</a></p>
+
         {/* Credibility Badges */}
         <div className="pt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-charcoal-500">
           <div className="flex items-center space-x-1.5">

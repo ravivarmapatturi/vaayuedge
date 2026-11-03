@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>On-Device AI Leaderboard: English and Telugu | InferEdge AI</title>
+<meta name="description" content="Small AI models for translation, speech-to-text and text-to-speech, listed by real download size and measured quality, with InferEdge models placed where they stand.">
+<link rel="canonical" href="https://inferedgeai.com/leaderboard/"><meta property="og:title" content="On-Device AI Leaderboard | InferEdge AI"><meta property="og:url" content="https://inferedgeai.com/leaderboard/"><meta property="og:type" content="website"><meta property="og:description" content="Which small models are best on a device? Real sizes, measured scores and honest gaps.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#fbfbfa;--text:#172033;--muted:#566377;--line:#deded8;--accent:#0f766e;--ours:#e6f6f3}
+@media (prefers-color-scheme:dark){:root{--bg:#0c0e12;--text:#f1f5f9;--muted:#a3afbf;--line:#2a313a;--accent:#2dd4bf;--ours:#0f2e2b}}
+body{font:17px/1.65 system-ui,sans-serif;color:var(--text);background:var(--bg);margin:0}
+header,main,footer{max-width:1000px;margin:auto;padding:24px 20px}
+nav{display:flex;flex-wrap:wrap;gap:16px}a{color:var(--accent)}
+h1{font-size:clamp(32px,6vw,46px);line-height:1.1;letter-spacing:-.02em;margin:12px 0}
+h2{font-size:25px;margin:44px 0 4px;padding-top:24px;border-top:1px solid var(--line)}
+.t{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:14px 0;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{color:var(--muted);font-weight:600;font-size:13px}
+td.n,th.n{text-align:right;white-space:nowrap}tr.ours td{background:var(--ours)}tr.ours td:first-child{font-weight:700}
+.note{color:var(--muted);font-size:15px}.limit{border-left:3px solid var(--accent);padding-left:14px}
+</style></head><body>
+<header><nav aria-label="Main"><a href="/">InferEdge AI</a><a href="/vaayuedge/">VaayuEdge</a><a href="/research/">Research</a></nav></header>
+<main>
+<h1>On-device AI leaderboard</h1>
+<p>Which small model is best when it has to run on your own device? Models are listed smallest first. Our models are highlighted and placed where they currently stand, including where they lose. Starting with English and Telugu. Last updated 3 Nov 2026.</p>
+<p class="note">Size is the file download we could verify. Cloud services are left out, because they do not run on a device.</p>
+
+<h2 id="translation">Translation: English to Telugu</h2>
+<p class="note">Higher chrF++ means closer to reference translations. IN22 test sets: 1,503 conversation and 1,024 general sentences.</p>
+<div class="t"><table><thead><tr><th>Model</th><th class="n">Download</th><th class="n">Conversation chrF++</th><th class="n">General chrF++</th><th>Runs in a browser</th></tr></thead><tbody>
+<tr class="ours"><td>Opus-MT en-dra, quantized (used in VaayuEdge)</td><td class="n">412 MB</td><td class="n">28.37*</td><td class="n">26.86*</td><td>Yes, this is what is live</td></tr>
+<tr><td>IndicTrans2 200M (AI4Bharat)</td><td class="n">about 900 MB</td><td class="n">44.67</td><td class="n">51.43</td><td>Not shown yet</td></tr>
+<tr class="ours"><td>InferEdge IndicTrans2 fine-tune, 100 steps</td><td class="n">1,109 MB</td><td class="n">44.89</td><td class="n">51.38</td><td>Not shown yet</td></tr>
+</tbody></table></div>
+<p class="note">*Scored on the unquantized version of the same model. The 412 MB file has not had a full quality test. The AI4Bharat size is its published weight size, not a measured package.</p>
+<p class="limit"><strong>Where we stand:</strong> the only model here proven to run in a browser is also the weakest. Our fine-tune is about 16 points better on conversation, but it is too large to ship on a device, and it is only marginally different from the model it started from. We do not have a small model of our own yet. That is the goal.</p>
+
+<h2 id="translation-reverse">Translation: Telugu to English</h2>
+<p>No ranking yet. We have not tested any model in this direction, and VaayuEdge does not offer it today.</p>
+
+<h2 id="stt">Speech to text</h2>
+<p>No ranking yet, because we have not run these models on one Telugu test. Sizes only.</p>
+<div class="t"><table><thead><tr><th>Model</th><th class="n">Download</th><th>Languages</th><th>Telugu error rate</th></tr></thead><tbody>
+<tr><td>Whisper tiny, quantized</td><td class="n">41 MB</td><td>Multilingual, includes Telugu</td><td>Not measured</td></tr>
+<tr class="ours"><td>Whisper base.en, quantized (used in VaayuEdge)</td><td class="n">77 MB</td><td>English only</td><td>Does not support Telugu</td></tr>
+<tr><td>Whisper base, quantized</td><td class="n">77 MB</td><td>Multilingual, includes Telugu</td><td>Not measured</td></tr>
+</tbody></table></div>
+<p class="limit"><strong>Where we stand:</strong> we have no speech-to-text model of our own. VaayuEdge uses an existing English model.</p>
+
+<h2 id="tts">Text to speech: Telugu</h2>
+<p>No ranking yet, because we have not run a listening test. Sizes only.</p>
+<div class="t"><table><thead><tr><th>Model</th><th class="n">Download</th><th>Licence</th><th>Listening test</th></tr></thead><tbody>
+<tr><td>Piper te_IN maya, medium</td><td class="n">63 MB</td><td>See its model card</td><td>Not run</td></tr>
+<tr class="ours"><td>Meta MMS-TTS Telugu (used in VaayuEdge)</td><td class="n">114 MB</td><td>CC-BY-NC, non-commercial</td><td>Not run</td></tr>
+</tbody></table></div>
+<p class="limit"><strong>Where we stand:</strong> we have no text-to-speech model of our own. VaayuEdge uses an existing model whose licence rules out commercial use.</p>
+
+<h2 id="method">How this works</h2>
+<p>Translation scores use one set of references and one scorer, with <a href="/research/">full results and limits on the Research page</a>. Sizes were read from the model files on Hugging Face. We will add models only with a real file and a score we can reproduce. Scores do not replace review by Telugu speakers, and memory, speed and battery use on named devices have not been measured yet.</p>
+</main>
+<footer><a href="/">InferEdge AI</a> · <a href="https://x.com/NeuralMastery">Suggest a model on X</a></footer>
+</body></html>
