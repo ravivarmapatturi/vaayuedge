@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InferEdge AI — Edge AI inference that runs on your device</title>
-<meta name="description" content="InferEdge AI develops speech, language and vision intelligence for devices with limited memory, compute and connectivity.">
+<title>InferEdge AI: English and Telugu AI that runs on your device</title>
+<meta name="description" content="InferEdge AI builds English and Telugu speech and translation that run on your own device. Try VaayuEdge in your browser and read our measured research.">
 <link rel="canonical" href="https://inferedgeai.com/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "InferEdge AI", "alternateName": ["InferEdge", "Infer Edge AI"], "url": "https://inferedgeai.com/"}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="InferEdge AI">
 <meta property="og:url" content="https://inferedgeai.com/">
-<meta property="og:title" content="InferEdge AI — Edge AI inference that runs on your device">
-<meta property="og:description" content="Speech, language and vision intelligence for devices with limited memory, compute and connectivity.">
+<meta property="og:title" content="InferEdge AI: English and Telugu AI that runs on your device">
+<meta property="og:description" content="English and Telugu speech and translation that run on your own device.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@NeuralMastery">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "InferEdge AI", "alternateName": ["InferEdge", "Infer Edge AI", "Infer Edge"], "url": "https://inferedgeai.com/", "logo": "https://inferedgeai.com/favicon.svg", "sameAs": ["https://x.com/NeuralMastery"], "description": "InferEdge AI builds edge AI: speech, language and vision models that run on-device on phones, laptops and browsers."}</script>
@@ -160,6 +160,16 @@
   .contact .sub { margin: 14px auto 30px; }
   footer { border-top: 1px solid var(--border); padding: 28px 0; font-size: 14px; color: var(--muted); }
   footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .home-hero { display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:center; padding-top:clamp(36px,8vh,80px); padding-bottom:clamp(36px,8vh,72px); }
+  .home-hero h1 { font-size:clamp(34px,5vw,54px); line-height:1.08; letter-spacing:-.025em; margin-bottom:18px; }
+  .home-hero .lede { color:var(--text-2); font-size:18px; margin-bottom:24px; }
+  .home-hero .cta { display:flex; flex-wrap:wrap; gap:12px; justify-content:flex-start; }
+  @media (max-width:860px){ .home-hero { grid-template-columns:1fr; gap:28px; } }
+  .index { border-top:1px solid var(--border); padding:40px 0; }
+  .index .row { display:grid; grid-template-columns:140px 1fr; gap:20px; padding:18px 0; border-top:1px solid var(--border); }
+  .index .when { color:var(--muted); font:500 13px 'JetBrains Mono',monospace; }
+  .index h3 { font-size:19px; margin-bottom:4px; } .index h3 a { color:var(--accent); } .index p { color:var(--text-2); }
+  @media (max-width:560px){ .index .row { grid-template-columns:1fr; gap:4px; } }
 </style>
 </head>
 <body>
@@ -171,10 +181,8 @@
     </a>
     <nav class="nav-links" aria-label="Main">
       <a href="/about/">About</a>
-      <a href="#capabilities">Capabilities</a>
-      <a href="#why">Why edge</a>
-      <a href="#products">Products</a>
-      <a href="#research">Research</a>
+      <a href="/research/">Research</a>
+      <a href="/english-to-telugu/">English to Telugu</a>
       <a href="#contact">Contact</a>
       <a class="btn btn-primary" href="vaayuedge/">Try VaayuEdge</a>
     </nav>
@@ -182,96 +190,44 @@
 </header>
 
 <main>
-  <div class="wrap hero">
-    <div class="eyebrow"><i></i>Edge AI inference</div>
-    <h1>AI that runs <em>where your data lives</em>.</h1>
-    <p class="lede">InferEdge AI develops speech, language and vision intelligence for devices with limited memory,
-      compute, energy and connectivity.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="vaayuedge/">Try VaayuEdge →</a>
-      <a class="btn btn-ghost" href="#capabilities">What we do</a>
+  <div class="wrap home-hero">
+    <div>
+      <h1>English and Telugu AI that runs on your device.</h1>
+      <p class="lede">InferEdge AI is building small speech and translation models for Telugu. Every result we publish states what was measured and where it falls short.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="vaayuedge/">Try VaayuEdge</a>
+        <a class="btn btn-ghost" href="/research/">Read the research</a>
+      </div>
+    </div>
+    <div class="demo" aria-label="Example translation">
+      <div class="bubble b-en"><small>You say</small>I will call you after I finish the meeting.</div>
+      <div class="flow"><span>Listen</span>→<span>Translate</span>→<span>Speak</span><span style="border:none">· on device</span></div>
+      <div class="bubble b-te"><small style="font-family:'JetBrains Mono',monospace">VaayuEdge says</small>మీటింగ్ పూర్తయ్యాక నేను మీకు ఫోన్ చేస్తాను.</div>
     </div>
   </div>
 
-  <section id="capabilities">
+  <section id="products" class="index">
     <div class="wrap">
-      <div class="label">Capabilities</div>
-      <h2>Intelligence across speech, language and vision.</h2>
-      <p class="sub">We focus on useful experiences for constrained devices, with runtime and quality claims tested on the environment where they will be used.</p>
-      <div class="grid3">
-        <div class="card">
-          <div class="ic ic-audio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
-          <h3>Speech &amp; audio</h3>
-          <p>Speech recognition and natural voice synthesis on-device, including Indian languages that cloud tools serve poorly.</p>
-        </div>
-        <div class="card">
-          <div class="ic ic-text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg></div>
-          <h3>Language &amp; text</h3>
-          <p>English-to-Telugu translation and language understanding designed for constrained-device use.</p>
-        </div>
-        <div class="card">
-          <div class="ic ic-vision"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-          <h3>Vision</h3>
-          <p>Image understanding for camera and edge-device workloads where bandwidth and compute are limited.</p>
-        </div>
-      </div>
+      <div class="label">Product</div>
+      <div class="row"><div class="when">Available now</div><div><h3><a href="vaayuedge/">VaayuEdge</a></h3><p>Speak English, review the transcript and translation, then hear Telugu. Enable on-device mode once, and it works offline after setup with no installation.</p></div></div>
     </div>
   </section>
 
-  <section id="why" class="why">
+  <section id="research" class="index">
     <div class="wrap">
-      <div class="label">Why edge</div>
-      <h2>The cloud isn't always the right place for AI.</h2>
-      <div class="grid4">
-        <div><div class="num">01</div><h3>Clear boundaries</h3><p>Products must state where processing happens and when a network connection is required.</p></div>
-        <div><div class="num">02</div><h3>Fast</h3><p>No network round-trip. Results arrive as quickly as the hardware can compute them.</p></div>
-        <div><div class="num">03</div><h3>Resilient</h3><p>Local modes can continue without a connection after their required assets are cached.</p></div>
-        <div><div class="num">04</div><h3>Measured</h3><p>Quality, memory and latency are evaluated separately instead of inferred from model size.</p></div>
-      </div>
+      <div class="label">Research</div>
+      <div class="row"><div class="when">2 Nov 2026</div><div><h3><a href="/research/#comparison">Translation model comparison</a></h3><p>Why the evidence did not justify replacing the model in the live product.</p></div></div>
+      <div class="row"><div class="when">Held-out test</div><div><h3><a href="/research/#heldout">Fine-tuning IndicTrans2 for English to Telugu</a></h3><p>Small gains on two of three test sets, and essentially flat on the third.</p></div></div>
+      <div class="row"><div class="when">29 Oct 2026</div><div><h3><a href="/research/#benchmark">English to Telugu benchmark</a></h3><p>Open models and historical Google and Azure outputs, scored on the same IN22 references.</p></div></div>
+      <p class="research-note"><a href="/research/">All research</a></p>
     </div>
   </section>
-
-  <section id="products">
-    <div class="wrap">
-      <div class="label">Products</div>
-      <h2>Built on the InferEdge approach.</h2>
-      <div class="product">
-        <div class="copy">
-          <span class="tag">Available now</span>
-          <h3>VaayuEdge</h3>
-          <p>Speak English, review the transcript and translation, then hear Telugu. The app shows when its on-device mode is ready.</p>
-          <ul>
-            <li>One click to enable, no installation</li>
-            <li>On-device mode processes audio in the browser</li>
-            <li>On-device mode works offline after setup</li>
-          </ul>
-          <a class="btn btn-primary" href="vaayuedge/">Open VaayuEdge →</a>
-        </div>
-        <div class="demo" aria-label="Example translation">
-          <div class="bubble b-en"><small>You say</small>I will call you after I finish the meeting.</div>
-          <div class="flow"><span>Listen</span>→<span>Translate</span>→<span>Speak</span><span style="border:none">· on device</span></div>
-          <div class="bubble b-te"><small style="font-family:'JetBrains Mono',monospace">VaayuEdge says</small>మీటింగ్ పూర్తయ్యాక నేను మీకు ఫోన్ చేస్తాను.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="research" class="research">
-    <div class="wrap">
-      <div class="label">Edge AI research</div>
-      <h2>Evidence before product claims.</h2>
-      <p class="sub">We distinguish measured results from targets and published third-party claims. Translation quality, peak memory, latency, energy and offline reliability require their own reproducible checks.</p>
-      <p class="research-note"><a href="/edge-ai/">Read our edge AI inference guide</a> · <a href="/english-to-telugu/">Learn about VaayuEdge English-to-Telugu conversation</a></p>
-      <p class="research-note">Current research results do not establish universal superiority or production readiness.</p>
-    </div>
-  </section>
-
 
   <section id="contact" class="why contact">
     <div class="wrap">
       <div class="label">Contact</div>
-      <h2>Need AI that runs on your hardware?</h2>
-      <p class="sub">We work with teams that need private, offline or low-cost inference on their own devices.</p>
+      <h2>Talk to us.</h2>
+      <p class="sub">For questions about VaayuEdge, Telugu models or on-device inference.</p>
       <a class="btn btn-primary" href="https://x.com/NeuralMastery" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Message us on X · @NeuralMastery</a>
     </div>
   </section>
