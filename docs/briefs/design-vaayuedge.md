@@ -1,0 +1,4 @@
+# Task: redesign VaayuEdge product page (apps/web, React + Vite)
+Follow docs/briefs/design-common.md. Edit only apps/web/src pages, layout components, styling and apps/web/index.html. Do not change anything in src/lib or the logic of demo components; styling only there.
+Goal: a first-time visitor understands in 5 seconds and uses the translator without scrolling on 1366x768 and 375px. Make the speech and translation console the hero. Remove repeated sections and filler. Reduce the navigation to what is needed. Show the real download size and offline state honestly before setup. Design every console state: first visit, downloading, ready, recording, processing, result, errors. Link to /leaderboard/ and /research/. Match the InferEdge identity in docs/briefs/design-common.md.
+Verify: npm test -- --run, npx tsc --noEmit, then npm run build alone with nothing else heavy running. Run the flow in a browser if possible and state what was not tested.
