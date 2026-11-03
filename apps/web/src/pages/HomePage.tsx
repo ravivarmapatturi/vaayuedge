@@ -76,11 +76,11 @@ export default function HomePage({ onSelectTab }: HomePageProps) {
       <section className="pt-8 sm:pt-12 lg:pt-14 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-5">
 
         <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight text-charcoal-900 leading-[1.1] [text-wrap:balance]">
-          Speak English. Hear Telugu. <span className="text-teal-700">On your device.</span>
+          Speech and translation. <span className="text-teal-700">On your device.</span>
         </h1>
 
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-charcoal-600 leading-relaxed font-normal [text-wrap:pretty]">
-          Speak English, review the transcript and translation, then hear Telugu. Enable on-device AI once to process
+          Starting with English and Telugu. Today, speak English, review the translation and hear Telugu; Telugu to English is in development. Enable on-device AI once to process
           the complete flow in your browser and use it offline after setup.
         </p>
 
