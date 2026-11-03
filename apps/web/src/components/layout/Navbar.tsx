@@ -21,11 +21,8 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems: { id: NavTab; label: string }[] = [
-    { id: 'home', label: 'Home' },
-    { id: 'product', label: 'Product' },
-    { id: 'how-it-works', label: 'How It Works' },
-    { id: 'technology', label: 'Technology' },
-    { id: 'research', label: 'Edge AI Research' },
+    { id: 'home', label: 'Try it' },
+    { id: 'how-it-works', label: 'How it works' },
     { id: 'about', label: 'About' },
   ];
 
@@ -62,6 +59,8 @@ export default function Navbar({
               {item.label}
             </button>
           ))}
+          <a href="/leaderboard/" className="px-3 py-1.5 text-sm font-medium rounded-lg text-charcoal-700 hover:text-charcoal-900 hover:bg-canvas-200/60">Leaderboard</a>
+          <a href="/research/" className="px-3 py-1.5 text-sm font-medium rounded-lg text-charcoal-700 hover:text-charcoal-900 hover:bg-canvas-200/60">Research</a>
         </nav>
 
         {/* Right Action & Mode Badge */}
@@ -129,6 +128,8 @@ export default function Navbar({
               {item.label}
             </button>
           ))}
+          <a href="/leaderboard/" className="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-charcoal-700">Leaderboard</a>
+          <a href="/research/" className="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-charcoal-700">Research</a>
           <div className="pt-3 border-t border-canvas-200 mt-2 flex items-center justify-between text-xs text-charcoal-500">
             <span>Processing mode:</span>
             <span className="font-medium text-teal-700">On-Device Edge</span>

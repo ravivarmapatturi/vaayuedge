@@ -47,7 +47,7 @@ export default {
           'Roboto',
           'sans-serif',
         ],
-        telugu: ['"Gautami"', '"Suranna"', '"Nirmala UI"', 'system-ui', 'sans-serif'],
+        telugu: ['"Noto Sans Telugu"', '"Gautami"', '"Suranna"', '"Nirmala UI"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'Menlo', 'Consolas', 'monospace'],
       },
       boxShadow: {
