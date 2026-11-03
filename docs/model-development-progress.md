@@ -3008,3 +3008,12 @@ Followed `docs/briefs/design-common.md`. Preserved live translator-first home pa
 - Saved 375px and 1366px screenshots for Home, How It Works, and About to `artifacts/design-review/`.
 - Ready for review on branch `design-vaayuedge`. No push.
 
+### 2026-11-03 agy loopback probe backoff & quiet console
+
+Fixed loopback ERR_CONNECTION_REFUSED console flooding in `apps/web`:
+- Removed unprompted 2-second background polling interval from `InteractiveDemo.tsx` that repeatedly fetched 127.0.0.1:8000 when the native engine was disconnected.
+- Deduplicated in-flight capability probes in `apps/web/src/lib/api.ts` so initial page mount probes once on load without redundant parallel requests.
+- Added exponential backoff (`calculateBackoffDelay`, capping at 30s) and a manual "Check connection" button when the user explicitly requests native setup, stopping after 5 attempts instead of polling indefinitely.
+- Preserved existing translation and fallback behaviors without modification.
+- Added regression tests in `apps/web/src/tests/apiRouting.test.ts` (now 22 tests passing across suite).
+- Verified `npm test -- --run` (22 passed), `npx tsc --noEmit` (0 errors), and `npm run build` (success). Committed on `design-vaayuedge` without push.

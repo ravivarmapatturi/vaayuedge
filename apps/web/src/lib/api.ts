@@ -68,41 +68,68 @@ export function rememberLocalDaemon(): void {
   } catch {}
 }
 
-export async function fetchCapabilities(force = false): Promise<Capabilities> {
-  const apiBase = getApiBase();
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 2000);
+export function calculateBackoffDelay(
+  attempt: number,
+  baseMs = 2000,
+  maxMs = 30000,
+  factor = 2
+): number {
+  if (attempt <= 0) return baseMs;
+  const delay = baseMs * Math.pow(factor, attempt);
+  return Math.min(delay, maxMs);
+}
 
-  try {
-    if (!force && !shouldTryLocalDaemon()) throw new Error('Local daemon not enabled');
-    const res = await fetch(`${apiBase}/v1/capabilities`, {
-      signal: controller.signal,
-    });
-    clearTimeout(timeoutId);
-    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-    const data = await res.json();
-    return {
-      ...data,
-      isConnected: true,
-    };
-  } catch {
-    clearTimeout(timeoutId);
-    return {
-      processing_mode: 'local',
-      is_offline_capable: false,
-      supported_source_languages: ['en', 'eng_Latn'],
-      supported_target_languages: ['te', 'tel_Telu'],
-      asr: { adapter: 'not_connected', model_name: 'Whisper CPU (Local Daemon)', is_ready: false },
-      translation: { adapter: 'not_connected', model_name: 'Helsinki-NLP Opus-MT (Local Daemon)', is_ready: false },
-      tts: { adapter: 'browser_web_speech', voice_name: 'Web Speech API (te-IN)', is_ready: true },
-      device_info: {
-        os: 'Static Browser Host',
-        cpu_cores: (typeof navigator !== 'undefined' && navigator.hardwareConcurrency) || 4,
-        ram_gb_available: 8,
-      },
-      isConnected: false,
-    };
+let inFlightCapabilities: Promise<Capabilities> | null = null;
+
+export async function fetchCapabilities(force = false): Promise<Capabilities> {
+  if (inFlightCapabilities && !force) {
+    return inFlightCapabilities;
   }
+
+  const probe = (async () => {
+    const apiBase = getApiBase();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+    try {
+      if (!force && !shouldTryLocalDaemon()) throw new Error('Local daemon not enabled');
+      const res = await fetch(`${apiBase}/v1/capabilities`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+      const data = await res.json();
+      return {
+        ...data,
+        isConnected: true,
+      };
+    } catch {
+      clearTimeout(timeoutId);
+      return {
+        processing_mode: 'local',
+        is_offline_capable: false,
+        supported_source_languages: ['en', 'eng_Latn'],
+        supported_target_languages: ['te', 'tel_Telu'],
+        asr: { adapter: 'not_connected', model_name: 'Whisper CPU (Local Daemon)', is_ready: false },
+        translation: { adapter: 'not_connected', model_name: 'Helsinki-NLP Opus-MT (Local Daemon)', is_ready: false },
+        tts: { adapter: 'browser_web_speech', voice_name: 'Web Speech API (te-IN)', is_ready: true },
+        device_info: {
+          os: 'Static Browser Host',
+          cpu_cores: (typeof navigator !== 'undefined' && navigator.hardwareConcurrency) || 4,
+          ram_gb_available: 8,
+        },
+        isConnected: false,
+      };
+    }
+  })();
+
+  if (!force) {
+    inFlightCapabilities = probe.finally(() => {
+      inFlightCapabilities = null;
+    });
+  }
+
+  return probe;
 }
 
 import { translateClientSide } from './clientTranslator';

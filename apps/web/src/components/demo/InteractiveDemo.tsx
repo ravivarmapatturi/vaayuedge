@@ -7,6 +7,7 @@ import {
   Capabilities,
   SessionItem,
   rememberLocalDaemon,
+  calculateBackoffDelay,
 } from '../../lib/api';
 import { storage } from '../../lib/storage';
 import { browserEngine } from '../../lib/browserEngine';
@@ -60,7 +61,7 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
   const recognitionRef = useRef<any>(null);
   const recordedSpeechRef = useRef<string>('');
   const recognitionDoneRef = useRef<Promise<void>>(Promise.resolve());
-  const setupPollRef = useRef<number | null>(null);
+  const setupTimerRef = useRef<number | null>(null);
 
   const startBrowserEngine = () => {
     if (!browserEngine.isSupported()) {
@@ -100,26 +101,10 @@ export default function InteractiveDemo({ id = "demo-workspace", isStandalonePag
     setSessions(storage.getSessions());
   }, []);
 
-  // Poll for background engine auto-activation
-  useEffect(() => {
-    let interval: number;
-    if (!capabilities?.isConnected) {
-      interval = window.setInterval(() => {
-        fetchCapabilities().then((cap) => {
-          if (cap.isConnected) {
-            setCapabilities(cap);
-          }
-        });
-      }, 2000);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [capabilities?.isConnected]);
-
   useEffect(() => {
     return () => {
       if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+      if (setupTimerRef.current) clearTimeout(setupTimerRef.current);
       if (recognitionRef.current) {
         try {
           recognitionRef.current.stop();
@@ -473,6 +458,20 @@ pause
     startBrowserEngine();
   };
 
+  const probeNativeEngine = async () => {
+    const cap = await fetchCapabilities(true);
+    if (cap.isConnected) {
+      if (setupTimerRef.current) clearTimeout(setupTimerRef.current);
+      setSetupProgress(100);
+      setSetupStepText('On-device engine connected!');
+      setStatusMessage('✅ On-device engine connected. Whisper, Opus-MT and MMS-TTS now run on your machine.');
+      setCapabilities(cap);
+      setTimeout(() => setIsSettingUp(false), 1500);
+      return true;
+    }
+    return false;
+  };
+
   // Step 2: on OK, download the script and watch for the engine to come up for real.
   const confirmInstall = () => {
     setShowInstallConfirm(false);
@@ -491,21 +490,32 @@ pause
     setSetupProgress(0);
     setSetupStepText('Script downloaded. Run it to start the engine — waiting for 127.0.0.1:8000...');
 
-    if (setupPollRef.current) clearInterval(setupPollRef.current);
-    const startedAt = Date.now();
-    setupPollRef.current = window.setInterval(async () => {
-      const cap = await fetchCapabilities(true);
-      if (cap.isConnected) {
-        if (setupPollRef.current) clearInterval(setupPollRef.current);
-        setSetupProgress(100);
-        setSetupStepText('On-device engine connected!');
-        setStatusMessage('✅ On-device engine connected. Whisper, Opus-MT and MMS-TTS now run on your machine.');
-        setCapabilities(cap);
-        setTimeout(() => setIsSettingUp(false), 1500);
-      } else if (Date.now() - startedAt > 30 * 60 * 1000) {
-        if (setupPollRef.current) clearInterval(setupPollRef.current);
+    if (setupTimerRef.current) clearTimeout(setupTimerRef.current);
+
+    let attempt = 0;
+    const maxAttempts = 5;
+
+    const scheduleProbe = () => {
+      if (attempt >= maxAttempts) {
+        setSetupStepText('Waiting for 127.0.0.1:8000 — click Check connection once started.');
+        return;
       }
-    }, 2000);
+      const delay = calculateBackoffDelay(attempt);
+      setupTimerRef.current = window.setTimeout(async () => {
+        attempt++;
+        const connected = await probeNativeEngine();
+        if (!connected) {
+          scheduleProbe();
+        }
+      }, delay);
+    };
+
+    // Probe once immediately when the user asks for the local engine
+    probeNativeEngine().then((connected) => {
+      if (!connected) {
+        scheduleProbe();
+      }
+    });
   };
 
   return (
@@ -605,13 +615,14 @@ pause
               <div className="flex items-center justify-between gap-2">
                 <span className="font-bold">{setupProgress === 100 ? '✅ Connected' : 'Waiting for local engine'}</span>
                 <span className="text-amber-800 flex-1">{setupStepText}</span>
-                <button onClick={() => { setIsSettingUp(false); if (setupPollRef.current) clearInterval(setupPollRef.current); }} className="text-amber-600 hover:text-amber-900 text-sm font-bold px-1" title="Dismiss">×</button>
+                <button onClick={() => { setIsSettingUp(false); if (setupTimerRef.current) clearTimeout(setupTimerRef.current); }} className="text-amber-600 hover:text-amber-900 text-sm font-bold px-1" title="Dismiss">×</button>
               </div>
               {setupProgress < 100 && (
                 <div className="flex flex-wrap items-center gap-2">
                   <span>Run in a terminal:</span>
                   <code className="bg-charcoal-900 text-emerald-200 rounded px-2 py-1 font-mono">{installCommand}</code>
                   <button onClick={() => navigator.clipboard?.writeText(installCommand)} className="px-2 py-1 rounded border border-amber-300 hover:bg-amber-100">Copy</button>
+                  <button type="button" onClick={() => probeNativeEngine()} className="px-2 py-1 rounded border border-amber-300 hover:bg-amber-100 font-semibold transition">Check connection</button>
                 </div>
               )}
             </div>
