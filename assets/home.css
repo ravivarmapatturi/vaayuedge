@@ -97,3 +97,4 @@ section[id]{scroll-margin-top:80px}
 .tally{margin:0;color:var(--muted)}.tally strong{color:var(--ink);font-size:1.5rem;margin-right:4px}.cloud .tally strong{color:#fb7185}.edge .tally strong{color:var(--accent)}
 @media(max-width:860px){.vault{grid-template-columns:1fr}}
 @media(max-width:400px){.route{grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr)}.lock{width:22px;height:22px;margin:-11px}}
+.edge-hero h1{font-size:clamp(2.4rem,4.6vw,4rem)}
