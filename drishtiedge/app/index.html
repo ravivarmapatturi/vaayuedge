@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrishtiEdge — On-Device Computer Vision Beta</title>
+  <meta name="description" content="Private, in-browser object detection using YOLOX-Nano WASM. No frames leave your device.">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./drishtiedge.css">
+  <script src="./vendor/ort.min.js"></script>
+  <script src="./drishtiedge.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="InferEdge Home">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="14" fill="#0e1a17" stroke="#5eead4" stroke-width="2"/>
+          <circle cx="16" cy="16" r="6" fill="#5eead4"/>
+          <circle cx="18" cy="14" r="2" fill="#04201b"/>
+        </svg>
+        <span>InferEdge<strong>AI</strong></span>
+        <span class="brand-badge">Beta</span>
+      </a>
+      <a href="/" class="nav-back">← Back to inferedgeai.com</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-head">
+        <h1 id="hero-title">
+          DrishtiEdge
+          <span class="brand-badge">Vision Beta</span>
+        </h1>
+        <div class="privacy-banner">
+          <span class="privacy-dot" aria-hidden="true"></span>
+          <span>Nothing is uploaded. 100% on-device vision.</span>
+        </div>
+      </div>
+      <p class="lede">
+        Real-time object detection running locally in your browser using single-threaded WebAssembly. No image frames or telemetry are sent to any server.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Work Area -->
+  <main class="main-content wrap" role="main">
+    <!-- Error Banner -->
+    <div id="errorBanner" class="notice-box notice-error" role="alert" aria-live="assertive">
+      <div id="errorText"><strong>Error:</strong> Something went wrong.</div>
+    </div>
+
+    <div class="app-grid">
+      <!-- Left Column: Vision Viewport -->
+      <section class="card" aria-label="Visual Input and Detection Viewport">
+        <div class="viewport-container">
+          <canvas id="detectionCanvas" width="640" height="427" aria-label="Object detection display canvas"></canvas>
+          <video id="cameraVideo" playsinline muted aria-hidden="true"></video>
+          <div id="emptyState" class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#5d6864" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <p><strong>No visual input loaded</strong></p>
+            <p style="font-size: 0.82rem; color: var(--muted);">Click "Sample Scene", start camera, or upload an image to begin.</p>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls" role="toolbar" aria-label="Detection Controls">
+          <button id="btnSample" class="btn-primary" type="button" aria-label="Load Sample Scene">
+            Sample Scene
+          </button>
+          <button id="btnCamera" class="btn-secondary" type="button" aria-label="Toggle Live Camera">
+            Live Camera
+          </button>
+          <button class="btn-secondary" type="button" onclick="document.getElementById('fileInput').click()" aria-label="Upload Image">
+            Upload Image
+          </button>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display: none;" aria-label="Upload image file">
+          <button id="btnDetect" class="btn-secondary" type="button" style="display: none;" aria-label="Re-run Detection">
+            Detect
+          </button>
+        </div>
+
+        <!-- Slider -->
+        <div class="slider-group">
+          <label for="confSlider">
+            <span>Confidence Threshold</span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="range" id="confSlider" min="10" max="90" value="30" step="5" aria-label="Confidence threshold slider">
+            <span id="confValueDisplay" class="slider-value">30%</span>
+          </div>
+        </div>
+
+        <div class="notice-box notice-info" style="margin-top: 14px;">
+          <strong>Edge Architecture:</strong> Bounding boxes and labels are computed directly in browser memory via YOLOX-Nano. Video frames are analyzed transiently and discarded immediately; no frames are stored.
+        </div>
+      </section>
+
+      <!-- Right Column: Live Metrics & Detections -->
+      <aside class="card" aria-label="Telemetry and Results">
+        <h2 class="panel-title">
+          <span>Inference Telemetry</span>
+          <span style="font-size: 0.72rem; color: var(--muted); font-weight: normal;">WASM Single-Thread</span>
+        </h2>
+
+        <div class="metric-list">
+          <div class="metric-row">
+            <span class="metric-label">Model Architecture</span>
+            <span class="metric-val">YOLOX-Nano (FP32)</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Model Size</span>
+            <span class="metric-val">3.49 MB</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Published mAP@0.5</span>
+            <span class="metric-val">0.4246</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Inference Latency</span>
+            <span class="metric-val metric-highlight" id="latencyMetric">—</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Model Init Time</span>
+            <span class="metric-val" id="initTimeMetric">—</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Peak Memory (JS)</span>
+            <span class="metric-val" id="memoryMetric">—</span>
+          </div>
+        </div>
+
+        <!-- Egress Audit Card -->
+        <div class="egress-card">
+          <div class="egress-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span>Live Privacy Audit</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px;">
+            <span style="color: var(--muted); font-size: 0.82rem;">Bytes uploaded:</span>
+            <span class="egress-metric" id="bytesUploadedMetric">0 B</span>
+          </div>
+          <div style="font-size: 0.74rem; color: #6ee7b7; margin-top: 6px;">
+            Actively monitoring fetch, XHR, Beacon, and WebSocket calls.
+          </div>
+        </div>
+
+        <!-- Detections Count -->
+        <div class="detections-header">
+          <span>Detected Objects</span>
+          <span class="badge-count" id="detCount">0</span>
+        </div>
+
+        <div class="detections-scroll" id="detectionsList" role="region" aria-live="polite">
+          <div style="color: var(--muted); padding: 8px 0; font-size: 0.82rem;">Load an input to see detected classes</div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Product Limits & Context -->
+    <section class="disclaimer-section" aria-labelledby="limits-title">
+      <h2 id="limits-title">Model Scope & Operational Limits</h2>
+      <p>
+        <strong>80 COCO Classes Only:</strong> DrishtiEdge is currently running a compact YOLOX-Nano model pretrained on everyday objects from the Microsoft COCO dataset (persons, vehicles, furniture, animals, electronics, and common utensils).
+      </p>
+      <p>
+        <strong>Demonstration Beta:</strong> This software is an edge inference technology demonstration. It is not designed or verified for safety-critical inspection, security surveillance, medical diagnostics, or industrial automation.
+      </p>
+      <p>
+        <strong>Zero Data Retention:</strong> All processing is strictly local. Video streams and still photographs are decoded into transient Canvas buffers and never written to permanent disk storage, cookies, or remote databases.
+      </p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="wrap footer-flex">
+      <div>
+        © 2026 InferEdge AI. All vision inference runs on your device.
+      </div>
+      <div>
+        <a href="https://x.com/NeuralMastery" target="_blank" rel="noopener noreferrer">Contact @NeuralMastery</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

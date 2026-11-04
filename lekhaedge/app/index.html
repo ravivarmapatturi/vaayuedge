@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LekhaEdge — On-Device Document OCR & Extraction Beta</title>
+  <meta name="description" content="Private, in-browser document OCR and structured field extraction using Tesseract WASM. No documents leave your device.">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./lekhaedge.css">
+  <script src="./vendor/tesseract.min.js"></script>
+  <script src="./vendor/pdf.min.js"></script>
+  <script src="./lekhaedge.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="wrap nav">
+      <a href="/" class="brand" aria-label="InferEdge Home">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="6" y="4" width="20" height="24" rx="3" fill="#0e1a17" stroke="#a78bfa" stroke-width="2"/>
+          <line x1="11" y1="10" x2="21" y2="10" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+          <line x1="11" y1="15" x2="21" y2="15" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+          <line x1="11" y1="20" x2="17" y2="20" stroke="#5eead4" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>InferEdge<strong>AI</strong></span>
+        <span class="brand-badge">Beta</span>
+      </a>
+      <a href="/" class="nav-back">← Back to inferedgeai.com</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-head">
+        <h1 id="hero-title">
+          LekhaEdge
+          <span class="brand-badge">Document Beta</span>
+        </h1>
+        <div class="privacy-banner">
+          <span class="privacy-dot" aria-hidden="true"></span>
+          <span>Nothing is uploaded. 100% on-device OCR.</span>
+        </div>
+      </div>
+      <p class="lede">
+        Client-side document text recognition and key information field extraction running locally via WebAssembly. Extract dates, amounts, vendors, and line items without sending sensitive bills or receipts to any cloud.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Work Area -->
+  <main class="main-content wrap" role="main">
+    <!-- Error Banner -->
+    <div id="errorBanner" class="notice-box notice-error" role="alert" aria-live="assertive">
+      <div id="errorText"><strong>Error:</strong> Something went wrong.</div>
+    </div>
+
+    <div class="app-grid">
+      <!-- Left Column: Document Viewport & Controls -->
+      <section class="card" aria-label="Document Preview and Upload">
+        <div class="preview-container">
+          <img id="docPreview" alt="Document Preview" style="display: none;">
+          <canvas id="previewCanvas" style="display: none;" aria-label="Rendered document page canvas"></canvas>
+          <div id="emptyState" class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#5d6864" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            <p><strong>No document loaded</strong></p>
+            <p style="font-size: 0.82rem; color: var(--muted);">Click "Sample Receipt", "Sample PDF", or upload an invoice to begin.</p>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls" role="toolbar" aria-label="Document Controls">
+          <button id="btnSample" class="btn-primary" type="button" aria-label="Load Sample Receipt Image">
+            Sample Receipt
+          </button>
+          <button id="btnSamplePdf" class="btn-secondary" type="button" aria-label="Load Sample PDF Document">
+            Sample PDF
+          </button>
+          <button id="btnUpload" class="btn-secondary" type="button" aria-label="Upload File">
+            Upload File
+          </button>
+          <button id="btnCamera" class="btn-secondary" type="button" aria-label="Capture with Camera">
+            Camera Scan
+          </button>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,application/pdf" style="display: none;" aria-label="File picker for images and PDF">
+          <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;" aria-label="Camera capture input">
+          <button id="btnExtract" class="btn-secondary" type="button" style="display: none;" aria-label="Run OCR extraction">
+            Extract Fields
+          </button>
+        </div>
+
+        <!-- Telemetry & Egress -->
+        <div class="telemetry-grid">
+          <div class="telemetry-item">
+            <span>OCR Latency</span>
+            <strong id="latencyMetric" style="color: var(--accent);">—</strong>
+          </div>
+          <div class="telemetry-item">
+            <span>Engine Backend</span>
+            <strong id="engineStatus">Tesseract WASM</strong>
+          </div>
+          <div class="telemetry-item">
+            <span>Model Size</span>
+            <strong>1.9 MB (Fast LSTM)</strong>
+          </div>
+          <div class="telemetry-item">
+            <span>Heap Memory</span>
+            <strong id="memoryMetric">—</strong>
+          </div>
+        </div>
+
+        <div class="egress-card">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <span style="color: #34d399; font-weight: 700; font-size: 0.84rem;">🔒 Live Privacy Audit:</span>
+            <span style="font-family: monospace; font-weight: 700; color: #a7f3d0;" id="bytesUploadedMetric">0 B</span>
+          </div>
+          <div style="font-size: 0.74rem; color: var(--muted); margin-top: 4px;">
+            Auditing all outbound network requests. No document bytes leave this browser.
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Extracted Fields & Structured Data -->
+      <section class="card" aria-label="Structured Field Extraction and Export">
+        <h2 style="font-family: 'Manrope', sans-serif; font-size: 1.05rem; margin-bottom: 14px; color: var(--ink);">
+          Extracted Key Fields (Editable)
+        </h2>
+
+        <!-- Prominent Accuracy Warning -->
+        <div class="accuracy-callout" role="note">
+          <strong>⚠️ Measured Accuracy & Amount Notice:</strong>
+          In benchmark evaluations on ICDAR SROIE receipts, overall field extraction F1 is <strong>0.5544</strong> (Date: 0.68, Company: 0.65, Address: 0.53, Total: <strong>0.36</strong>).
+          Amount accuracy is weak due to compact model size. <em>Always verify and adjust extracted totals before financial use.</em>
+        </div>
+
+        <div class="fields-grid">
+          <!-- Merchant -->
+          <div class="field-group">
+            <label class="field-label" for="inputMerchant">
+              <span>Merchant / Company</span>
+              <span class="field-accuracy-tag tag-good">F1: 0.65</span>
+            </label>
+            <input type="text" id="inputMerchant" class="field-input" placeholder="Merchant or company name...">
+          </div>
+
+          <!-- Date -->
+          <div class="field-group">
+            <label class="field-label" for="inputDate">
+              <span>Transaction Date</span>
+              <span class="field-accuracy-tag tag-good">F1: 0.68</span>
+            </label>
+            <input type="text" id="inputDate" class="field-input" placeholder="Transaction date...">
+          </div>
+
+          <!-- Total Amount -->
+          <div class="field-group">
+            <label class="field-label" for="inputTotal">
+              <span>Total Amount</span>
+              <span class="field-accuracy-tag tag-warn">F1: 0.36 (Check value)</span>
+            </label>
+            <input type="text" id="inputTotal" class="field-input total-val" placeholder="$0.00">
+          </div>
+
+          <!-- Address -->
+          <div class="field-group">
+            <label class="field-label" for="inputAddress">
+              <span>Store Address</span>
+              <span class="field-accuracy-tag tag-good">F1: 0.53</span>
+            </label>
+            <input type="text" id="inputAddress" class="field-input" placeholder="Street, city, postal address...">
+          </div>
+        </div>
+
+        <!-- Export Buttons -->
+        <div class="export-bar" role="toolbar" aria-label="Export Actions">
+          <button id="btnExportJson" class="btn-primary" type="button" aria-label="Export fields to JSON">
+            Export JSON
+          </button>
+          <button id="btnExportCsv" class="btn-secondary" type="button" aria-label="Export fields to CSV">
+            Export CSV
+          </button>
+        </div>
+
+        <!-- Raw Text Box -->
+        <div class="raw-header">
+          <span class="raw-title">Full Transcribed Text</span>
+          <button id="btnCopyText" class="btn-small" type="button" aria-label="Copy full text to clipboard">
+            Copy Text
+          </button>
+        </div>
+        <textarea id="rawTextOutput" class="raw-textarea" readonly aria-label="Full OCR transcript" placeholder="Raw OCR transcript will appear here after extraction..."></textarea>
+      </section>
+    </div>
+
+    <!-- Product Limits & Context -->
+    <section class="disclaimer-section" aria-labelledby="limits-title">
+      <h2 id="limits-title">Model Scope, Accuracy & Operational Limits</h2>
+      <p>
+        <strong>Not for Unattended Legal or Financial Decisions:</strong> LekhaEdge is an on-device document intelligence beta. It is not certified for automated tax filing, unattended banking settlements, healthcare compliance, or legally binding contract verification. All extracted fields must be reviewed by a human operator.
+      </p>
+      <p>
+        <strong>Measured Benchmarks:</strong> Evaluated on the ICDAR 2019 SROIE receipt benchmark (50 test pages). Full page latency: 617 ms. Character Error Rate (CER): 0.3112. Word Error Rate (WER): 0.5819.
+      </p>
+      <p>
+        <strong>Zero Data Retention:</strong> Neither uploaded images, rendered PDF page rasters, nor extracted structured strings are ever sent across a network or written to local browser storage. Refreshing or closing the tab immediately purges all transient memory.
+      </p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="wrap footer-flex">
+      <div>
+        © 2026 InferEdge AI. All document OCR runs privately on your device.
+      </div>
+      <div>
+        <a href="https://x.com/NeuralMastery" target="_blank" rel="noopener noreferrer">Contact @NeuralMastery</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
