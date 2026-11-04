@@ -22,11 +22,21 @@ jobs:
         working-directory: apps/web
         run: npm ci && npm run build
       # Site layout: InferEdge AI company page at the root, VaayuEdge product at /vaayuedge/
+      - uses: actions/checkout@v4
+        with:
+          repository: ravivarmapatturi/drishtiedge
+          path: products/drishtiedge
+      - uses: actions/checkout@v4
+        with:
+          repository: ravivarmapatturi/lekhaedge
+          path: products/lekhaedge
       - name: Assemble site
         run: |
           mkdir -p site/vaayuedge
           cp -r apps/company/. site/
           cp -r apps/web/dist/. site/vaayuedge/
+          cp -r products/drishtiedge/app site/drishtiedge/app
+          cp -r products/lekhaedge/app site/lekhaedge/app
       # Set repo variable CUSTOM_DOMAIN=vaayuedge.com once its DNS points at GitHub Pages.
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
