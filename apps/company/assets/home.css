@@ -55,3 +55,5 @@ html.night .site-header{position:sticky;top:0;z-index:20;background:rgb(7 17 15/
 @media(max-width:560px){.nav{gap:12px}.nav-links{gap:12px;font-size:.8rem}.nav{flex-wrap:nowrap}.nav-links{flex-wrap:nowrap}.nav-links a:not(.nav-cta){display:none}.chip{padding:8px 11px;font-size:.8rem}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;scroll-behavior:auto!important}}
 section[id]{scroll-margin-top:80px}
+@media(max-width:860px){html.night .nav{display:flex;flex-wrap:nowrap;justify-content:space-between;min-height:64px}html.night .nav-links{margin:0;width:auto}}
+@media(max-width:560px){html.night .brand-name{font-size:.92rem}html.night .nav-cta{white-space:nowrap}}
